@@ -1,0 +1,62 @@
+@import "../node_modules/bootstrap/scss/bootstrap"; 
+  
+  body {
+    width: 25rem;
+    /* background-color: $gray-500; */
+    /* padding: 1rem; */
+  }
+  
+  .navbar {
+    margin-left: 2%;
+    margin-bottom: 2%;
+  }
+
+  
+  ul {
+    background: #80808030;
+    list-style-type: none;
+    padding-inline-start: 0;
+    margin: 1rem 0;
+  }
+  
+  li {
+    padding: 0.25rem;
+  }
+  li:nth-child(odd) {
+    background: #ffffff;
+  }
+  li:nth-child(even) {
+    background: #ffffff;
+  }
+/* 
+  .data_container {
+    border-radius: 20%;
+    padding: 1.15rem;
+
+  } */
+  
+  /* .header_data {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  } */
+
+  .group {
+    margin-left: auto;
+  }
+
+  .header-text-size {
+    font-size: 1.15rem;
+    white-space: nowrap; /* Prevents text from wrapping */
+    overflow: hidden; /* Hides any overflowing text */
+    text-overflow: ellipsis; /* Adds ... at the end of the line */
+    max-width: 200px; /* Optional: set a max-width to limit the width of the text */
+
+  }
+
+  .tab-text-size {
+    font-size: 1rem;
+  }
+  p {
+    margin: 0;
+  }
