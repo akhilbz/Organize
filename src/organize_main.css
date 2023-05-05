@@ -10819,14 +10819,26 @@ textarea.form-control-lg {
   }
 }
 body {
-  width: 25rem;
+  width: 24rem;
   /* background-color: $gray-500; */
   /* padding: 1rem; */
 }
 
 .navbar {
-  margin-left: 2%;
-  margin-bottom: 2%;
+  background-color: #dee2e6;
+  position: fixed;
+  width: 100%;
+  margin-bottom: 5%;
+}
+
+.navbar .navbar-brand {
+  padding-left: 20px !important;
+}
+
+.card {
+  position: relative;
+  top: 25px;
+  /* or whatever height your navbar is */
 }
 
 ul {
@@ -10834,7 +10846,6 @@ ul {
   list-style-type: none;
   -webkit-padding-start: 0;
           padding-inline-start: 0;
-  margin: 1rem 0;
 }
 
 li {
@@ -10874,8 +10885,4 @@ li:nth-child(even) {
 
 .tab-text-size {
   font-size: 1rem;
-}
-
-p {
-  margin: 0;
 }/*# sourceMappingURL=organize_main.css.map */

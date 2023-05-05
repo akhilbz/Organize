@@ -1,22 +1,36 @@
 @import "../node_modules/bootstrap/scss/bootstrap"; 
   
   body {
-    width: 25rem;
+    width: 24rem;
     /* background-color: $gray-500; */
     /* padding: 1rem; */
   }
   
+
+
   .navbar {
-    margin-left: 2%;
-    margin-bottom: 2%;
+    background-color: $gray-300;
+    position: fixed;
+    width: 100%;
+    // z-index: 100;
+    margin-bottom: 5%;
   }
 
+  .navbar .navbar-brand {
+    padding-left: 20px !important; 
+  }
+
+  .card {
+    position: relative;
+    top: 25px;
+    /* or whatever height your navbar is */
+  }
   
   ul {
     background: #80808030;
     list-style-type: none;
     padding-inline-start: 0;
-    margin: 1rem 0;
+    // margin: 1rem 0;
   }
   
   li {
@@ -56,7 +70,4 @@
 
   .tab-text-size {
     font-size: 1rem;
-  }
-  p {
-    margin: 0;
   }
