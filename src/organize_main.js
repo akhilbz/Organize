@@ -11,8 +11,8 @@ for (const curr_tab of curr_tabs) {
 }
 
 // use for debugging:
-// console.log(host_urls);
-// console.log(curr_tabs);
+console.log(host_urls);
+console.log(curr_tabs);
 
 const block_template = document.getElementById('block_template');
 // stores each website of same hostname in a container
