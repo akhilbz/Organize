@@ -1,0 +1,13 @@
+{
+    "manifest_version": 3,
+    "name": "Organize",
+    "version": "1.0",
+    "icons": {},
+    "permissions": [
+        "tabs",
+        "tabGroups"
+    ],
+    "action": {
+        "default_popup": "organize_main.html"
+    }
+}
