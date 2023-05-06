@@ -1,6 +1,7 @@
-// import React from "react";
 import React, { useState, useEffect } from "react";
-import { render } from "react-dom";
+import { createRoot } from 'react-dom/client';
+
+const container = document.getElementById("react-target");
 
 function Popup() {
   const [currTabs, setCurrTabs] = useState([]);
@@ -118,5 +119,5 @@ function Popup() {
 
 // export default Popup;
 
-
-render(<Popup />, document.getElementById("react-target"));
+const root = createRoot(container);
+root.render(<Popup />);
