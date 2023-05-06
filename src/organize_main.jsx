@@ -83,26 +83,12 @@ function Popup() {
               </div>
               <ul className="list-group list-group-flush">
                 {hostTabs.map((tab, index) => {
-                  const title = tab.title.includes("-")
-                    ? tab.title.split("-")[0].trim()
-                    : tab.title.includes("|")
-                    ? tab.title.split("|")[0].trim()
-                    : tab.title;
-
+                  const title = tab.title.includes("-") ? tab.title.split("-")[0].trim() : tab.title.includes("|") ? tab.title.split("|")[0].trim() : tab.title;
                   return (
                     <li key={index} className="list-group-item">
                       <div className="d-flex justify-content-between align-items-center">
-                        <a href="#">
-                          <h5 className="sub-title card-subtitle tab-text-size">
-                            {title}
-                          </h5>
-                        </a>
-                        <button
-                          className="close btn btn-danger"
-                          onClick={() => chrome.tabs.remove(tab.id)}
-                        >
-                          Close
-                        </button>
+                        <a href="#"><h5 className="sub-title card-subtitle tab-text-size">{title}</h5></a>
+                        <button className="close btn btn-danger" onClick={() => chrome.tabs.remove(tab.id)}>Close</button>
                       </div>
                     </li>
                   );
