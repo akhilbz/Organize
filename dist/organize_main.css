@@ -10845,6 +10845,27 @@ body {
   /* or whatever height your navbar is */
 }
 
+.card-header {
+  justify-content: flex-start;
+}
+
+.header-text-size {
+  align-self: center;
+  font-size: 1.15rem;
+  white-space: nowrap; /* Prevents text from wrapping */
+  overflow: hidden; /* Hides any overflowing text */
+  text-overflow: ellipsis; /* Adds ... at the end of the line */
+  max-width: 200px; /* Optional: set a max-width to limit the width of the text */
+}
+
+.favicon {
+  height: 20px;
+  width: 20px;
+  margin-right: 10px;
+  margin-bottom: 7px;
+  padding-bottom: auto;
+}
+
 ul {
   background: rgba(128, 128, 128, 0.1882352941);
   list-style-type: none;
@@ -10896,14 +10917,6 @@ li:nth-child(even) {
 } */
 .group {
   margin-left: auto;
-}
-
-.header-text-size {
-  font-size: 1.15rem;
-  white-space: nowrap; /* Prevents text from wrapping */
-  overflow: hidden; /* Hides any overflowing text */
-  text-overflow: ellipsis; /* Adds ... at the end of the line */
-  max-width: 200px; /* Optional: set a max-width to limit the width of the text */
 }
 
 .tab-text-size {

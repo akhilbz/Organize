@@ -68,16 +68,15 @@ function Popup() {
       </template>
 
       {hostUrls.map((hostUrl, index) => {
-        const hostTabs = currTabs.filter((tab) =>
-          tab.url.includes(`://${hostUrl}/`)
-        );
+        const hostTabs = currTabs.filter((tab) => tab.url.includes(`://${hostUrl}/`)); // tab refers to the tab of each currTabs
 
         hostTabs.sort((a, b) => collator.compare(a.title, b.title)); // sorts by title for all hostTabs
-
+        console.log(hostTabs);
         return (
           <div key={index} className="col-md-4 mb-2">
             <div className="card">
               <div id="main_card_header" className="card-header d-flex justify-content-between align-items-center">
+                <div className="websitelogo"><img className="favicon" src={hostTabs[0].favIconUrl} alt="" /> </div>
                 <h4 className="title card-title header-text-size">{hostUrl}</h4>
                 <button className="group btn btn-secondary" onClick= { async () => {
                   const tabIds = hostTabs.map(({ id }) => id);
@@ -89,8 +88,8 @@ function Popup() {
               <ul className="list-group list-group-flush">
                 {hostTabs.map((tab, index) => {
                   const title = tab.title.includes("-") ? tab.title.split("-")[0].trim() : tab.title.includes("|") ? tab.title.split("|")[0].trim() : tab.title;
-                  var card_tabs = hostTabs.filter((tab) => tab.url.includes(`://${hostUrl}/`)).length;
-                  console.log("total: " + card_tabs)
+                  // var card_tabs = hostTabs.filter((tab) => tab.url.includes(`://${hostUrl}/`)).length;
+                  // console.log("total: " + card_tabs)
                   return (
                     <li key={index} className="list-group-item">
                       <div className="d-flex justify-content-between align-items-center">
