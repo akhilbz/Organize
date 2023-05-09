@@ -32,10 +32,10 @@ function Popup() {
   }, []);
 
   return (
-    <div className="bg-light">
-    <nav className="navbar fixed-top bg-light border-bottom">
+    <div className="main_body">
+    <nav className="navbar fixed-top border-bottom">
       <div>
-        <a className="navbar-brand mb-1 h1" href="#">Organize</a>
+        <a className="navbar-brand mb-2 h1" href="#">Organize</a>
       </div>
     </nav>
     
@@ -77,18 +77,37 @@ function Popup() {
         return (
           <div key={index} className="col-md-4 mb-2">
             <div className="card">
-              <div className="card-header d-flex justify-content-between align-items-center">
+              <div id="main_card_header" className="card-header d-flex justify-content-between align-items-center">
                 <h4 className="title card-title header-text-size">{hostUrl}</h4>
-                <button className="group btn btn-secondary">Group</button>
+                <button className="group btn btn-secondary" onClick= { async () => {
+                  const tabIds = hostTabs.map(({ id }) => id);
+                  const group = await chrome.tabs.group({ tabIds });
+                  await chrome.tabGroups.update(group, { title: 'DOCS' });
+                }}>Group</button>
               </div>
+
               <ul className="list-group list-group-flush">
                 {hostTabs.map((tab, index) => {
                   const title = tab.title.includes("-") ? tab.title.split("-")[0].trim() : tab.title.includes("|") ? tab.title.split("|")[0].trim() : tab.title;
+                  var card_tabs = hostTabs.filter((tab) => tab.url.includes(`://${hostUrl}/`)).length;
+                  console.log("total: " + card_tabs)
                   return (
                     <li key={index} className="list-group-item">
                       <div className="d-flex justify-content-between align-items-center">
                         <a href="#"><h5 className="sub-title card-subtitle tab-text-size">{title}</h5></a>
-                        <button className="close btn btn-danger" onClick={() => chrome.tabs.remove(tab.id)}>Close</button>
+                        <button className="close btn btn-danger" onClick={(event) => {
+                          chrome.tabs.remove(tab.id);
+                          // card_tabs -= 1;
+                          // console.log(card_tabs);
+                          const thisListItem = event.target.parentNode.parentNode;
+                          // const thisCardHeader = document.getElementById("main_card_header");
+                          // const cardItems = document.getElementsByClassName("list-group-item");
+                          // thisCardHeader.classList.add('card_closed');
+                          // thisCardHeader.remove();
+                          thisListItem.classList.add('closed');
+                          thisListItem.remove();
+                          // thisListItem.classList.remove('closed');
+                        }}>Close</button>
                       </div>
                     </li>
                   );
@@ -103,7 +122,6 @@ function Popup() {
   );
 }
 
-// export default Popup;
 
 const root = createRoot(container);
 root.render(<Popup />);

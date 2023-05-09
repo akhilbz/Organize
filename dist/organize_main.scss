@@ -2,18 +2,25 @@
   
   body {
     width: 24rem;
-    /* background-color: $gray-500; */
+    //  background-color: #FFFFFFff; 
     /* padding: 1rem; */
   }
   
+  .main_body {
+    padding-top: 38px;
+    background-color: #FFFFFFff;
+    
+  }
 
 
   .navbar {
-    background-color: $gray-300;
+    background-color: #FAFAFBff;
     position: fixed;
     width: 100%;
-    // z-index: 100;
-    margin-bottom: 5%;
+    height: 55px;
+    // padding: auto;
+
+
   }
 
   .navbar .navbar-brand {
@@ -41,6 +48,25 @@
   }
   li:nth-child(even) {
     background: #ffffff;
+  }
+
+  .list-group-item {
+    position: relative;
+    overflow: hidden;
+    transition: height 0.1s ease-out, opacity 0.1s ease-out; /* Animate the height and opacity with a 0.3s ease-out transition */
+  }
+
+  .list-group-item.closed {
+    height: 0; /* Set the height to 0 when the list item is closed */
+    opacity: 0; /* Set the opacity to 0 when the list item is closed */
+    padding: 0; /* Remove any padding when the list item is closed */
+  }
+
+  .card.card_closed {
+    display: none; 
+    height: 0; /* Set the height to 0 when the list item is closed */
+    opacity: 0; /* Set the opacity to 0 when the list item is closed */
+    padding: 0; /* Remove any padding when the list item is closed */
   }
 /* 
   .data_container {
