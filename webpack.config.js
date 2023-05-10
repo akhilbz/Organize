@@ -12,7 +12,8 @@ module.exports = {
     filename: '[name].js',
   },
   module: {
-    rules: [{ 
+    rules: [
+      { 
         test: /\.(jsx|js)$/, 
         exclude: /node_modules/,
         use: {
@@ -21,7 +22,17 @@ module.exports = {
                 presets: ['@babel/preset-env', '@babel/preset-react'],
             }
         }
-     }],
+     },
+      {
+        test: /\.(png|jpe?g|gif)$/i,
+        use: {
+            loader: 'url-loader',
+            options: {
+              limit: 8192,
+            },
+        },
+      },
+    ],
   },
   plugins: [new HtmlWebpackPlugin({
     template: './src/organize_main.html',
