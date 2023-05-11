@@ -1,9 +1,8 @@
 @import "../node_modules/bootstrap/scss/bootstrap"; 
 
+  // Main Body
   body {
     width: 24rem;
-    //  background-color: #FFFFFFff; 
-    /* padding: 1rem; */
   }
   
   .main_body {
@@ -13,6 +12,7 @@
     
   }
 
+  // NavBar
   .navbar {
     background-color: #FAFAFBff;
     position: fixed;
@@ -22,7 +22,13 @@
     // padding: auto;
   }
 
-  // Search Button
+  .navbar .navbar-brand {
+    padding-left: 20px !important; 
+    padding-bottom: 10px !important;
+    // margin-bottom: 5px;
+  }
+
+  // NavBar - Search Button
   .search {
     background: none;
     border: none;
@@ -38,48 +44,35 @@
 
   }
 
-  .navbar .navbar-brand {
-    padding-left: 20px !important; 
-    padding-bottom: 10px !important;
-    // margin-bottom: 5px;
-  }
+  // ----------------------------------------------------------------
 
-
-  .group {
-    background: none;
-    border: none;
-    font-size: 1rem;
-    // padding-right: 0.2rem ;
-    cursor: pointer;
-    align-self: flex-end;
-  }
-
-  .fa-layer-group {
-    margin-right: 3px;
-    margin-bottom: 5.5px;
-    padding-bottom: auto;
-   
-  }
-
+  // Card Content (Header)
   .card {
-    position: relative;
+    // position: relative;
     top: 25px;
   }
 
-  .card_header {
-    align-items: flex-end;
-    height: 20px !important;
+  .card-header {
+    // align-items: flex-end;
+    // height: 20px !important;
+    --bs-card-cap-padding-y: 0.3rem;
+    // margin-bottom: -1rem;
   }
 
-  .header-text-size {
-    font-size: 1.15rem;
+  // Host URL (left side)
+
+  .header-text {
+    font-size: 1.2rem;
     white-space: nowrap; /* Prevents text from wrapping */
     overflow: hidden; /* Hides any overflowing text */
     text-overflow: ellipsis; /* Adds ... at the end of the line */
     max-width: 200px; /* Optional: set a max-width to limit the width of the text */
+    margin-top: 1px !important;
+    margin-bottom: 5px !important;
+    padding-bottom: auto;
   }
 
-
+  // Host Logo (left side)
   .favicon {
     height: 20px;
     width: 20px;
@@ -90,13 +83,46 @@
     // padding-right: 8px;
   }
 
+  // Card Group Button (right side)
+  .group {
+    background: none;
+    border: none;
+    font-size: 1rem;
+    padding-right: 0.2rem ;
+    cursor: pointer;
+    align-self: flex-end;
+  }
+
+  .fa-layer-group {
+    // margin-right: 1px;
+    margin-bottom: 5.5px;
+    padding-bottom: auto;
+   
+  }
+
+  // Card Settings Button (right side)
+  .card-settings {
+    background: none;
+    border: none;
+    font-size: 1rem;
+    margin-bottom: 5.5px;
+    padding-right: 0.5rem;
+    padding-bottom: auto;
+    // padding-right: 0.2rem ;
+    cursor: pointer;
+  }
+
+  .fa-ellipsis-v {
+    margin-right: -1rem;
+  }
+
+  // ----------------------------------------------------------------
+
+  // Card Content (Body)
+  
+  // Tab URL
   .sub-title {
     cursor: pointer;
-    // white-space: nowrap; /* Prevents text from wrapping */
-    // overflow: hidden; /* Hides any overflowing text */
-    // text-overflow: ellipsis; /* Adds ... at the end of the line */
-    // max-width: 200px;
-
   }
   
   ul {
@@ -128,19 +154,8 @@
     padding: 0; /* Remove any padding when the list item is closed */
   }
 
-  // .card.card_closed {
-  //   display: none; 
-  //   height: 0; /* Set the height to 0 when the list item is closed */
-  //   opacity: 0; /* Set the opacity to 0 when the list item is closed */
-  //   padding: 0; /* Remove any padding when the list item is closed */
-  // }
-
   .tab-text-size {
     font-size: 1rem;
   }
 
-  // .bottom-padding {
-  //  height: 25px;
-  //  top: 25px;
-  //  padding: auto;
-  // }
+  // ----------------------------------------------------------------

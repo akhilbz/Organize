@@ -10820,7 +10820,6 @@ textarea.form-control-lg {
 }
 body {
   width: 24rem;
-  /* padding: 1rem; */
 }
 
 .main_body {
@@ -10837,6 +10836,11 @@ body {
   align-items: end;
 }
 
+.navbar .navbar-brand {
+  padding-left: 20px !important;
+  padding-bottom: 10px !important;
+}
+
 .search {
   background: none;
   border: none;
@@ -10851,41 +10855,23 @@ body {
   padding-bottom: 2px !important;
 }
 
-.navbar .navbar-brand {
-  padding-left: 20px !important;
-  padding-bottom: 10px !important;
-}
-
-.group {
-  background: none;
-  border: none;
-  font-size: 1rem;
-  cursor: pointer;
-  align-self: flex-end;
-}
-
-.fa-layer-group {
-  margin-right: 3px;
-  margin-bottom: 5.5px;
-  padding-bottom: auto;
-}
-
 .card {
-  position: relative;
   top: 25px;
 }
 
-.card_header {
-  align-items: flex-end;
-  height: 20px !important;
+.card-header {
+  --bs-card-cap-padding-y: 0.3rem;
 }
 
-.header-text-size {
-  font-size: 1.15rem;
+.header-text {
+  font-size: 1.2rem;
   white-space: nowrap; /* Prevents text from wrapping */
   overflow: hidden; /* Hides any overflowing text */
   text-overflow: ellipsis; /* Adds ... at the end of the line */
   max-width: 200px; /* Optional: set a max-width to limit the width of the text */
+  margin-top: 1px !important;
+  margin-bottom: 5px !important;
+  padding-bottom: auto;
 }
 
 .favicon {
@@ -10895,6 +10881,34 @@ body {
   margin-top: 3px;
   margin-bottom: 7px;
   padding-bottom: auto;
+}
+
+.group {
+  background: none;
+  border: none;
+  font-size: 1rem;
+  padding-right: 0.2rem;
+  cursor: pointer;
+  align-self: flex-end;
+}
+
+.fa-layer-group {
+  margin-bottom: 5.5px;
+  padding-bottom: auto;
+}
+
+.card-settings {
+  background: none;
+  border: none;
+  font-size: 1rem;
+  margin-bottom: 5.5px;
+  padding-right: 0.5rem;
+  padding-bottom: auto;
+  cursor: pointer;
+}
+
+.fa-ellipsis-v {
+  margin-right: -1rem;
 }
 
 .sub-title {

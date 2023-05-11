@@ -57,7 +57,7 @@ const container = document.getElementById("react-target");
         <div className="col-md-4 mb-2">
           <div className="card">
             <div className="card-header d-flex justify-content-between">
-              <h4 className="title card-title header-text-size">
+              <h4 className="title card-title header-text">
                 Category
               </h4>           
               <button className="group">Group</button>
@@ -99,7 +99,7 @@ const container = document.getElementById("react-target");
                 <div className="left-side-items d-flex">
                 <img className="favicon" src={favIcon_img} alt="" />
 
-                <h4 className="title card-title header-text-size">{hostUrl}</h4>
+                <h4 className="title card-title header-text">{hostUrl}</h4>
                 </div>
                 <div className="right-side-items d-flex">
                   <button className="group" onClick= { async () => {
@@ -109,7 +109,10 @@ const container = document.getElementById("react-target");
                     }}>
                     <FontAwesomeIcon icon={faLayerGroup} style={{color: "#000000",}} className="fa-layer-group fa-thin fa-lg" />
                   </button>
-                    <FontAwesomeIcon icon={faEllipsisV} style={{ color: '#000000' }} className="fa-ellipsis-v fa-thin fa-lg" />
+                    
+                    <button className="card-settings">
+                      <FontAwesomeIcon icon={faEllipsisV} style={{ color: '#000000' }} className="fa-ellipsis-v fa-thin fa-lg" />
+                    </button>
                 </div>
               </div>
 
@@ -120,9 +123,6 @@ const container = document.getElementById("react-target");
                   const tab_url = new URL(tab.url).pathname;
                   const curr_tab = tab;
                   console.log(tab_url); 
-                  // const tab_url = tab.
-                  // var card_tabs = hostTabs.filter((tab) => tab.url.includes(`://${hostUrl}/`)).length;
-                  // console.log("total: " + card_tabs)
 
                   return (
                     <li key={index} className="list-group-item">
