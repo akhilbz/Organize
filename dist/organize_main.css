@@ -5,6 +5,7 @@
  * Copyright 2011-2022 Twitter, Inc.
  * Licensed under MIT (https://github.com/twbs/bootstrap/blob/main/LICENSE)
  */
+@import 'bootstrap/dist/css/bootstrap.min.css';
 :root {
   --bs-blue: #0d6efd;
   --bs-indigo: #6610f2;
@@ -10860,7 +10861,7 @@ body {
 }
 
 .card-header {
-  --bs-card-cap-padding-y: 0.3rem;
+  --bs-card-cap-padding-y: 0.2rem !important;
 }
 
 .header-text {
@@ -10869,7 +10870,7 @@ body {
   overflow: hidden; /* Hides any overflowing text */
   text-overflow: ellipsis; /* Adds ... at the end of the line */
   max-width: 200px; /* Optional: set a max-width to limit the width of the text */
-  margin-top: 1px !important;
+  margin-top: 5px !important;
   margin-bottom: 5px !important;
   padding-bottom: auto;
 }
@@ -10878,8 +10879,8 @@ body {
   height: 20px;
   width: 20px;
   margin-right: 10px;
-  margin-top: 3px;
-  margin-bottom: 7px;
+  margin-top: 7px !important;
+  margin-bottom: 5px !important;
   padding-bottom: auto;
 }
 
@@ -10901,14 +10902,30 @@ body {
   background: none;
   border: none;
   font-size: 1rem;
-  margin-bottom: 5.5px;
+  margin-right: -1.25rem;
   padding-right: 0.5rem;
-  padding-bottom: auto;
   cursor: pointer;
 }
 
-.fa-ellipsis-v {
-  margin-right: -1rem;
+.btn-success {
+  --bs-btn-color: none;
+  --bs-btn-bg: none;
+  --bs-btn-border-color: none;
+  --bs-btn-hover-color: none;
+  --bs-btn-hover-bg: none;
+  --bs-btn-hover-border-color: none;
+  --bs-btn-focus-shadow-rgb: none;
+  --bs-btn-active-color: none;
+  --bs-btn-active-bg: none;
+  --bs-btn-active-border-color: none;
+  --bs-btn-active-shadow: none;
+  --bs-btn-disabled-color: none;
+  --bs-btn-disabled-bg: #none;
+  --bs-btn-disabled-border-color: none;
+}
+
+.dropdown-toggle::after {
+  display: none;
 }
 
 .sub-title {

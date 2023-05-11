@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import { createRoot } from 'react-dom/client';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faSearch, faLayerGroup, faEllipsisV } from '@fortawesome/free-solid-svg-icons';
+import { Dropdown, DropdownButton } from "react-bootstrap";
 import chrome_logo from '/Users/akhileshbitla/Work/products/Organize/src/images/chrome_icon.png';
 import extension_logo from '/Users/akhileshbitla/Work/products/Organize/src/images/extension_icon.png';
 
@@ -109,10 +110,15 @@ const container = document.getElementById("react-target");
                     }}>
                     <FontAwesomeIcon icon={faLayerGroup} style={{color: "#000000",}} className="fa-layer-group fa-thin fa-lg" />
                   </button>
-                    
-                    <button className="card-settings">
-                      <FontAwesomeIcon icon={faEllipsisV} style={{ color: '#000000' }} className="fa-ellipsis-v fa-thin fa-lg" />
-                    </button>
+
+                  <Dropdown className="card-settings">
+                  <Dropdown.Toggle variant="success">
+                    <FontAwesomeIcon icon={faEllipsisV} style={{ color: '#000000' }} className="fa-ellipsis-v fa-thin fa-lg" />
+                  </Dropdown.Toggle>
+                  <Dropdown.Menu>
+                  <Dropdown.Item href="#/action-1">Close All Tabs</Dropdown.Item>
+                  </Dropdown.Menu>
+                  </Dropdown>
                 </div>
               </div>
 

@@ -1,4 +1,5 @@
 @import "../node_modules/bootstrap/scss/bootstrap"; 
+@import 'bootstrap/dist/css/bootstrap.min.css';
 
   // Main Body
   body {
@@ -50,12 +51,14 @@
   .card {
     // position: relative;
     top: 25px;
+    // --bs-card-border-width: 1px;
+
   }
 
   .card-header {
     // align-items: flex-end;
     // height: 20px !important;
-    --bs-card-cap-padding-y: 0.3rem;
+    --bs-card-cap-padding-y: 0.2rem !important;
     // margin-bottom: -1rem;
   }
 
@@ -67,7 +70,7 @@
     overflow: hidden; /* Hides any overflowing text */
     text-overflow: ellipsis; /* Adds ... at the end of the line */
     max-width: 200px; /* Optional: set a max-width to limit the width of the text */
-    margin-top: 1px !important;
+    margin-top: 5px !important;
     margin-bottom: 5px !important;
     padding-bottom: auto;
   }
@@ -77,8 +80,8 @@
     height: 20px;
     width: 20px;
     margin-right: 10px;
-    margin-top: 3px;
-    margin-bottom: 7px;
+    margin-top: 7px !important;
+    margin-bottom: 5px !important;
     padding-bottom: auto;
     // padding-right: 8px;
   }
@@ -89,6 +92,7 @@
     border: none;
     font-size: 1rem;
     padding-right: 0.2rem ;
+    // margin-bottom: 5.5px;
     cursor: pointer;
     align-self: flex-end;
   }
@@ -105,16 +109,39 @@
     background: none;
     border: none;
     font-size: 1rem;
-    margin-bottom: 5.5px;
+    // margin-bottom: 5.5px;
+    margin-right: -1.25rem;
     padding-right: 0.5rem;
-    padding-bottom: auto;
+    // padding-bottom: auto;
     // padding-right: 0.2rem ;
     cursor: pointer;
   }
 
-  .fa-ellipsis-v {
-    margin-right: -1rem;
-  }
+  .btn-success {
+  --bs-btn-color: none; 
+  --bs-btn-bg: none; 
+  --bs-btn-border-color: none; 
+  --bs-btn-hover-color: none; 
+  --bs-btn-hover-bg: none; 
+  --bs-btn-hover-border-color: none; 
+  --bs-btn-focus-shadow-rgb: none; 
+  --bs-btn-active-color: none; 
+  --bs-btn-active-bg: none; 
+  --bs-btn-active-border-color: none; 
+  --bs-btn-active-shadow: none; 
+  --bs-btn-disabled-color: none; 
+  --bs-btn-disabled-bg: #none; 
+  --bs-btn-disabled-border-color: none; 
+}
+
+.dropdown-toggle::after {
+  display: none;
+  // margin-right: -3rem;
+}
+
+.fa-ellipsis-v {
+  // margin-right: -1rem !important;
+}
 
   // ----------------------------------------------------------------
 
