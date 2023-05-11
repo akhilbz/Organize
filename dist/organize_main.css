@@ -10837,11 +10837,6 @@ body {
   align-items: end;
 }
 
-.fa-thin {
-  padding-right: 25px !important;
-  padding-bottom: 2px !important;
-}
-
 .search {
   background: none;
   border: none;
@@ -10850,14 +10845,10 @@ body {
   cursor: pointer;
 }
 
-.group {
-  align-self: end;
-  margin-left: auto;
-  background: none;
-  border: none;
-  padding: 0;
-  font-size: 1rem;
-  cursor: pointer;
+.fa-search {
+  margin-bottom: 1px;
+  padding-right: 25px !important;
+  padding-bottom: 2px !important;
 }
 
 .navbar .navbar-brand {
@@ -10865,17 +10856,31 @@ body {
   padding-bottom: 10px !important;
 }
 
+.group {
+  background: none;
+  border: none;
+  font-size: 1rem;
+  cursor: pointer;
+  align-self: flex-end;
+}
+
+.fa-layer-group {
+  margin-right: 3px;
+  margin-bottom: 5.5px;
+  padding-bottom: auto;
+}
+
 .card {
   position: relative;
   top: 25px;
 }
 
-.card-header {
-  justify-content: flex-start;
+.card_header {
+  align-items: flex-end;
+  height: 20px !important;
 }
 
 .header-text-size {
-  align-self: center;
   font-size: 1.15rem;
   white-space: nowrap; /* Prevents text from wrapping */
   overflow: hidden; /* Hides any overflowing text */
@@ -10887,6 +10892,7 @@ body {
   height: 20px;
   width: 20px;
   margin-right: 10px;
+  margin-top: 3px;
   margin-bottom: 7px;
   padding-bottom: auto;
 }
@@ -10926,19 +10932,6 @@ li:nth-child(even) {
   padding: 0; /* Remove any padding when the list item is closed */
 }
 
-.card.card_closed {
-  display: none;
-  height: 0; /* Set the height to 0 when the list item is closed */
-  opacity: 0; /* Set the opacity to 0 when the list item is closed */
-  padding: 0; /* Remove any padding when the list item is closed */
-}
-
 .tab-text-size {
   font-size: 1rem;
-}
-
-.bottom-padding {
-  height: 25px;
-  top: 25px;
-  padding: auto;
 }/*# sourceMappingURL=organize_main.css.map */

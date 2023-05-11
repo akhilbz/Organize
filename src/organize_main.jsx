@@ -1,13 +1,23 @@
 import React, { useState, useEffect } from "react";
 import { createRoot } from 'react-dom/client';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faSearch, faLayerGroup } from '@fortawesome/free-solid-svg-icons';
+import { faSearch, faLayerGroup, faEllipsisV } from '@fortawesome/free-solid-svg-icons';
 import chrome_logo from '/Users/akhileshbitla/Work/products/Organize/src/images/chrome_icon.png';
 import extension_logo from '/Users/akhileshbitla/Work/products/Organize/src/images/extension_icon.png';
 
 const container = document.getElementById("react-target");
 
-function Popup() {
+
+// TODO: move this into a separate file
+ function truncateText(text, maxLength) {
+  console.log("hello" + text.length);
+  if (text.length > maxLength) {
+    return text.substring(0, maxLength) + "...";
+  }
+  return text;
+}
+
+ function Popup() {
   const [currTabs, setCurrTabs] = useState([]);
   const [hostUrls, setHostUrls] = useState([]);
   const collator = new Intl.Collator();
@@ -39,17 +49,17 @@ function Popup() {
     <div className="main_body">
     <nav className="navbar fixed-top border-bottom">
       <div><a className="navbar-brand mb-2 h1" href="#">Organize</a></div>
-      <button className="search "><FontAwesomeIcon icon={faSearch} style={{ color: '#000000' }} className="fa-thin fa-lg" /></button>
+      <button className="search "><FontAwesomeIcon icon={faSearch} style={{ color: '#000000' }} className="fa-search fa-thin fa-lg" /></button>
     </nav>
     
     <div className="container-fluid">
       <template id="block_template">
         <div className="col-md-4 mb-2">
           <div className="card">
-            <div className="card-header d-flex justify-content-between align-items-center">
+            <div className="card-header d-flex justify-content-between">
               <h4 className="title card-title header-text-size">
                 Category
-              </h4>
+              </h4>           
               <button className="group">Group</button>
             </div>
             <ul className="list-group list-group-flush"></ul>
@@ -85,29 +95,35 @@ function Popup() {
         return (
           <div key={index} className="col-md-4 mb-2">
             <div className="card">
-              <div id="main_card_header" className="card-header d-flex justify-content-between align-items-center">
-                <div className="websitelogo"><img className="favicon" src={favIcon_img} alt="" />
-                </div>
+              <div className="card-header d-flex justify-content-between">
+                <div className="left-side-items d-flex">
+                <img className="favicon" src={favIcon_img} alt="" />
 
                 <h4 className="title card-title header-text-size">{hostUrl}</h4>
-
-                <button className="group" onClick= { async () => {
-                  const tabIds = hostTabs.map(({ id }) => id);
-                  const group = await chrome.tabs.group({ tabIds });
-                  await chrome.tabGroups.update(group, { title: 'DOCS' });
-                }}><FontAwesomeIcon icon={faLayerGroup} style={{ color: "#000000" }} className="fa-thin fa-lg" /></button>
-
+                </div>
+                <div className="right-side-items d-flex">
+                  <button className="group" onClick= { async () => {
+                    const tabIds = hostTabs.map(({ id }) => id);
+                    const group = await chrome.tabs.group({ tabIds });
+                    await chrome.tabGroups.update(group, { title: 'DOCS' });
+                    }}>
+                    <FontAwesomeIcon icon={faLayerGroup} style={{color: "#000000",}} className="fa-layer-group fa-thin fa-lg" />
+                  </button>
+                    <FontAwesomeIcon icon={faEllipsisV} style={{ color: '#000000' }} className="fa-ellipsis-v fa-thin fa-lg" />
+                </div>
               </div>
 
               <ul className="list-group list-group-flush">
                 {hostTabs.map((tab, index) => {
-                  const title = tab.title.includes("-") ? tab.title.split("-")[0].trim() : tab.title.includes("|") ? tab.title.split("|")[0].trim() : tab.title;
+                  const title = tab.title.includes("-") ? tab.title.split("-")[0].trim() : tab.title.includes("–") ? tab.title.split("–")[0].trim() :
+                  tab.title.includes("|") ? tab.title.split("|")[0].trim() : tab.title;
                   const tab_url = new URL(tab.url).pathname;
                   const curr_tab = tab;
                   console.log(tab_url); 
                   // const tab_url = tab.
                   // var card_tabs = hostTabs.filter((tab) => tab.url.includes(`://${hostUrl}/`)).length;
                   // console.log("total: " + card_tabs)
+
                   return (
                     <li key={index} className="list-group-item">
                       <div className="d-flex justify-content-between align-items-center">
@@ -115,7 +131,7 @@ function Popup() {
                            await chrome.tabs.update(curr_tab.id, { active: true });
                            await chrome.windows.update(curr_tab.windowId, { focused: true });
                         }}>
-                          <h5 className="sub-title card-subtitle tab-text-size">{title}</h5>
+                          <h5 className="sub-title card-subtitle tab-text-size">{truncateText(title, 35)}</h5>
                           </a>
                         <button type="button" className="btn-close" aria-label="Close" onClick={(event) => {
                           chrome.tabs.remove(tab.id);
@@ -143,7 +159,6 @@ function Popup() {
     </div>
   );
 }
-
 
 const root = createRoot(container);
 root.render(<Popup />);
