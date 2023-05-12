@@ -10885,6 +10885,7 @@ body {
 }
 
 .group {
+  z-index: 1 !important;
   background: none;
   border: none;
   font-size: 1rem;
@@ -10898,6 +10899,28 @@ body {
   padding-bottom: auto;
 }
 
+.tooltip {
+  position: absolute;
+  background-color: white;
+  color: black;
+  font-size: 0.5rem;
+  padding: 3px;
+  border-radius: 5px;
+  border: 1px solid rgba(0, 0, 0, 0.17);
+  visibility: visible;
+  opacity: 0;
+  transition: opacity 0.3s ease-in-out;
+}
+
+.group-label {
+  left: 79%;
+}
+
+.group:hover .tooltip {
+  visibility: visible;
+  opacity: 1;
+}
+
 .card-settings {
   background: none;
   border: none;
@@ -10905,6 +10928,15 @@ body {
   margin-right: -1.25rem;
   padding-right: 0.5rem;
   cursor: pointer;
+}
+
+.settings-label {
+  left: -35%;
+}
+
+.card-settings:hover .tooltip {
+  visibility: visible;
+  opacity: 1;
 }
 
 .btn-success {
@@ -10926,6 +10958,14 @@ body {
 
 .dropdown-toggle::after {
   display: none;
+}
+
+.dropdown-menu {
+  z-index: 3000 !important;
+  top: -15% !important;
+  --bs-dropdown-min-width: none;
+  --bs-dropdown-padding-x: none;
+  --bs-dropdown-padding-y: none;
 }
 
 .sub-title {

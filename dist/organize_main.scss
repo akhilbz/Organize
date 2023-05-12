@@ -86,8 +86,10 @@
     // padding-right: 8px;
   }
 
+
   // Card Group Button (right side)
   .group {
+    z-index: 1 !important;
     background: none;
     border: none;
     font-size: 1rem;
@@ -104,6 +106,33 @@
    
   }
 
+  .tooltip {
+    position: absolute;
+    background-color: #FFFFFFff;
+    // z-index: 9000 !important;
+    color: black;
+    font-size: 0.5rem;
+    padding: 3px;
+    border-radius: 5px;
+    border: 1px solid rgb(0 0 0 / 17%);
+    visibility: visible;
+    opacity: 0;
+    transition: opacity 0.3s ease-in-out;
+
+  }
+
+  .group-label {
+    left: 79%;
+  }
+  
+  .group:hover .tooltip {
+    visibility: visible;
+    opacity: 1;
+    
+    // z-index: 9999 !important;
+  }
+  
+
   // Card Settings Button (right side)
   .card-settings {
     background: none;
@@ -115,6 +144,15 @@
     // padding-bottom: auto;
     // padding-right: 0.2rem ;
     cursor: pointer;
+  }
+
+  .settings-label {
+    left: -35%;
+  }
+
+  .card-settings:hover .tooltip {
+    visibility: visible;
+    opacity: 1;
   }
 
   .btn-success {
@@ -141,6 +179,15 @@
 
 .fa-ellipsis-v {
   // margin-right: -1rem !important;
+}
+
+.dropdown-menu {
+  z-index: 3000 !important;
+  top: -15% !important;
+  // left: -270% !important;
+  --bs-dropdown-min-width: none; 
+  --bs-dropdown-padding-x: none; 
+  --bs-dropdown-padding-y: none;
 }
 
   // ----------------------------------------------------------------
