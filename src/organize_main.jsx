@@ -21,7 +21,6 @@ const container = document.getElementById("react-target");
   const [currTabs, setCurrTabs] = useState([]);
   const [hostUrls, setHostUrls] = useState([]);
   const collator = new Intl.Collator();
-  const tlds = JSON.parse(tld_data);
 
   useEffect(() => {
     async function fetchData() {
@@ -36,8 +35,8 @@ const container = document.getElementById("react-target");
       }
 
       // use for debugging:
-      // console.log(hostUrls);
-      // console.log(tabs);
+      console.log(hostUrls);
+      console.log(tabs);
 
       setCurrTabs(tabs);
       setHostUrls([...hostUrls]);
@@ -159,7 +158,7 @@ const container = document.getElementById("react-target");
                   tab.title.includes("|") ? tab.title.split("|")[0].trim() : tab.title;
                   const tab_url = new URL(tab.url).pathname;
                   const curr_tab = tab;
-                  console.log(tab_url); 
+                  // console.log(tab_url); 
 
                   return (
                     <li key={index} className="list-group-item">
