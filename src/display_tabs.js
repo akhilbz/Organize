@@ -19,8 +19,8 @@ function DisplayTabs({ hostUrls, currTabs, collator}) {
         // Logic for seperating tabs by hostUrl
         // console.log(hostUrls);
         return (
-          <>
-        { hostUrls.map((hostUrl, index) => {
+        <> { 
+        hostUrls.map((hostUrl, index) => {
           const hostTabs = currTabs.filter((tab) => tab.url.includes(`://${hostUrl}/`)); // tab refers to the tab of each currTabs
           hostTabs.sort((a, b) => collator.compare(a.title, b.title)); // sorts by title for all hostTabs
           let favIcon_img = hostTabs[0].favIconUrl;
