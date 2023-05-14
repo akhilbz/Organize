@@ -1,13 +1,11 @@
 import React, { useState, useEffect } from "react";
+// import { PopupContext } from "./global_context";
+import DisplayTabs from "./display_tabs.js";
 import { createRoot } from 'react-dom/client';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faSearch, faLayerGroup, faEllipsisV } from '@fortawesome/free-solid-svg-icons';
-import { Dropdown } from "react-bootstrap";
-import chrome_logo from '/Users/akhileshbitla/Work/products/Organize/src/images/chrome_icon.png';
-import extension_logo from '/Users/akhileshbitla/Work/products/Organize/src/images/extension_icon.png';
+import { faSearch } from '@fortawesome/free-solid-svg-icons';
 
 const container = document.getElementById("react-target");
-
 
 // TODO: move this into a separate file
  function truncateText(text, maxLength) {
@@ -18,6 +16,7 @@ const container = document.getElementById("react-target");
 }
 
  function Popup() {
+  const [currGroups, setCurrGroups] = useState([]);
   const [currTabs, setCurrTabs] = useState([]);
   const [hostUrls, setHostUrls] = useState([]);
   const collator = new Intl.Collator();
@@ -25,7 +24,8 @@ const container = document.getElementById("react-target");
   useEffect(() => {
     async function fetchData() {
       const tabs = await chrome.tabs.query({ currentWindow: true });
-
+      const groups = await chrome.tabGroups.query({ windowId: chrome.windows.WINDOW_ID_CURRENT })
+      groups.sort((a, b) => collator.compare(a.title, b.title));
       tabs.sort((a, b) => collator.compare(a.title, b.title)); // sort by title
       const hostUrls = new Set(); // set of host URLs (used as category names)
 
@@ -35,16 +35,21 @@ const container = document.getElementById("react-target");
       }
 
       // use for debugging:
-      console.log(hostUrls);
-      console.log(tabs);
+      // console.log(hostUrls);
+      // console.log(tabs);
+      // console.log(groups);
 
       setCurrTabs(tabs);
       setHostUrls([...hostUrls]);
+      setCurrGroups([...groups]); 
     }
 
     fetchData();
   }, []);
-  
+
+  // console.log(hostURLs);
+  // console.log(currTabs);
+
   return (
     <div className="main_body">
     <nav className="navbar fixed-top border-bottom">
@@ -53,6 +58,18 @@ const container = document.getElementById("react-target");
     </nav>
     
     <div className="container-fluid">
+      <template id="group_template">
+      <div className="col-md-4 mb-2">
+        <div className="card">
+          <div className="card-header d-flex justify-content-between">
+            <h4 className="title card-title header-text">
+                Category
+              </h4>           
+              <button>Settings</button>
+          </div>
+        </div>
+      </div>
+      </template>
       <template id="block_template">
         <div className="col-md-4 mb-2">
           <div className="card">
@@ -60,7 +77,7 @@ const container = document.getElementById("react-target");
               <h4 className="title card-title header-text">
                 Category
               </h4>           
-              <button className="group">Group</button>
+              <button className="group">Settings</button>
             </div>
             <ul className="list-group list-group-flush"></ul>
           </div>
@@ -79,119 +96,8 @@ const container = document.getElementById("react-target");
           </div>
         </li>
       </template>
-
-      
-      {
-      // Logic for seperating tabs by hostUrl
-
-      hostUrls.map((hostUrl, index) => {
-        const hostTabs = currTabs.filter((tab) => tab.url.includes(`://${hostUrl}/`)); // tab refers to the tab of each currTabs
-
-        hostTabs.sort((a, b) => collator.compare(a.title, b.title)); // sorts by title for all hostTabs
-        let favIcon_img = hostTabs[0].favIconUrl;
-        if (hostTabs[0].url.includes("chrome://newtab/")) { 
-          favIcon_img = require('/Users/akhileshbitla/Work/products/Organize/src/images/chrome_icon.png').default;
-        } else if (hostTabs[0].url.includes("chrome://extensions/")) {
-          favIcon_img = require('/Users/akhileshbitla/Work/products/Organize/src/images/extension_icon.png').default;
-      }
-
-        // Group Title Logic:
-        const tld = hostUrl.split('.');
-        var hostTitle = "";
-
-        if (tld.length >= 3) { 
-          if (tld[0] == "www") {
-            for (let i = 1; i < tld.length - 1; i++) {
-              hostTitle += tld[i];
-            }
-          } else {
-            for (let i = 0; i < tld.length - 1; i++) {
-              if (i == 1) {
-                hostTitle += ".";
-              }
-              hostTitle += tld[i];
-            }
-          }
-        } else if (tld.length > 1) {
-            for (let i = 0; i < tld.length - 1; i++) {
-              hostTitle += tld[i];
-            }
-        } else {
-          hostTitle = tld[0];
-        }
-          
-        return (
-          <div key={index} className="col-md-4 mb-2">
-            <div className="card">
-              <div className="card-header d-flex justify-content-between">
-                <div className="left-side-items d-flex">
-                <img className="favicon" src={favIcon_img} alt="" />
-
-                <h4 className="title card-title header-text">{hostUrl}</h4>
-                </div>
-                <div className="right-side-items d-flex">
-                  <button className="group" onClick= { async () => {
-                    const tabIds = hostTabs.map(({ id }) => id);
-                    const group = await chrome.tabs.group({ tabIds });
-                    await chrome.tabGroups.update(group, { title: truncateText(hostTitle, 15) });
-                    }}>
-                    <FontAwesomeIcon icon={faLayerGroup} style={{color: "#000000",}} className="fa-layer-group fa-thin fa-lg" />
-                    <span className="tooltip group-label">Group Tabs</span>
-                  </button>
-
-                  <Dropdown className="card-settings">
-                  <Dropdown.Toggle variant="success">
-                    <FontAwesomeIcon icon={faEllipsisV} style={{ color: '#000000' }} className="fa-ellipsis-v fa-thin fa-lg" />    
-                  </Dropdown.Toggle>
-                  <Dropdown.Menu>
-                  <Dropdown.Item href="#/action-1">Close All Tabs</Dropdown.Item>
-                  </Dropdown.Menu>
-                  <span className="tooltip settings-label">Settings</span>
-                  </Dropdown>
-                </div>
-              </div>
-
-              <ul className="list-group list-group-flush">
-                {
-                hostTabs.map((tab, index) => {
-                  const title = tab.title.includes("-") ? tab.title.split("-")[0].trim() : tab.title.includes("–") ? tab.title.split("–")[0].trim() :
-                  tab.title.includes("|") ? tab.title.split("|")[0].trim() : tab.title;
-                  const tab_url = new URL(tab.url).pathname;
-                  const curr_tab = tab;
-                  // console.log(tab_url); 
-
-                  return (
-                    <li key={index} className="list-group-item">
-                      <div className="d-flex justify-content-between align-items-center">
-                        <a onClick={async ()=> {
-                           await chrome.tabs.update(curr_tab.id, { active: true });
-                           await chrome.windows.update(curr_tab.windowId, { focused: true });
-                        }}>
-                          <h5 className="sub-title card-subtitle tab-text-size">{truncateText(title, 35)}</h5>
-                          </a>
-                        <button type="button" className="btn-close" aria-label="Close" onClick={(event) => {
-                          chrome.tabs.remove(tab.id);
-                          // card_tabs -= 1;
-                          // console.log(card_tabs);
-                          const thisListItem = event.target.parentNode.parentNode;
-                          // const thisCardHeader = document.getElementById("main_card_header");
-                          // const cardItems = document.getElementsByClassName("list-group-item");
-                          // thisCardHeader.classList.add('card_closed');
-                          // thisCardHeader.remove();
-                          thisListItem.classList.add('closed');
-                          thisListItem.remove();
-                          // thisListItem.classList.remove('closed');
-                        }}></button>
-                      </div>
-                    </li>
-                  );
-                })}
-              </ul>
-            </div>
-          </div>
-        );
-      })}
-    </div>
+      <DisplayTabs currTabs={currTabs} hostUrls={hostUrls} collator={collator} />
+      </div>
     </div>
   );
 }
