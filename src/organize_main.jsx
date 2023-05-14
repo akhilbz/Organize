@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from "react";
-// import { PopupContext } from "./global_context";
-import DisplayTabs from "./display_tabs.js";
-import AllTemplates from "./templates.js";
+import DisplayTabs from "./Helper/display_tabs.js";
+import AllTemplates from "./Helper/templates.js";
 import { createRoot } from 'react-dom/client';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faSearch } from '@fortawesome/free-solid-svg-icons';
