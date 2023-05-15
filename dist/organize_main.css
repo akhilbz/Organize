@@ -10820,6 +10820,7 @@ textarea.form-control-lg {
   }
 }
 body {
+  background-color: white !important;
   width: 24rem;
 }
 
@@ -10856,8 +10857,16 @@ body {
   padding-bottom: 2px !important;
 }
 
+.groups-section {
+  padding-bottom: 25px;
+}
+
 .card {
-  top: 25px;
+  top: 25px !important;
+}
+
+.card-tabs {
+  top: 10px !important;
 }
 
 .card-header {

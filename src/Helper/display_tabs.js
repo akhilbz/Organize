@@ -1,6 +1,6 @@
 import React, { useContext } from "react";
 import GetTabList from "./get_tablist";
-import { truncateText } from "./helper_functions";
+import { truncateText, groupTitle } from "./helper_functions";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faLayerGroup, faEllipsisV } from '@fortawesome/free-solid-svg-icons';
 import { Dropdown } from "react-bootstrap";
@@ -25,38 +25,14 @@ function DisplayTabs({ hostUrls, currTabs, collator}) {
         }
   
           // Group Title Logic:
-          const tld = hostUrl.split('.');
-          console.log("right here...");
-          var hostTitle = "";
-  
-          if (tld.length >= 3) { 
-            if (tld[0] == "www") {
-              for (let i = 1; i < tld.length - 1; i++) {
-                hostTitle += tld[i];
-              }
-            } else {
-              for (let i = 0; i < tld.length - 1; i++) {
-                if (i == 1) {
-                  hostTitle += ".";
-                }
-                hostTitle += tld[i];
-              }
-            }
-          } else if (tld.length > 1) {
-              for (let i = 0; i < tld.length - 1; i++) {
-                hostTitle += tld[i];
-              }
-          } else {
-            hostTitle = tld[0];
-          }
-  
+          var hostTitle = groupTitle(hostUrl);
           const tabIds = hostTabs.map(({ id }) => id);
           const truncatedTitle = truncateText(hostTitle, 15);
           var groupID = 0;
           
           return (
             <div key={index} className="col-md-4 mb-2">
-              <div className="card">
+              <div className="card card-tabs">
                 <div className="card-header d-flex justify-content-between">
                   <div className="left-side-items d-flex">
                   <img className="favicon" src={favIcon_img} alt="" />

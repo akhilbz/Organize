@@ -3,6 +3,7 @@
 
   // Main Body
   body {
+    background-color: white !important;
     width: 24rem; // 27 rem?
   }
   
@@ -45,12 +46,33 @@
 
   }
 
-  // ----------------------------------------------------------------
+  // Groups Section:
 
-  // Card Content (Header)
+  // ----------------------------------------------------------------
+  
+  .groups-section {
+    padding-bottom: 25px;
+    // border-bottom: 1px solid black !important; 
+  }
+  
   .card {
     // position: relative;
-    top: 25px;
+    top: 25px !important;
+    // --bs-card-border-width: 1px;
+
+  }
+  // .section-break {
+  //   border-bottom: 3px solid black !important; 
+  //   content: "";
+  
+  // }
+  // ----------------------------------------------------------------
+  // Tabs/Groups Section:
+
+  // Card Content (Header)
+  .card-tabs {
+    // position: relative;
+    top: 10px !important;
     // --bs-card-border-width: 1px;
 
   }

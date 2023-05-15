@@ -1,22 +1,16 @@
 import React, { useState, useEffect } from "react";
 import DisplayTabs from "./Helper/display_tabs.js";
-import AllTemplates from "./Helper/templates.js";
+import DisplayGroups from "./Helper/display_groups.js";
+// import AllTemplates from "./Helper/templates.js";
 import { createRoot } from 'react-dom/client';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faSearch } from '@fortawesome/free-solid-svg-icons';
 
 const container = document.getElementById("react-target");
 
-// TODO: move this into a separate file
- function truncateText(text, maxLength) {
-  if (text.length > maxLength) {
-    return text.substring(0, maxLength) + "...";
-  }
-  return text;
-}
-
  function Popup() {
   const [currGroups, setCurrGroups] = useState([]);
+  const [currGroupTabs, setCurrGroupTabs] = useState([]);
   const [currTabs, setCurrTabs] = useState([]);
   const [hostUrls, setHostUrls] = useState([]);
   const collator = new Intl.Collator();
@@ -24,24 +18,37 @@ const container = document.getElementById("react-target");
   useEffect(() => {
     async function fetchData() {
       const tabs = await chrome.tabs.query({ currentWindow: true });
-      const groups = await chrome.tabGroups.query({ windowId: chrome.windows.WINDOW_ID_CURRENT })
+      const groups = await chrome.tabGroups.query({ windowId: chrome.windows.WINDOW_ID_CURRENT });
       groups.sort((a, b) => collator.compare(a.title, b.title));
       tabs.sort((a, b) => collator.compare(a.title, b.title)); // sort by title
-      const hostUrls = new Set(); // set of host URLs (used as category names)
 
+      const hostUrls = new Set(); // set of host URLs (used as category names)
+      const tabsInGroups = []; // set of tabs in each group
+
+      // Get all hostUrls
       for (const tab of tabs) {
         const urlHost = new URL(tab.url).hostname;
         hostUrls.add(urlHost);
       }
 
+      // Store all tabs of each current group in an array
+      for (const group of groups) {
+        const tabs_in_group = await chrome.tabs.query({groupId: group.id});
+        tabsInGroups.push(tabs_in_group);
+      }
+       
+      console.log(tabsInGroups);
+     
+
       // use for debugging:
       // console.log(hostUrls);
       // console.log(tabs);
-      // console.log(groups);
+      console.log(groups);
 
       setCurrTabs(tabs);
       setHostUrls([...hostUrls]);
       setCurrGroups([...groups]); 
+      setCurrGroupTabs([...tabsInGroups]);
     }
 
     fetchData();
@@ -58,7 +65,10 @@ const container = document.getElementById("react-target");
     </nav>
     
     <div className="container-fluid">
-      <AllTemplates />
+      <div className="groups-section border-bottom">
+      <DisplayGroups currGroups={currGroups} currGroupTabs={currGroupTabs} collator={collator} />
+      </div>
+      <div className="section-break"></div>
       <DisplayTabs currTabs={currTabs} hostUrls={hostUrls} collator={collator} />
       </div>
     </div>
