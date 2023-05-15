@@ -16,13 +16,14 @@ function DisplayGroups({currGroups, currGroupTabs}) {
             
             return (
             <div key={index} className="col-md-4 mb-2 ">
+            
               <div className="card .card-group">
                 <div className="card-header d-flex justify-content-between">
                   <div className="left-side-items d-flex">
                   {/* <svg>
                     <circle cx={radius} cy={radius} r={radius} fill={color} />
                  </svg> */}
-  
+
                   <h4 className="title card-title header-text">{currGroup.title}</h4>
                   </div>
                   <div className="right-side-items d-flex">

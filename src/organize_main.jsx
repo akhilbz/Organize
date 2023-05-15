@@ -66,9 +66,11 @@ const container = document.getElementById("react-target");
     
     <div className="container-fluid">
       <div className="groups-section border-bottom">
+      <h5 className="group-head">Groups</h5>
+       {/* Make a collapsable feature here to collapse DisplayGroups */}
       <DisplayGroups currGroups={currGroups} currGroupTabs={currGroupTabs} collator={collator} />
       </div>
-      <div className="section-break"></div>
+      <h5 className="tab-head">Tabs</h5>
       <DisplayTabs currTabs={currTabs} hostUrls={hostUrls} collator={collator} />
       </div>
     </div>

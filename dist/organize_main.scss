@@ -17,7 +17,7 @@
   // NavBar
   .navbar {
     background-color: #FAFAFBff;
-    position: fixed;
+    position: fixed absolute;
     width: 100%;
     height: 52px;
     align-items: end;
@@ -49,30 +49,32 @@
   // Groups Section:
 
   // ----------------------------------------------------------------
-  
+  .group-head {
+     margin-top: 18px !important;
+     padding-left: 8px !important; 
+  }
+
   .groups-section {
-    padding-bottom: 25px;
+    padding-bottom: 4px;
     // border-bottom: 1px solid black !important; 
   }
   
-  .card {
-    // position: relative;
-    top: 25px !important;
-    // --bs-card-border-width: 1px;
+  // .card {
+  //   // position: relative;
+  //   top: 25px !important;
+  //   // --bs-card-border-width: 1px;
 
-  }
-  // .section-break {
-  //   border-bottom: 3px solid black !important; 
-  //   content: "";
-  
   // }
   // ----------------------------------------------------------------
   // Tabs/Groups Section:
-
+  .tab-head {
+    margin-top: 81q px !important;
+    padding-left: 8px !important; 
+  }
   // Card Content (Header)
   .card-tabs {
     // position: relative;
-    top: 10px !important;
+    // top: 10px !important;
     // --bs-card-border-width: 1px;
 
   }

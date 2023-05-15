@@ -10832,7 +10832,7 @@ body {
 
 .navbar {
   background-color: #fafafb;
-  position: fixed;
+  position: fixed absolute;
   width: 100%;
   height: 52px;
   align-items: end;
@@ -10857,16 +10857,18 @@ body {
   padding-bottom: 2px !important;
 }
 
+.group-head {
+  margin-top: 18px !important;
+  padding-left: 8px !important;
+}
+
 .groups-section {
-  padding-bottom: 25px;
+  padding-bottom: 4px;
 }
 
-.card {
-  top: 25px !important;
-}
-
-.card-tabs {
-  top: 10px !important;
+.tab-head {
+  margin-top: 81q px !important;
+  padding-left: 8px !important;
 }
 
 .card-header {
