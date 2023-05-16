@@ -10872,6 +10872,16 @@ body {
   text-decoration: none; /* Remove underline if needed */
 }
 
+.collapse {
+  height: auto;
+  overflow: hidden;
+  transition: height 2s ease; /* Apply a smooth transition to the height property */
+}
+
+.group-right-side-items {
+  height: 20%;
+}
+
 .tab-head {
   margin-top: 6px !important;
   padding-left: 8px !important;

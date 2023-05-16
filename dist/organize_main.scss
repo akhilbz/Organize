@@ -64,7 +64,19 @@
     height: 100%; /* Extend the height to match other components */
     text-decoration: none; /* Remove underline if needed */
   }
+
+  .collapse {
+    height: auto;
+    overflow: hidden;
+    transition: height 2s ease; /* Apply a smooth transition to the height property */
+    // transform: translate3d(0, 0, 0);
+
+  }
   
+  .group-right-side-items {
+    height: 20%;
+  }
+
   // .card {
   //   // position: relative;
   //   top: 25px !important;
@@ -210,6 +222,7 @@
 .fa-ellipsis-v {
   // margin-right: -1rem !important;
 }
+
 
 .dropdown-menu {
   z-index: 3000 !important;

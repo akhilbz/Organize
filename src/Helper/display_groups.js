@@ -41,7 +41,7 @@ function DisplayGroups({currGroups, currGroupTabs}) {
                   <div className="left-side-items d-flex">
                     <h4 className="title card-title header-text">{currGroup.title}</h4>
                   </div>
-                  <div className="right-side-items d-flex">
+                  <div className="group-right-side-items d-flex">
                     {/* <button className="group" onClick= { async () => {     
                       groupID = await chrome.tabs.group({ tabIds });  
                       console.log("tabIds: " + tabIds[0]);
@@ -51,7 +51,7 @@ function DisplayGroups({currGroups, currGroupTabs}) {
                       <span className="tooltip group-label">Group Tabs</span>
                     </button> */}
   
-                    <Dropdown className="card-settings">
+                    <Dropdown className="card-settings" onClick={(e) => e.stopPropagation()}>
                     <Dropdown.Toggle variant="success">
                       <FontAwesomeIcon icon={faEllipsisV} style={{ color: '#000000' }} className="fa-ellipsis-v fa-thin fa-lg" />    
                     </Dropdown.Toggle>
@@ -70,7 +70,7 @@ function DisplayGroups({currGroups, currGroupTabs}) {
                   </div>
                 </div>
                 <Collapse in={showGroupLists[index]}>
-                <div className="card-body" id={'collapseGroup${index}'}>                
+                <div className="" id={'collapseGroup${index}'}>              
                 <ul className="list-group list-group-flush">
                     <GetTabList tabType={groupTabs[0]} />
                 </ul>
