@@ -37,13 +37,13 @@ const container = document.getElementById("react-target");
         tabsInGroups.push(tabs_in_group);
       }
        
-      console.log(tabsInGroups);
+      // console.log(tabsInGroups);
      
 
       // use for debugging:
       // console.log(hostUrls);
       // console.log(tabs);
-      console.log(groups);
+      // console.log(groups);
 
       setCurrTabs(tabs);
       setHostUrls([...hostUrls]);
@@ -71,7 +71,8 @@ const container = document.getElementById("react-target");
       <DisplayGroups currGroups={currGroups} currGroupTabs={currGroupTabs} collator={collator} />
       </div>
       <h5 className="tab-head">Tabs</h5>
-      <DisplayTabs currTabs={currTabs} hostUrls={hostUrls} collator={collator} />
+      <DisplayTabs currGroups={currGroups} setCurrGroups={setCurrGroups} currGroupTabs={currGroupTabs} 
+      setCurrGroupTabs={setCurrGroupTabs} currTabs={currTabs} hostUrls={hostUrls} collator={collator} />
       </div>
     </div>
   );

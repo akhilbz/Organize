@@ -7,7 +7,8 @@ import { faLayerGroup, faEllipsisV } from '@fortawesome/free-solid-svg-icons';
 
 function DisplayGroups({currGroups, currGroupTabs}) {
     const [showGroupLists, setShowGroupLists] = useState([]);
-    
+    console.log("test");
+    console.log(currGroups);
     // const [allIndexes, setAllIndexes] = useState([]);
     // const toggleCollapse = (index) => {
     //     const updatedGListStates = [...showGroupList];
@@ -20,10 +21,13 @@ function DisplayGroups({currGroups, currGroupTabs}) {
     return (
         <> {
         currGroups.map((currGroup, index) => {
-            console.log(currGroup);
+            // <conso></conso>le.log(currGroup);
             const groupTabs = currGroupTabs.filter((grpTab) => grpTab[0].groupId == currGroup.id);
+            // console.log(groupTabs);
             showGroupLists.push(!currGroup.collapsed);
-            
+            const tabIds = groupTabs[0].map(({ id }) => id);
+
+            // console.log(tabIds);
             return (
             <div key={index} className="col-md-4 mb-2 ">
             
@@ -33,7 +37,7 @@ function DisplayGroups({currGroups, currGroupTabs}) {
                     const allUpdatedGLists = [...showGroupLists];
                     allUpdatedGLists[index] =  !showGroupLists[index];
                     await chrome.tabGroups.update(currGroup.id, { collapsed: !allUpdatedGLists[index] });
-                    console.log(allUpdatedGLists);
+                    // console.log(allUpdatedGLists);
                     setShowGroupLists(allUpdatedGLists);
                     
                     }} 
@@ -51,18 +55,17 @@ function DisplayGroups({currGroups, currGroupTabs}) {
                       <span className="tooltip group-label">Group Tabs</span>
                     </button> */}
   
-                    <Dropdown className="card-settings" onClick={(e) => e.stopPropagation()}>
+                    <Dropdown className="card-settings" onClick={async (e) => {
+                        e.stopPropagation(); 
+                        }
+                        }>
                     <Dropdown.Toggle variant="success">
                       <FontAwesomeIcon icon={faEllipsisV} style={{ color: '#000000' }} className="fa-ellipsis-v fa-thin fa-lg" />    
                     </Dropdown.Toggle>
                     <Dropdown.Menu>
                     <Dropdown.Item onClick={ async () => {
-                    //   if (groupID != 0) {
-                    //     console.log("here: " + groupID);
-                    //     await chrome.tabs.ungroup(tabIds, ()=>{});
-                    //   }
+                        await chrome.tabs.ungroup(tabIds, ()=>{});
                     }}>Ungroup</Dropdown.Item>
-                    <Dropdown.Item onClick={""}>Edit</Dropdown.Item>
                     <Dropdown.Item onClick={""}>Close All Tabs</Dropdown.Item>
                     </Dropdown.Menu>
                     <span className="tooltip settings-label">Settings</span>

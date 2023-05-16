@@ -34,3 +34,7 @@ export function groupTitle(hostUrl) {
 
   return hostTitle;
 }
+
+// export function deleteGroupCard() {
+//   const currGroupCard = document.
+// }

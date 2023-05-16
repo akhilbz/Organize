@@ -8,7 +8,7 @@ import chrome_logo from '/Users/akhileshbitla/Work/products/Organize/src/images/
 import extension_logo from '/Users/akhileshbitla/Work/products/Organize/src/images/extension_icon.png';
 
 
-function DisplayTabs({ hostUrls, currTabs, collator}) {
+function DisplayTabs({ currGroups, setCurrGroups, currGroupTabs, setCurrGroupTabs, hostUrls, currTabs, collator}) {
     
         // Logic for seperating tabs by hostUrl
         // console.log(hostUrls);
@@ -29,7 +29,6 @@ function DisplayTabs({ hostUrls, currTabs, collator}) {
           const tabIds = hostTabs.map(({ id }) => id);
           const truncatedTitle = truncateText(hostTitle, 15);
           var groupID = 0;
-          
           return (
             <div key={index} className="col-md-4 mb-2">
               <div className="card card-tabs">
@@ -40,10 +39,29 @@ function DisplayTabs({ hostUrls, currTabs, collator}) {
                   <h4 className="title card-title header-text">{hostUrl}</h4>
                   </div>
                   <div className="right-side-items d-flex">
-                    <button className="group" onClick= { async () => {     
+                    <button className="group" onClick= { async () => {      
+
                       groupID = await chrome.tabs.group({ tabIds });  
-                      // console.log("tabIds: " + tabIds[0]);
-                      await chrome.tabGroups.update( groupID, { title: truncatedTitle });
+                      
+                      console.log(group);
+                      const tabs_in_group = await chrome.tabs.query({groupId: groupID});
+                      var tabs_are_included = false;      
+                      await chrome.tabGroups.update( groupID, { collapsed: true, title: truncatedTitle });
+                      const group = await chrome.tabGroups.get(groupID);
+                      for (const tab of tabs_in_group) {
+                        tabs_are_included = JSON.stringify(currGroupTabs).includes(tab.url);
+                      }
+
+                      if (!tabs_are_included) {
+                        // currGroupTabs.push(tabs_in_group);
+                        setCurrGroupTabs(currGroupTabs => [...currGroupTabs, [...tabs_in_group]]);
+                        setCurrGroups(currGroups => [...currGroups, group]);
+                      }
+                     
+                     
+                      // console.log(currGroupTabs);
+                      // console.log(JSON.stringify(currGroupTabs).includes(JSON.stringify(tabs_in_group)));
+                      // setCurrGroups([...currGroups]);
                       }}>
                       <FontAwesomeIcon icon={faLayerGroup} style={{color: "#000000",}} className="fa-layer-group fa-thin fa-lg" />
                       <span className="tooltip group-label">Group Tabs</span>
@@ -54,12 +72,12 @@ function DisplayTabs({ hostUrls, currTabs, collator}) {
                       <FontAwesomeIcon icon={faEllipsisV} style={{ color: '#000000' }} className="fa-ellipsis-v fa-thin fa-lg" />    
                     </Dropdown.Toggle>
                     <Dropdown.Menu>
-                    <Dropdown.Item onClick={ async () => {
+                    {/* <Dropdown.Item onClick={ async () => {
                       if (groupID != 0) {
                         // console.log("here: " + groupID);
                         await chrome.tabs.ungroup(tabIds, ()=>{});
                       }
-                    }}>Ungroup</Dropdown.Item>
+                    }}>Ungroup</Dropdown.Item> */}
                     <Dropdown.Item onClick={""}>Close All Tabs</Dropdown.Item>
                     </Dropdown.Menu>
                     <span className="tooltip settings-label">Settings</span>
