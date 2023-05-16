@@ -59,6 +59,12 @@
     // border-bottom: 1px solid black !important; 
   }
   
+  .collapse-feature {
+    flex-grow: 1;
+    height: 100%; /* Extend the height to match other components */
+    text-decoration: none; /* Remove underline if needed */
+  }
+  
   // .card {
   //   // position: relative;
   //   top: 25px !important;
@@ -68,7 +74,7 @@
   // ----------------------------------------------------------------
   // Tabs/Groups Section:
   .tab-head {
-    margin-top: 81q px !important;
+    margin-top: 6px !important;
     padding-left: 8px !important; 
   }
   // Card Content (Header)

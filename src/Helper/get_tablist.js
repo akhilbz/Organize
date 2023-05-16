@@ -2,11 +2,10 @@ import React from "react";
 import { truncateText } from "./helper_functions";
 
 
-function GetTabList({hostTabs}) {
-    
+function GetTabList({tabType}) {   
     return (
         <> {
-        hostTabs.map((tab, index) => {
+          tabType.map((tab, index) => {
           const title = tab.title.includes("-") ? tab.title.split("-")[0].trim() : tab.title.includes("–") ? tab.title.split("–")[0].trim() :
           tab.title.includes("|") ? tab.title.split("|")[0].trim() : tab.title;
           const tab_url = new URL(tab.url).pathname;

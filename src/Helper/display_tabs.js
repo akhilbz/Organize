@@ -42,7 +42,7 @@ function DisplayTabs({ hostUrls, currTabs, collator}) {
                   <div className="right-side-items d-flex">
                     <button className="group" onClick= { async () => {     
                       groupID = await chrome.tabs.group({ tabIds });  
-                      console.log("tabIds: " + tabIds[0]);
+                      // console.log("tabIds: " + tabIds[0]);
                       await chrome.tabGroups.update( groupID, { title: truncatedTitle });
                       }}>
                       <FontAwesomeIcon icon={faLayerGroup} style={{color: "#000000",}} className="fa-layer-group fa-thin fa-lg" />
@@ -56,7 +56,7 @@ function DisplayTabs({ hostUrls, currTabs, collator}) {
                     <Dropdown.Menu>
                     <Dropdown.Item onClick={ async () => {
                       if (groupID != 0) {
-                        console.log("here: " + groupID);
+                        // console.log("here: " + groupID);
                         await chrome.tabs.ungroup(tabIds, ()=>{});
                       }
                     }}>Ungroup</Dropdown.Item>
@@ -66,9 +66,8 @@ function DisplayTabs({ hostUrls, currTabs, collator}) {
                     </Dropdown>
                   </div>
                 </div>
-  
                 <ul className="list-group list-group-flush">
-                  <GetTabList hostTabs={hostTabs} />
+                  <GetTabList tabType={hostTabs} />
                 </ul>
               </div>
             </div>
