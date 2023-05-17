@@ -2,17 +2,18 @@ import React from "react";
 import { getHostUrls, truncateText } from "./helper_functions";
 
 
-function GetTabListForDT({tabType, currGroupTabs, setCurrGroupTabs, currTabs, setCurrTabs}) {   
-  
+function GetTabListForDT({tabType, currGroupTabs, setCurrGroupTabs, currTabs, setCurrTabs, hostUrls, setHostUrls}) {   
+  console.log(currTabs);
   return (    
         <> {
           tabType.map((tab, index) => {
           const title = tab.title.includes("-") ? tab.title.split("-")[0].trim() : tab.title.includes("–") ? tab.title.split("–")[0].trim() :
           tab.title.includes("|") ? tab.title.split("|")[0].trim() : tab.title;
-          const tab_url = new URL(tab.url).pathname;
+          const tab_hosturl = new URL(tab.url).hostname;
+          // console.log(tab_hosturl);
           const curr_tab = tab;
           // console.log(tab_url); 
-          console.log(currGroupTabs);  
+          // console.log(currGroupTabs);  
           // console.log(tab);  
           return (
             <li key={index} className="list-group-item">
@@ -24,25 +25,31 @@ function GetTabListForDT({tabType, currGroupTabs, setCurrGroupTabs, currTabs, se
                   <h5 className="sub-title card-subtitle tab-text-size">{truncateText(title, 35)}</h5>
                   </a>
                 <button type="button" className="btn-close" aria-label="Close" onClick={(event) => {
-                  console.log("hello!");
+                  
+                  // console.log(tabType.length);
                   chrome.tabs.remove(tab.id);
                    const updatedGroupTabs = [];
-                  //  currGroupTabs.filter((grouped_arr) => {
-                  //   grouped_arr = grouped_arr.filter((grouped_tab) => grouped_tab.id != tab.id);
-                  //   console.log(grouped_arr);
-                  // });
+                   const updatedTabs = currTabs.filter((remtab) => remtab.id != tab.id);
+                  console.log("hello!");
+                  console.log(updatedTabs);
+                   setCurrTabs([...updatedTabs]);
+
                   for (const grouped_arr of currGroupTabs) {
-                    const updated_arr = grouped_arr.filter((grouped_tab) => grouped_tab.id != tab.id);
-                    
+                    const updated_arr = grouped_arr.filter((grouped_tab) => grouped_tab.id != tab.id); 
                     updatedGroupTabs.push(updated_arr);
                   }
-                  console.log(updatedGroupTabs);
-                  const thisListItem = event.target.parentNode.parentNode;
-                  thisListItem.classList.add('closed');
-                  thisListItem.remove();
                   
+                  if (tabType.length == 1) {
+                    const updatedHostUrls = hostUrls.filter((url) => url != tab_hosturl);
+                    console.log(updatedHostUrls);
+                    setHostUrls([...updatedHostUrls]);
+                  }
+                  // const thisListItem = event.target.parentNode.parentNode;
+                  // thisListItem.classList.add('closed');
+                  // thisListItem.remove();
+                  // setCurrTabs([...updatedTabs]);
                   setCurrGroupTabs([...updatedGroupTabs]);
-                  setHostUrls([...updatedHostUrls]);
+                  
                 }}></button>
               </div>
             </li>

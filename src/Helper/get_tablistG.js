@@ -31,7 +31,13 @@ function GetTabListForDG({tabType, currGroup, currGroups, setCurrGroups, currGro
                   thisListItem.remove();
                   const updatedTabs = currTabs.filter((remtab) => remtab.id != tab.id);
                   const updatedHostUrls = getHostUrls(updatedTabs);
-                //   const updatedGroups = currGroups.filter((group) => group !== currGroup);
+
+                  if (tabType.length == 1) {
+                    const updatedGroups = currGroups.filter((group) => group != currGroup);
+                    console.log(updatedGroups);
+                    setCurrGroups([...updatedGroups]);
+                  }
+
                   console.log(updatedTabs);
                   setCurrTabs([...updatedTabs]);
                   setHostUrls([...updatedHostUrls]);
