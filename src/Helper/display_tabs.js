@@ -43,7 +43,6 @@ function DisplayTabs({ currGroups, setCurrGroups, currGroupTabs, setCurrGroupTab
 
                       groupID = await chrome.tabs.group({ tabIds });  
                       
-                      console.log(group);
                       const tabs_in_group = await chrome.tabs.query({groupId: groupID});
                       var tabs_are_included = false;      
                       await chrome.tabGroups.update( groupID, { collapsed: true, title: truncatedTitle });

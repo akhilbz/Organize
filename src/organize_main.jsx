@@ -68,7 +68,7 @@ const container = document.getElementById("react-target");
       <div className="groups-section border-bottom">
       <h5 className="group-head">Groups</h5>
        {/* Make a collapsable feature here to collapse DisplayGroups */}
-      <DisplayGroups currGroups={currGroups} currGroupTabs={currGroupTabs} collator={collator} />
+      <DisplayGroups currGroups={currGroups} setCurrGroups={setCurrGroups} currGroupTabs={currGroupTabs} collator={collator} />
       </div>
       <h5 className="tab-head">Tabs</h5>
       <DisplayTabs currGroups={currGroups} setCurrGroups={setCurrGroups} currGroupTabs={currGroupTabs} 

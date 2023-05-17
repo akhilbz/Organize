@@ -1,14 +1,14 @@
-import React, { useState} from "react";
+import React, { useState } from "react";
 import GetTabList from "./get_tablist";
 import { Collapse, Dropdown } from "react-bootstrap";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faLayerGroup, faEllipsisV } from '@fortawesome/free-solid-svg-icons';
 
 
-function DisplayGroups({currGroups, currGroupTabs}) {
+function DisplayGroups({currGroups, setCurrGroups, currGroupTabs}) {
     const [showGroupLists, setShowGroupLists] = useState([]);
-    console.log("test");
-    console.log(currGroups);
+    // console.log("test");
+    // console.log(currGroups);
     // const [allIndexes, setAllIndexes] = useState([]);
     // const toggleCollapse = (index) => {
     //     const updatedGListStates = [...showGroupList];
@@ -64,7 +64,12 @@ function DisplayGroups({currGroups, currGroupTabs}) {
                     </Dropdown.Toggle>
                     <Dropdown.Menu>
                     <Dropdown.Item onClick={ async () => {
+                        console.log(currGroups);
                         await chrome.tabs.ungroup(tabIds, ()=>{});
+                        const updatedGroups = currGroups.filter((group) => group !== currGroup);
+                        console.log(updatedGroups);
+                        setCurrGroups(updatedGroups);
+
                     }}>Ungroup</Dropdown.Item>
                     <Dropdown.Item onClick={""}>Close All Tabs</Dropdown.Item>
                     </Dropdown.Menu>
