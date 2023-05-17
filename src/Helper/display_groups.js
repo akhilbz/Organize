@@ -1,11 +1,11 @@
 import React, { useState } from "react";
-import GetTabList from "./get_tablist";
+import GetTabListForDG from "./get_tablistG";
 import { Collapse, Dropdown } from "react-bootstrap";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faLayerGroup, faEllipsisV } from '@fortawesome/free-solid-svg-icons';
 
 
-function DisplayGroups({currGroups, setCurrGroups, currGroupTabs}) {
+function DisplayGroups({currGroups, setCurrGroups, currGroupTabs, setCurrGroupTabs, currTabs, setCurrTabs, hostUrls, setHostUrls}) {
     const [showGroupLists, setShowGroupLists] = useState([]);
     // console.log("test");
     // console.log(currGroups);
@@ -80,7 +80,8 @@ function DisplayGroups({currGroups, setCurrGroups, currGroupTabs}) {
                 <Collapse in={showGroupLists[index]}>
                 <div className="" id={'collapseGroup${index}'}>              
                 <ul className="list-group list-group-flush">
-                    <GetTabList tabType={groupTabs[0]} />
+                    <GetTabListForDG tabType={groupTabs[0]} currGroup={currGroup} currGroups={currGroups} currGroupTabs={currGroupTabs} setCurrGroupTabs={setCurrGroupTabs} 
+                  currTabs={currTabs} setCurrTabs={setCurrTabs} hostUrls={hostUrls} setHostUrls={setHostUrls} />
                 </ul>
                 </div>
               </Collapse>

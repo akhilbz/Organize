@@ -1,5 +1,5 @@
 import React, { useContext } from "react";
-import GetTabList from "./get_tablist";
+import GetTabListForDT from "./get_tablistT";
 import { truncateText, groupTitle, getHostUrls } from "./helper_functions";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faLayerGroup, faEllipsisV } from '@fortawesome/free-solid-svg-icons';
@@ -11,7 +11,7 @@ import extension_logo from '/Users/akhileshbitla/Work/products/Organize/src/imag
 function DisplayTabs({ currGroups, setCurrGroups, currGroupTabs, setCurrGroupTabs, hostUrls, setHostUrls, currTabs, setCurrTabs, collator}) {
     
         // Logic for seperating tabs by hostUrl
-        console.log(hostUrls);
+        // console.log(hostUrls);
         return (
         <> { 
         hostUrls.map((hostUrl, index) => {
@@ -88,7 +88,8 @@ function DisplayTabs({ currGroups, setCurrGroups, currGroupTabs, setCurrGroupTab
                   </div>
                 </div>
                 <ul className="list-group list-group-flush">
-                  <GetTabList tabType={hostTabs} />
+                  <GetTabListForDT tabType={hostTabs} currGroupTabs={currGroupTabs} setCurrGroupTabs={setCurrGroupTabs} 
+                  currTabs={currTabs} setCurrTabs={setCurrTabs} />
                 </ul>
               </div>
             </div>
