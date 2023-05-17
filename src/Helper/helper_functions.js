@@ -35,6 +35,13 @@ export function groupTitle(hostUrl) {
   return hostTitle;
 }
 
-// export function deleteGroupCard() {
-//   const currGroupCard = document.
-// }
+export function getHostUrls(tabs) {
+  const hostUrls = new Set();
+
+  for (const tab of tabs) {
+    const urlHost = new URL(tab.url).hostname;
+    hostUrls.add(urlHost);
+  }
+
+  return hostUrls;
+}

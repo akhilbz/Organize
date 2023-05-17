@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import DisplayTabs from "./Helper/display_tabs.js";
 import DisplayGroups from "./Helper/display_groups.js";
+import { getHostUrls } from "./Helper/helper_functions.js";
 // import AllTemplates from "./Helper/templates.js";
 import { createRoot } from 'react-dom/client';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
@@ -22,15 +23,12 @@ const container = document.getElementById("react-target");
       groups.sort((a, b) => collator.compare(a.title, b.title));
       tabs.sort((a, b) => collator.compare(a.title, b.title)); // sort by title
 
-      const hostUrls = new Set(); // set of host URLs (used as category names)
+      
       const tabsInGroups = []; // set of tabs in each group
 
       // Get all hostUrls
-      for (const tab of tabs) {
-        const urlHost = new URL(tab.url).hostname;
-        hostUrls.add(urlHost);
-      }
-
+      const hostUrls = getHostUrls(tabs); // set of host URLs (used as category names)
+      // console.log(hostUrls);
       // Store all tabs of each current group in an array
       for (const group of groups) {
         const tabs_in_group = await chrome.tabs.query({groupId: group.id});
@@ -72,7 +70,8 @@ const container = document.getElementById("react-target");
       </div>
       <h5 className="tab-head">Tabs</h5>
       <DisplayTabs currGroups={currGroups} setCurrGroups={setCurrGroups} currGroupTabs={currGroupTabs} 
-      setCurrGroupTabs={setCurrGroupTabs} currTabs={currTabs} hostUrls={hostUrls} collator={collator} />
+      setCurrGroupTabs={setCurrGroupTabs} currTabs={currTabs} setCurrTabs={setCurrTabs} hostUrls={hostUrls} 
+      setHostUrls={setHostUrls} collator={collator} />
       </div>
     </div>
   );

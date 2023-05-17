@@ -64,14 +64,14 @@ function DisplayGroups({currGroups, setCurrGroups, currGroupTabs}) {
                     </Dropdown.Toggle>
                     <Dropdown.Menu>
                     <Dropdown.Item onClick={ async () => {
-                        console.log(currGroups);
+                        // console.log(currGroups);
                         await chrome.tabs.ungroup(tabIds, ()=>{});
                         const updatedGroups = currGroups.filter((group) => group !== currGroup);
-                        console.log(updatedGroups);
+                        // console.log(updatedGroups);
                         setCurrGroups(updatedGroups);
 
                     }}>Ungroup</Dropdown.Item>
-                    <Dropdown.Item onClick={""}>Close All Tabs</Dropdown.Item>
+                    <Dropdown.Item onClick={""}>Close Group</Dropdown.Item>
                     </Dropdown.Menu>
                     <span className="tooltip settings-label">Settings</span>
                     </Dropdown>
