@@ -60,6 +60,7 @@
   }
   
   .collapse-feature {
+    cursor: pointer;
     flex-grow: 1;
     height: 100%; /* Extend the height to match other components */
     text-decoration: none; /* Remove underline if needed */

@@ -1,14 +1,16 @@
 import React, { useContext } from "react";
 import GetTabListForDT from "./get_tablistT";
 import { truncateText, groupTitle, getHostUrls } from "./helper_functions";
+import { library } from '@fortawesome/fontawesome-svg-core';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faLayerGroup, faEllipsisV } from '@fortawesome/free-solid-svg-icons';
+import { faLayerGroup, faEllipsisV, faClockRotateLeft } from '@fortawesome/free-solid-svg-icons';
 import { Dropdown } from "react-bootstrap";
 import chrome_logo from '/Users/akhileshbitla/Work/products/Organize/src/images/chrome_icon.png';
 import extension_logo from '/Users/akhileshbitla/Work/products/Organize/src/images/extension_icon.png';
 
 
-function DisplayTabs({ currGroups, setCurrGroups, currGroupTabs, setCurrGroupTabs, hostUrls, setHostUrls, currTabs, setCurrTabs, collator}) {
+function DisplayTabs({ currGroups, setCurrGroups, currGroupTabs, setCurrGroupTabs,
+hostUrls, setHostUrls, currTabs, setCurrTabs, collator}) {
     
         // Logic for seperating tabs by hostUrl
         // console.log(hostUrls);
@@ -16,13 +18,17 @@ function DisplayTabs({ currGroups, setCurrGroups, currGroupTabs, setCurrGroupTab
         <> { 
         hostUrls.map((hostUrl, index) => {
           const hostTabs = currTabs.filter((tab) => tab.url.includes(`://${hostUrl}/`)); // tab refers to the tab of each currTabs
-          // console.log(hostTabs);
+          console.log(hostTabs);
           hostTabs.sort((a, b) => collator.compare(a.title, b.title)); // sorts by title for all hostTabs
           let favIcon_img = hostTabs[0].favIconUrl;
           if (hostTabs[0].url.includes("chrome://newtab/")) { 
             favIcon_img = require('/Users/akhileshbitla/Work/products/Organize/src/images/chrome_icon.png').default;
           } else if (hostTabs[0].url.includes("chrome://extensions/")) {
             favIcon_img = require('/Users/akhileshbitla/Work/products/Organize/src/images/extension_icon.png').default;
+        } else if (hostTabs[0].url.includes("chrome://history/")) {
+          favIcon_img = require('/Users/akhileshbitla/Work/products/Organize/src/images/history_icon.png').default;
+        } else if (hostTabs[0].url.includes("chrome://settings/")) {
+          favIcon_img = require('/Users/akhileshbitla/Work/products/Organize/src/images/settings-icon.png').default;
         }
   
           // Group Title Logic:

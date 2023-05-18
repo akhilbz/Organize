@@ -2,7 +2,7 @@ import React from "react";
 import { getHostUrls, truncateText } from "./helper_functions";
 
 
-function GetTabListForDT({tabType, currGroupTabs, setCurrGroupTabs, currTabs, setCurrTabs, hostUrls, setHostUrls}) {   
+function GetTabListForDT({tabType, currGroups, setCurrGroups, currGroupTabs, setCurrGroupTabs, currTabs, setCurrTabs, hostUrls, setHostUrls}) {   
   // console.log(currTabs);
   return (    
         <> {
