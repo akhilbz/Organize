@@ -16,7 +16,7 @@ function DisplayTabs({ currGroups, setCurrGroups, currGroupTabs, setCurrGroupTab
         <> { 
         hostUrls.map((hostUrl, index) => {
           const hostTabs = currTabs.filter((tab) => tab.url.includes(`://${hostUrl}/`)); // tab refers to the tab of each currTabs
-          console.log(hostTabs);
+          // console.log(hostTabs);
           hostTabs.sort((a, b) => collator.compare(a.title, b.title)); // sorts by title for all hostTabs
           let favIcon_img = hostTabs[0].favIconUrl;
           if (hostTabs[0].url.includes("chrome://newtab/")) { 
@@ -76,7 +76,7 @@ function DisplayTabs({ currGroups, setCurrGroups, currGroupTabs, setCurrGroupTab
 
                       const updatedTabs = currTabs.filter((tab) => !hostTabs.includes(tab));
                       const updatedHostUrls = getHostUrls(updatedTabs);
-                      console.log(updatedTabs);
+                      // console.log(updatedTabs);
                       setCurrTabs([...updatedTabs]);
                       setHostUrls([...updatedHostUrls]);
                       await chrome.tabs.remove(tabIds, ()=>{});

@@ -21,7 +21,6 @@ function DisplayGroups({currGroups, setCurrGroups, currGroupTabs, setCurrGroupTa
     return (
         <> {
         currGroups.map((currGroup, index) => {
-            // <conso></conso>le.log(currGroup);
             const groupTabs = currGroupTabs.filter((grpTab) => grpTab[0].groupId == currGroup.id);
             // console.log(groupTabs);
             showGroupLists.push(!currGroup.collapsed);
@@ -80,7 +79,7 @@ function DisplayGroups({currGroups, setCurrGroups, currGroupTabs, setCurrGroupTa
                 <Collapse in={showGroupLists[index]}>
                 <div className="" id={'collapseGroup${index}'}>              
                 <ul className="list-group list-group-flush">
-                    <GetTabListForDG tabType={groupTabs[0]} currGroup={currGroup} currGroups={currGroups} currGroupTabs={currGroupTabs} setCurrGroupTabs={setCurrGroupTabs} 
+                    <GetTabListForDG tabType={groupTabs[0]} currGroup={currGroup} currGroups={currGroups} setCurrGroups={setCurrGroups} currGroupTabs={currGroupTabs} setCurrGroupTabs={setCurrGroupTabs} 
                   currTabs={currTabs} setCurrTabs={setCurrTabs} hostUrls={hostUrls} setHostUrls={setHostUrls} />
                 </ul>
                 </div>

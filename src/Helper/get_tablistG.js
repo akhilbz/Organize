@@ -2,8 +2,9 @@ import React from "react";
 import { truncateText, getHostUrls } from "./helper_functions";
 
 
-function GetTabListForDG({tabType, currGroup, currGroups, setCurrGroups, currGroupTabs, setCurrGroupTabs, currTabs, setCurrTabs, hostUrls, setHostUrls}) {   
-  
+function GetTabListForDG({tabType, currGroup, currGroups, setCurrGroups, currGroupTabs, 
+setCurrGroupTabs, currTabs, setCurrTabs, hostUrls, setHostUrls}) {   
+//   console.log(currGroups);
   return (    
         <> {
           tabType.map((tab, index) => {
@@ -26,20 +27,34 @@ function GetTabListForDG({tabType, currGroup, currGroups, setCurrGroups, currGro
                 <button type="button" className="btn-close" aria-label="Close" onClick={(event) => {
                     console.log("hi!");
                   chrome.tabs.remove(tab.id);
-                  const thisListItem = event.target.parentNode.parentNode;
-                  thisListItem.classList.add('closed');
-                  thisListItem.remove();
+                //   const thisListItem = event.target.parentNode.parentNode;
+                //   thisListItem.classList.add('closed');
+                //   thisListItem.remove();
                   const updatedTabs = currTabs.filter((remtab) => remtab.id != tab.id);
                   const updatedHostUrls = getHostUrls(updatedTabs);
-
-                  if (tabType.length == 1) {
-                    const updatedGroups = currGroups.filter((group) => group != currGroup);
-                    console.log(updatedGroups);
-                    setCurrGroups([...updatedGroups]);
-                  }
-
+                  console.log("updatedTabs");
                   console.log(updatedTabs);
                   setCurrTabs([...updatedTabs]);
+                  console.log("tabType");
+                  console.log(tabType);
+
+                  const updatedGroupTabs = [];
+                  for (const grouped_arr of currGroupTabs) {
+                    const updated_arr = grouped_arr.filter((grouped_tab) => grouped_tab.id != tab.id); 
+                    if (updated_arr.length > 0) {
+                        updatedGroupTabs.push(updated_arr);
+                    }
+                  }
+                  console.log(updatedGroupTabs);
+                  setCurrGroupTabs([...updatedGroupTabs]);
+                  if (tabType.length == 1) {
+                    console.log("true");
+                    const updatedGroups = currGroups.filter((group) => group !== currGroup);
+                    console.log(updatedGroups);
+                    setCurrGroups(updatedGroups);
+                  }
+
+                  
                   setHostUrls([...updatedHostUrls]);
                 //   setCurrGroups(updatedGroups);
                 }}></button>

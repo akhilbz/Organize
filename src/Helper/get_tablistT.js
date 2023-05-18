@@ -3,7 +3,7 @@ import { getHostUrls, truncateText } from "./helper_functions";
 
 
 function GetTabListForDT({tabType, currGroupTabs, setCurrGroupTabs, currTabs, setCurrTabs, hostUrls, setHostUrls}) {   
-  console.log(currTabs);
+  // console.log(currTabs);
   return (    
         <> {
           tabType.map((tab, index) => {
@@ -30,18 +30,19 @@ function GetTabListForDT({tabType, currGroupTabs, setCurrGroupTabs, currTabs, se
                   chrome.tabs.remove(tab.id);
                    const updatedGroupTabs = [];
                    const updatedTabs = currTabs.filter((remtab) => remtab.id != tab.id);
-                  console.log("hello!");
-                  console.log(updatedTabs);
+                  // console.log("hello!");
+                  // console.log(updatedTabs);
                    setCurrTabs([...updatedTabs]);
 
                   for (const grouped_arr of currGroupTabs) {
-                    const updated_arr = grouped_arr.filter((grouped_tab) => grouped_tab.id != tab.id); 
-                    updatedGroupTabs.push(updated_arr);
+                    const updated_arr = grouped_arr.filter((grouped_tab) => grouped_tab.id != tab.id);
+                    if (updated_arr.length > 0) {
+                      updatedGroupTabs.push(updated_arr);
+                    }
                   }
-                  
                   if (tabType.length == 1) {
                     const updatedHostUrls = hostUrls.filter((url) => url != tab_hosturl);
-                    console.log(updatedHostUrls);
+                    // console.log(updatedHostUrls);
                     setHostUrls([...updatedHostUrls]);
                   }
                   // const thisListItem = event.target.parentNode.parentNode;
