@@ -33,13 +33,15 @@ function GetTabListForDT({tabType, currGroups, setCurrGroups, currGroupTabs, set
                   // console.log("hello!");
                   // console.log(updatedTabs);
                    setCurrTabs([...updatedTabs]);
-
+                   var updatedGroupsForTabs = [];
                   for (const grouped_arr of currGroupTabs) {
+                    
                     const updated_arr = grouped_arr.filter((grouped_tab) => grouped_tab.id != tab.id);
                     if (updated_arr.length > 0) {
                       updatedGroupTabs.push(updated_arr);
                     }
                   }
+                  
                   if (tabType.length == 1) {
                     const updatedHostUrls = hostUrls.filter((url) => url != tab_hosturl);
                     // console.log(updatedHostUrls);
@@ -48,8 +50,44 @@ function GetTabListForDT({tabType, currGroups, setCurrGroups, currGroupTabs, set
                   // const thisListItem = event.target.parentNode.parentNode;
                   // thisListItem.classList.add('closed');
                   // thisListItem.remove();
-                  // setCurrTabs([...updatedTabs]);
+                  // console.log("updatedGroupsForTabs");
+                  // console.log(updatedGroupsForTabs);
+                  console.log("currGroupTabs");
+                  console.log(currGroupTabs);
+                  console.log("updatedGroupTabs");
+                  console.log(updatedGroupTabs);
+                  // for (const groupTabs of updatedGroupTabs) {
+                  //   if (groupTabs.length == 1) {
+                  //     const updatedGroups = currGroups.filter((currGroup) => currGroup.id != groupTabs[0].groupId);
+                  //     console.log("updatedGroups");
+                  //     console.log(updatedGroups);
+                  //     // setCurrGroups
+                  //   }
+                  // }
+                  
+
+                  if (currGroupTabs.length - updatedGroupTabs.length == 1) {
+                    console.log("here");
+                    // var updatedGroups = [];
+                    // for (const groupedTabs of updatedGroupTabs) {
+                    //   console.log("groupedTabs");
+                    //   console.log(groupedTabs);
+                    //  updatedGroups = currGroups.filter((currGroup) => currGroup.id != groupedTabs[0].groupId);
+                    //  console.log("updatedGroups");
+                    //  console.log(updatedGroups);
+                    // }
+                    // setCurrGroups(updatedGroups);
+                    console.log(tab.groupId);
+                    console.log("currGroups");
+                    console.log(currGroups);
+                    const updatedGroups = currGroups.filter((currGroup) => tab.groupId != currGroup.id);
+                    console.log("updatedGroups");
+                    console.log(updatedGroups);
+                    setCurrGroups(updatedGroups);
+                  }
+
                   setCurrGroupTabs([...updatedGroupTabs]);
+                  
                   
                 }}></button>
               </div>

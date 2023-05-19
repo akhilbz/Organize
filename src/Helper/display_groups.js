@@ -21,6 +21,8 @@ function DisplayGroups({currGroups, setCurrGroups, currGroupTabs, setCurrGroupTa
     return (
         <> {
         currGroups.map((currGroup, index) => {
+            // console.log("currGroupTabs");
+            // console.log(currGroupTabs);
             const groupTabs = currGroupTabs.filter((grpTab) => grpTab[0].groupId == currGroup.id);
             // console.log(groupTabs);
             showGroupLists.push(!currGroup.collapsed);

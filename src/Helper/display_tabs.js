@@ -18,7 +18,7 @@ hostUrls, setHostUrls, currTabs, setCurrTabs, collator}) {
         <> { 
         hostUrls.map((hostUrl, index) => {
           const hostTabs = currTabs.filter((tab) => tab.url.includes(`://${hostUrl}/`)); // tab refers to the tab of each currTabs
-          console.log(hostTabs);
+          // console.log(hostTabs);
           hostTabs.sort((a, b) => collator.compare(a.title, b.title)); // sorts by title for all hostTabs
           let favIcon_img = hostTabs[0].favIconUrl;
           if (hostTabs[0].url.includes("chrome://newtab/")) { 
@@ -94,7 +94,7 @@ hostUrls, setHostUrls, currTabs, setCurrTabs, collator}) {
                   </div>
                 </div>
                 <ul className="list-group list-group-flush">
-                  <GetTabListForDT tabType={hostTabs} currGroupTabs={currGroupTabs} setCurrGroupTabs={setCurrGroupTabs} 
+                  <GetTabListForDT tabType={hostTabs} currGroups={currGroups} setCurrGroups={setCurrGroups} currGroupTabs={currGroupTabs} setCurrGroupTabs={setCurrGroupTabs} 
                   currTabs={currTabs} setCurrTabs={setCurrTabs} hostUrls={hostUrls} setHostUrls={setHostUrls}/>
                 </ul>
               </div>
