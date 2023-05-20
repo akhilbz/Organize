@@ -7,16 +7,6 @@ import { faLayerGroup, faEllipsisV } from '@fortawesome/free-solid-svg-icons';
 
 function DisplayGroups({currGroups, setCurrGroups, currGroupTabs, setCurrGroupTabs, currTabs, setCurrTabs, hostUrls, setHostUrls}) {
     const [showGroupLists, setShowGroupLists] = useState([]);
-    // console.log("test");
-    // console.log(currGroups);
-    // const [allIndexes, setAllIndexes] = useState([]);
-    // const toggleCollapse = (index) => {
-    //     const updatedGListStates = [...showGroupList];
-    //     updatedGListStates[index] = !updatedGListStates[index];
-    //     setOpenStates(updatedGListStates);
-    //   };
-    // console.log("cG: " + currGroups);
-    // console.log("cGT: " + currGroupTabs);
     
     return (
         <> {
@@ -34,42 +24,44 @@ function DisplayGroups({currGroups, setCurrGroups, currGroupTabs, setCurrGroupTa
             
               <div className="card .card-group">
                 <div onClick={ async () => {
-                    
                     const allUpdatedGLists = [...showGroupLists];
                     allUpdatedGLists[index] =  !showGroupLists[index];
                     await chrome.tabGroups.update(currGroup.id, { collapsed: !allUpdatedGLists[index] });
-                    // console.log(allUpdatedGLists);
                     setShowGroupLists(allUpdatedGLists);
-                    
                     }} 
                     className="collapse-feature card-header d-flex justify-content-between" aria-expanded={showGroupLists[index]} aria-controls="collapseGroup${index}">
                   <div className="left-side-items d-flex">
                     <h4 className="title card-title header-text">{currGroup.title}</h4>
                   </div>
-                  <div className="group-right-side-items d-flex">
-                    {/* <button className="group" onClick= { async () => {     
-                      groupID = await chrome.tabs.group({ tabIds });  
-                      console.log("tabIds: " + tabIds[0]);
-                      await chrome.tabGroups.update( groupID, { title: truncatedTitle });
-                      }}>
-                      <FontAwesomeIcon icon={faLayerGroup} style={{color: "#000000",}} className="fa-layer-group fa-thin fa-lg" />
-                      <span className="tooltip group-label">Group Tabs</span>
-                    </button> */}
-  
-                    <Dropdown className="card-settings" onClick={async (e) => {
-                        e.stopPropagation(); 
-                        }
-                        }>
+                  <div className="group-right-side-items d-flex">  
+                    <Dropdown className="card-settings" onClick={async (e) => {e.stopPropagation();}}>
                     <Dropdown.Toggle variant="success">
                       <FontAwesomeIcon icon={faEllipsisV} style={{ color: '#000000' }} className="fa-ellipsis-v fa-thin fa-lg" />    
                     </Dropdown.Toggle>
                     <Dropdown.Menu>
                     <Dropdown.Item onClick={ async () => {
-                        // console.log(currGroups);
+                        // console.log("pre ungroup");
+                        // console.log("currGroupTabs");
+                        // console.log(currGroupTabs);
+                        // console.log("currTabs");
+                        // console.log(currTabs);
+                        // console.log(groupTabs[0][0].groupId);
+                        const updatedGroupTabs = currGroupTabs.filter((gTabs) => gTabs[0].groupId != groupTabs[0][0].groupId);
                         await chrome.tabs.ungroup(tabIds, ()=>{});
+                        // console.log("post ungroup");
+                        // console.log("currGroupTabs");
+                        // console.log(currGroupTabs);
+                        // console.log("currTabs");
+                        // console.log(currTabs);
+                        // console.log(groupTabs);
+                        
+                        
+                        // console.log("updatedGroupTabs");
+                        // console.log(updatedGroupTabs);
                         const updatedGroups = currGroups.filter((group) => group !== currGroup);
-                        // console.log(updatedGroups);
+                        setCurrGroupTabs(updatedGroupTabs);
                         setCurrGroups(updatedGroups);
+
 
                     }}>Ungroup</Dropdown.Item>
                     <Dropdown.Item onClick={""}>Close Group</Dropdown.Item>

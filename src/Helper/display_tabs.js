@@ -10,17 +10,12 @@ import extension_logo from '/Users/akhileshbitla/Work/products/Organize/src/imag
 
 function DisplayTabs({ currGroups, setCurrGroups, currGroupTabs, setCurrGroupTabs,
 hostUrls, setHostUrls, currTabs, setCurrTabs, collator}) {
-        console.log("displayT");
-        console.log(currGroups);
-        console.log(currGroupTabs);
-        // Logic for seperating tabs by hostUrl
-        // console.log(hostUrls);
         return (
         <> { 
         hostUrls.map((hostUrl, index) => {
           const hostTabs = currTabs.filter((tab) => tab.url.includes(`://${hostUrl}/`)); // tab refers to the tab of each currTabs
-          console.log("hostTabs");
-          console.log(hostTabs);
+          // console.log("hostTabs");
+          // console.log(hostTabs);
           hostTabs.sort((a, b) => collator.compare(a.title, b.title)); // sorts by title for all hostTabs
 
           // clean this code:
@@ -38,7 +33,7 @@ hostUrls, setHostUrls, currTabs, setCurrTabs, collator}) {
           // Group Title Logic:
           var hostTitle = groupTitle(hostUrl);
           const tabIds = hostTabs.map(({ id }) => id);
-          const truncatedTitle = truncateText(hostTitle, 24);
+          const truncatedTitle = truncateText(hostTitle, 25);
           var groupID = 0;
           return (
             <div key={index} className="col-md-4 mb-2">
@@ -58,9 +53,9 @@ hostUrls, setHostUrls, currTabs, setCurrTabs, collator}) {
 
                       await chrome.tabGroups.update( groupID, { collapsed: true, title: truncatedTitle });
                       const group = await chrome.tabGroups.get(groupID);
-                      console.log("tabs_in_group");
-                      console.log(tabs_in_group);
-                      console.log(currTabs);
+                      // console.log("tabs_in_group");
+                      // console.log(tabs_in_group);
+                      // console.log(currTabs);
                       var updatedTabs = currTabs.filter((currTab) => currTab.url != tabs_in_group[0].url ); // assuming these tabs' groupId is -1
                       // We can do this because the Quick Group feature only groups the tabs of their respective hostUrls
                       
@@ -68,17 +63,10 @@ hostUrls, setHostUrls, currTabs, setCurrTabs, collator}) {
                         tabs_are_included = JSON.stringify(currGroupTabs).includes(tab.url);
                         const is_tab_included = JSON.stringify(currTabs).includes(tab.id);
                         if (is_tab_included) {
-                          console.log("working");
+                          // console.log("working");
                           updatedTabs.push(tab);
                         }
-                        console.log("post");
-                        console.log(updatedTabs);
                       }
-                      // console.log("out");
-                      // console.log(tabs_are_included);
-                      // console.log(currGroupTabs);
-                      // console.log("cGrps");
-                      // console.log(currGroups);
                       // Redo this logic
                       if (!tabs_are_included) {
                         setCurrGroupTabs(currGroupTabs => [...currGroupTabs, [...tabs_in_group]]); // remember to rework the currGroupTabs
@@ -96,21 +84,32 @@ hostUrls, setHostUrls, currTabs, setCurrTabs, collator}) {
                       <FontAwesomeIcon icon={faEllipsisV} style={{ color: '#000000' }} className="fa-ellipsis-v fa-thin fa-lg" />    
                     </Dropdown.Toggle>
                     <Dropdown.Menu>
-                    {/* <Dropdown.Item onClick={ async () => {
-                      if (groupID != 0) {
-                        // console.log("here: " + groupID);
-                        await chrome.tabs.ungroup(tabIds, ()=>{});
-                      }
-                    }}>Ungroup</Dropdown.Item> */}
                     <Dropdown.Item onClick={async ()=> {
-
+                      // updating tabs and corresponding host urls for tabs section
                       const updatedTabs = currTabs.filter((tab) => !hostTabs.includes(tab));
                       const updatedHostUrls = getHostUrls(updatedTabs);
-                      // console.log(updatedTabs);
+
+                      // updating current group tabs
+                      var updatedCurrGroupTabs = []; 
+                      for (const groupTabs of currGroupTabs) {
+                        const updatedTabs = groupTabs.filter((tab) => !tabIds.includes(tab.id));
+                       if (updatedTabs.length > 0) {
+                        updatedCurrGroupTabs.push(updatedTabs);
+                       }
+                      }
+                      console.log("updatedCurrGroupTabs");
+                      console.log(updatedCurrGroupTabs);
+                      
+                      // updating current groups
+                      const groupIds = updatedCurrGroupTabs.map((updatedGroupTabs) => updatedGroupTabs[0].groupId);
+                      const updatedGroups = currGroups.filter(({ id }) => groupIds.includes(id));
+                      console.log("updatedGroups");
+                      console.log(updatedGroups);
+
                       setCurrTabs([...updatedTabs]);
                       setHostUrls([...updatedHostUrls]);
-                      // setCurrGroups
-                      // setCurrGroupTabs
+                      setCurrGroupTabs([...updatedCurrGroupTabs]);
+                      setCurrGroups(updatedGroups);
                       await chrome.tabs.remove(tabIds, ()=>{});
                       
                     }}>Close All Tabs</Dropdown.Item>

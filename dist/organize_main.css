@@ -10897,7 +10897,7 @@ body {
 }
 
 .header-text {
-  max-width: 250px; /* Optional: set a max-width to limit the width of the text */
+  max-width: 285px; /* Optional: set a max-width to limit the width of the text */
   margin-top: 5px !important;
   margin-bottom: 5px !important;
   padding-bottom: auto;

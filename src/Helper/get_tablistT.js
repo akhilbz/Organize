@@ -3,9 +3,9 @@ import { getHostUrls, truncateText } from "./helper_functions";
 
 
 function GetTabListForDT({tabType, currGroups, setCurrGroups, currGroupTabs, setCurrGroupTabs, currTabs, setCurrTabs, hostUrls, setHostUrls}) {   
-  console.log("now");
-  console.log(currGroupTabs);
-  console.log(currGroups);
+  // console.log("now");
+  // console.log(currGroupTabs);
+  // console.log(currGroups);
   return (    
         <> {
           tabType.map((tab, index) => {
@@ -24,7 +24,8 @@ function GetTabListForDT({tabType, currGroups, setCurrGroups, currGroupTabs, set
               }
             }
           }
-          console.log(group_name);
+          // console.log(currGroups);
+          // console.log(group_name);
           return (
             <li key={index} className="list-group-item">
               <div className="d-flex justify-content-between align-items-center">
@@ -37,9 +38,9 @@ function GetTabListForDT({tabType, currGroups, setCurrGroups, currGroupTabs, set
                   <div className="tab-list-items d-flex">
                   <h6 className="group-indicator">{group_name}</h6>
                 <button type="button" className="btn-close" aria-label="Close" onClick={(event) => {
-                  console.log("tab"); 
-                  console.log(tab); 
-                  console.log(curr_tab); 
+                  // console.log("tab"); 
+                  // console.log(tab); 
+                  // console.log(curr_tab); 
                   // const currGroupId = tab.groupId;
                   // console.log(tabType.length);
                   chrome.tabs.remove(tab.id);
@@ -73,7 +74,7 @@ function GetTabListForDT({tabType, currGroups, setCurrGroups, currGroupTabs, set
                   // console.log(updatedGroupTabs);
 
                   if (currGroupTabs.length - updatedGroupTabs.length == 1) {
-                    console.log("here");
+                    // console.log("here");
                    
                     // console.log("currGroups");
                     // console.log(currGroups);
