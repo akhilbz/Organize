@@ -3,7 +3,9 @@ import { getHostUrls, truncateText } from "./helper_functions";
 
 
 function GetTabListForDT({tabType, currGroups, setCurrGroups, currGroupTabs, setCurrGroupTabs, currTabs, setCurrTabs, hostUrls, setHostUrls}) {   
-  // console.log(currTabs);
+  console.log("now");
+  console.log(currGroupTabs);
+  console.log(currGroups);
   return (    
         <> {
           tabType.map((tab, index) => {
@@ -14,7 +16,15 @@ function GetTabListForDT({tabType, currGroups, setCurrGroups, currGroupTabs, set
           const curr_tab = tab;
           // console.log(tab_url); 
           // console.log(currGroupTabs);  
-          // console.log(tab);  
+          var group_name = "";
+          if (tab.groupId != -1) {
+            for (const group of currGroups) {
+              if (group.id == tab.groupId) {
+                group_name += group.title;
+              }
+            }
+          }
+          console.log(group_name);
           return (
             <li key={index} className="list-group-item">
               <div className="d-flex justify-content-between align-items-center">
@@ -24,8 +34,13 @@ function GetTabListForDT({tabType, currGroups, setCurrGroups, currGroupTabs, set
                 }}>
                   <h5 className="sub-title card-subtitle tab-text-size">{truncateText(title, 35)}</h5>
                   </a>
+                  <div className="tab-list-items d-flex">
+                  <h6 className="group-indicator">{group_name}</h6>
                 <button type="button" className="btn-close" aria-label="Close" onClick={(event) => {
-                  
+                  console.log("tab"); 
+                  console.log(tab); 
+                  console.log(curr_tab); 
+                  // const currGroupId = tab.groupId;
                   // console.log(tabType.length);
                   chrome.tabs.remove(tab.id);
                    const updatedGroupTabs = [];
@@ -37,6 +52,8 @@ function GetTabListForDT({tabType, currGroups, setCurrGroups, currGroupTabs, set
                   for (const grouped_arr of currGroupTabs) {
                     
                     const updated_arr = grouped_arr.filter((grouped_tab) => grouped_tab.id != tab.id);
+                    // console.log("updated_arr");
+                    // console.log(updated_arr);
                     if (updated_arr.length > 0) {
                       updatedGroupTabs.push(updated_arr);
                     }
@@ -50,39 +67,19 @@ function GetTabListForDT({tabType, currGroups, setCurrGroups, currGroupTabs, set
                   // const thisListItem = event.target.parentNode.parentNode;
                   // thisListItem.classList.add('closed');
                   // thisListItem.remove();
-                  // console.log("updatedGroupsForTabs");
-                  // console.log(updatedGroupsForTabs);
-                  console.log("currGroupTabs");
-                  console.log(currGroupTabs);
-                  console.log("updatedGroupTabs");
-                  console.log(updatedGroupTabs);
-                  // for (const groupTabs of updatedGroupTabs) {
-                  //   if (groupTabs.length == 1) {
-                  //     const updatedGroups = currGroups.filter((currGroup) => currGroup.id != groupTabs[0].groupId);
-                  //     console.log("updatedGroups");
-                  //     console.log(updatedGroups);
-                  //     // setCurrGroups
-                  //   }
-                  // }
-                  
+                  // console.log("currGroupTabs");
+                  // console.log(currGroupTabs);
+                  // console.log("updatedGroupTabs");
+                  // console.log(updatedGroupTabs);
 
                   if (currGroupTabs.length - updatedGroupTabs.length == 1) {
                     console.log("here");
-                    // var updatedGroups = [];
-                    // for (const groupedTabs of updatedGroupTabs) {
-                    //   console.log("groupedTabs");
-                    //   console.log(groupedTabs);
-                    //  updatedGroups = currGroups.filter((currGroup) => currGroup.id != groupedTabs[0].groupId);
-                    //  console.log("updatedGroups");
-                    //  console.log(updatedGroups);
-                    // }
-                    // setCurrGroups(updatedGroups);
-                    console.log(tab.groupId);
-                    console.log("currGroups");
-                    console.log(currGroups);
-                    const updatedGroups = currGroups.filter((currGroup) => tab.groupId != currGroup.id);
-                    console.log("updatedGroups");
-                    console.log(updatedGroups);
+                   
+                    // console.log("currGroups");
+                    // console.log(currGroups);
+                    const updatedGroups = currGroups.filter((currGroup) => tab.groupId !== currGroup.id);
+                    // console.log("updatedGroups");
+                    // console.log(updatedGroups);
                     setCurrGroups(updatedGroups);
                   }
 
@@ -90,6 +87,7 @@ function GetTabListForDT({tabType, currGroups, setCurrGroups, currGroupTabs, set
                   
                   
                 }}></button>
+                </div>
               </div>
             </li>
           );

@@ -10821,7 +10821,7 @@ textarea.form-control-lg {
 }
 body {
   background-color: white !important;
-  width: 24rem;
+  width: 27rem;
 }
 
 .main_body {
@@ -10883,6 +10883,10 @@ body {
   height: 20%;
 }
 
+.card {
+  --bs-card-border-width: 0.1px ;
+}
+
 .tab-head {
   margin-top: 6px !important;
   padding-left: 8px !important;
@@ -10893,11 +10897,7 @@ body {
 }
 
 .header-text {
-  font-size: 1.2rem;
-  white-space: nowrap; /* Prevents text from wrapping */
-  overflow: hidden; /* Hides any overflowing text */
-  text-overflow: ellipsis; /* Adds ... at the end of the line */
-  max-width: 200px; /* Optional: set a max-width to limit the width of the text */
+  max-width: 250px; /* Optional: set a max-width to limit the width of the text */
   margin-top: 5px !important;
   margin-bottom: 5px !important;
   padding-bottom: auto;
@@ -11031,6 +11031,20 @@ li:nth-child(even) {
   padding: 0; /* Remove any padding when the list item is closed */
 }
 
+.tab-list-items {
+  align-items: center !important;
+}
+
+.group-indicator {
+  padding-top: 5px;
+  margin-right: 3px !important;
+  font-size: 0.6rem;
+  color: #495057;
+  font-style: italic !important;
+  text-decoration: underline;
+}
+
 .tab-text-size {
+  justify-content: end !important;
   font-size: 1rem;
 }/*# sourceMappingURL=organize_main.css.map */

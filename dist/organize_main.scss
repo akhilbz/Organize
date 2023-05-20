@@ -4,7 +4,7 @@
   // Main Body
   body {
     background-color: white !important;
-    width: 24rem; // 27 rem?
+    width: 27rem; // 27 rem?
   }
   
   .main_body {
@@ -78,12 +78,11 @@
     height: 20%;
   }
 
-  // .card {
+  .card {
   //   // position: relative;
   //   top: 25px !important;
-  //   // --bs-card-border-width: 1px;
-
-  // }
+  --bs-card-border-width: 0.1px
+  }
   // ----------------------------------------------------------------
   // Tabs/Groups Section:
   .tab-head {
@@ -108,11 +107,11 @@
   // Host URL (left side)
 
   .header-text {
-    font-size: 1.2rem;
-    white-space: nowrap; /* Prevents text from wrapping */
-    overflow: hidden; /* Hides any overflowing text */
-    text-overflow: ellipsis; /* Adds ... at the end of the line */
-    max-width: 200px; /* Optional: set a max-width to limit the width of the text */
+    // font-size: 1.2rem;
+    // white-space: nowrap; /* Prevents text from wrapping */
+    // overflow: hidden; /* Hides any overflowing text */
+    // text-overflow: ellipsis; /* Adds ... at the end of the line */
+    max-width: 250px; /* Optional: set a max-width to limit the width of the text */
     margin-top: 5px !important;
     margin-bottom: 5px !important;
     padding-bottom: auto;
@@ -272,7 +271,21 @@
     padding: 0; /* Remove any padding when the list item is closed */
   }
 
+  .tab-list-items {
+    align-items: center !important;
+  }
+
+  .group-indicator {
+    padding-top: 5px;
+    margin-right: 3px !important;
+    font-size: 0.6rem;
+    color: #495057;
+    font-style: italic !important;
+    text-decoration: underline;
+  }
+
   .tab-text-size {
+    justify-content: end !important;
     font-size: 1rem;
   }
 
