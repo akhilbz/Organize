@@ -137,7 +137,6 @@
     font-size: 1rem;
     padding-right: 0.2rem ;
     // margin-bottom: 5.5px;
-    cursor: pointer;
     align-self: flex-end;
   }
 
@@ -146,6 +145,16 @@
     margin-bottom: 5.5px;
     padding-bottom: auto;
    
+  }
+
+  .disabled {
+    cursor: not-allowed;
+    color: rgba(0, 0, 0, 0.3); 
+  }
+
+  .enabled {
+    
+    color: #000
   }
 
   .tooltip {

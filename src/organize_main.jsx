@@ -14,6 +14,7 @@ const container = document.getElementById("react-target");
   const [currGroupTabs, setCurrGroupTabs] = useState([]);
   const [currTabs, setCurrTabs] = useState([]);
   const [hostUrls, setHostUrls] = useState([]);
+  const [isGroupButtonDisabled, setGroupButtonDisabled] = useState([]);
   const collator = new Intl.Collator();
 
   useEffect(() => {
@@ -27,7 +28,7 @@ const container = document.getElementById("react-target");
       const tabsInGroups = []; // set of tabs in each group
 
       // Get all hostUrls
-      const hostUrls = getHostUrls(tabs); // set of host URLs (used as category names)
+      const urls = getHostUrls(tabs); // set of host URLs (used as category names)
       // console.log(hostUrls);
       // Store all tabs of each current group in an array
       for (const group of groups) {
@@ -35,18 +36,30 @@ const container = document.getElementById("react-target");
         tabsInGroups.push(tabs_in_group);
       }
        
-      // console.log(tabsInGroups);
-     
-
+      // Group Button Disabled/Enabled state:
+      var isButtonDisabled = [];
+      for (const hostUrl of urls) {
+        const hostTabs = tabs.filter((tab) => tab.url.includes(`://${hostUrl}/`));
+        var isDisabled = false;
+        for (const tab of hostTabs) {
+          if (tab.groupId !== -1) {
+            isDisabled = true;
+          } else {
+            isDisabled = false;
+            break;
+          }
+        }
+        isButtonDisabled.push(isDisabled);
+      }
       // use for debugging:
       // console.log(hostUrls);
       // console.log(tabs);
       // console.log(groups);
-
       setCurrTabs(tabs);
-      setHostUrls([...hostUrls]);
+      setHostUrls([...urls]);
       setCurrGroups([...groups]); 
       setCurrGroupTabs([...tabsInGroups]);
+      setGroupButtonDisabled([...isButtonDisabled]);
     }
 
     fetchData();
@@ -68,12 +81,12 @@ const container = document.getElementById("react-target");
        {/* Make a collapsable feature here to collapse DisplayGroups */}
       <DisplayGroups currGroups={currGroups} setCurrGroups={setCurrGroups} currGroupTabs={currGroupTabs} 
       setCurrGroupTabs={setCurrGroupTabs} currTabs={currTabs} setCurrTabs={setCurrTabs} hostUrls={hostUrls} 
-      setHostUrls={setHostUrls} collator={collator} />
+      setHostUrls={setHostUrls} setGroupButtonDisabled={setGroupButtonDisabled} collator={collator} />
       </div>
       <h5 className="tab-head">Tabs</h5>
       <DisplayTabs currGroups={currGroups} setCurrGroups={setCurrGroups} currGroupTabs={currGroupTabs} 
       setCurrGroupTabs={setCurrGroupTabs} currTabs={currTabs} setCurrTabs={setCurrTabs} hostUrls={hostUrls} 
-      setHostUrls={setHostUrls} collator={collator} />
+      setHostUrls={setHostUrls} isGroupButtonDisabled={isGroupButtonDisabled} setGroupButtonDisabled={setGroupButtonDisabled} collator={collator} />
       </div>
     </div>
   );

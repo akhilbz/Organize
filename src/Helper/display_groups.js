@@ -3,9 +3,10 @@ import GetTabListForDG from "./get_tablistG";
 import { Collapse, Dropdown } from "react-bootstrap";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faLayerGroup, faEllipsisV } from '@fortawesome/free-solid-svg-icons';
+import { getHostUrls } from "./helper_functions";
 
-
-function DisplayGroups({currGroups, setCurrGroups, currGroupTabs, setCurrGroupTabs, currTabs, setCurrTabs, hostUrls, setHostUrls}) {
+function DisplayGroups({currGroups, setCurrGroups, currGroupTabs, setCurrGroupTabs,
+     currTabs, setCurrTabs, hostUrls, setHostUrls, setGroupButtonDisabled}) {
     const [showGroupLists, setShowGroupLists] = useState([]);
     
     return (
@@ -40,28 +41,22 @@ function DisplayGroups({currGroups, setCurrGroups, currGroupTabs, setCurrGroupTa
                     </Dropdown.Toggle>
                     <Dropdown.Menu>
                     <Dropdown.Item onClick={ async () => {
-                        // console.log("pre ungroup");
-                        // console.log("currGroupTabs");
-                        // console.log(currGroupTabs);
-                        // console.log("currTabs");
-                        // console.log(currTabs);
-                        // console.log(groupTabs[0][0].groupId);
+
                         const updatedGroupTabs = currGroupTabs.filter((gTabs) => gTabs[0].groupId != groupTabs[0][0].groupId);
                         await chrome.tabs.ungroup(tabIds, ()=>{});
-                        // console.log("post ungroup");
-                        // console.log("currGroupTabs");
-                        // console.log(currGroupTabs);
-                        // console.log("currTabs");
-                        // console.log(currTabs);
-                        // console.log(groupTabs);
-                        
-                        
-                        // console.log("updatedGroupTabs");
-                        // console.log(updatedGroupTabs);
                         const updatedGroups = currGroups.filter((group) => group !== currGroup);
                         setCurrGroupTabs(updatedGroupTabs);
-                        setCurrGroups(updatedGroups);
-
+                        setCurrGroups(updatedGroups);    
+                        
+                        const groupTabsUrls = [...getHostUrls(groupTabs[0])];
+                        const hostUrlIndexes = groupTabsUrls.map((groupTabsUrl) => hostUrls.indexOf(groupTabsUrl)).filter((index) => index !== -1);                        
+                        
+                        setGroupButtonDisabled((currDisabledState) => {
+                            const updatedGroupButtonDisabled = [...currDisabledState];
+                            hostUrlIndexes.forEach((index) => updatedGroupButtonDisabled[index] = false);
+                            // updatedGroupButtonDisabled[index] = false;
+                            return updatedGroupButtonDisabled;
+                          });
 
                     }}>Ungroup</Dropdown.Item>
                     <Dropdown.Item onClick={""}>Close Group</Dropdown.Item>
@@ -73,8 +68,9 @@ function DisplayGroups({currGroups, setCurrGroups, currGroupTabs, setCurrGroupTa
                 <Collapse in={showGroupLists[index]}>
                 <div className="" id={'collapseGroup${index}'}>              
                 <ul className="list-group list-group-flush">
-                    <GetTabListForDG tabType={groupTabs[0]} currGroup={currGroup} currGroups={currGroups} setCurrGroups={setCurrGroups} currGroupTabs={currGroupTabs} setCurrGroupTabs={setCurrGroupTabs} 
-                  currTabs={currTabs} setCurrTabs={setCurrTabs} hostUrls={hostUrls} setHostUrls={setHostUrls} />
+                    <GetTabListForDG tabType={groupTabs[0]} currGroup={currGroup} currGroups={currGroups} setCurrGroups={setCurrGroups} 
+                    currGroupTabs={currGroupTabs} setCurrGroupTabs={setCurrGroupTabs} currTabs={currTabs} setCurrTabs={setCurrTabs} 
+                    hostUrls={hostUrls} setHostUrls={setHostUrls} />
                 </ul>
                 </div>
               </Collapse>
