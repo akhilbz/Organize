@@ -81,7 +81,7 @@ const container = document.getElementById("react-target");
        {/* Make a collapsable feature here to collapse DisplayGroups */}
       <DisplayGroups currGroups={currGroups} setCurrGroups={setCurrGroups} currGroupTabs={currGroupTabs} 
       setCurrGroupTabs={setCurrGroupTabs} currTabs={currTabs} setCurrTabs={setCurrTabs} hostUrls={hostUrls} 
-      setHostUrls={setHostUrls} setGroupButtonDisabled={setGroupButtonDisabled} collator={collator} />
+      setHostUrls={setHostUrls} isGroupButtonDisabled={isGroupButtonDisabled} setGroupButtonDisabled={setGroupButtonDisabled} collator={collator} />
       </div>
       <h5 className="tab-head">Tabs</h5>
       <DisplayTabs currGroups={currGroups} setCurrGroups={setCurrGroups} currGroupTabs={currGroupTabs} 

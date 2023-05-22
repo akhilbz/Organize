@@ -6,7 +6,7 @@ import { faLayerGroup, faEllipsisV } from '@fortawesome/free-solid-svg-icons';
 import { getHostUrls } from "./helper_functions";
 
 function DisplayGroups({currGroups, setCurrGroups, currGroupTabs, setCurrGroupTabs,
-     currTabs, setCurrTabs, hostUrls, setHostUrls, setGroupButtonDisabled}) {
+     currTabs, setCurrTabs, hostUrls, setHostUrls, isGroupButtonDisabled, setGroupButtonDisabled}) {
     const [showGroupLists, setShowGroupLists] = useState([]);
     
     return (
@@ -70,7 +70,7 @@ function DisplayGroups({currGroups, setCurrGroups, currGroupTabs, setCurrGroupTa
                 <ul className="list-group list-group-flush">
                     <GetTabListForDG tabType={groupTabs[0]} currGroup={currGroup} currGroups={currGroups} setCurrGroups={setCurrGroups} 
                     currGroupTabs={currGroupTabs} setCurrGroupTabs={setCurrGroupTabs} currTabs={currTabs} setCurrTabs={setCurrTabs} 
-                    hostUrls={hostUrls} setHostUrls={setHostUrls} />
+                    hostUrls={hostUrls} setHostUrls={setHostUrls} isGroupButtonDisabled={isGroupButtonDisabled} setGroupButtonDisabled={setGroupButtonDisabled} />
                 </ul>
                 </div>
               </Collapse>
