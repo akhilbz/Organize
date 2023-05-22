@@ -29,7 +29,7 @@ const container = document.getElementById("react-target");
 
       // Get all hostUrls
       const urls = getHostUrls(tabs); // set of host URLs (used as category names)
-      // console.log(hostUrls);
+
       // Store all tabs of each current group in an array
       for (const group of groups) {
         const tabs_in_group = await chrome.tabs.query({groupId: group.id});
@@ -51,10 +51,6 @@ const container = document.getElementById("react-target");
         }
         isButtonDisabled.push(isDisabled);
       }
-      // use for debugging:
-      // console.log(hostUrls);
-      // console.log(tabs);
-      // console.log(groups);
       setCurrTabs(tabs);
       setHostUrls([...urls]);
       setCurrGroups([...groups]); 

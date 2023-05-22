@@ -10,9 +10,7 @@ function GetTabListForDT({tabType, currGroups, setCurrGroups, currGroupTabs, set
         tabType.map((tab, index) => {
         const title = tab.title.includes("-") ? tab.title.split("-")[0].trim() : tab.title.includes("–") ? tab.title.split("–")[0].trim() :
         tab.title.includes("|") ? tab.title.split("|")[0].trim() : tab.title;
-        // const tab_hosturl = new URL(tab.url).hostname;
         const curr_tab = tab;
-        // console.log(tab_hosturl);
         // Group Name Logic (group indicator):
         var group_name = "";
         if (tab.groupId != -1) {
@@ -36,17 +34,12 @@ function GetTabListForDT({tabType, currGroups, setCurrGroups, currGroupTabs, set
               <h6 className="group-indicator">{group_name}</h6>
               <button type="button" className="btn-close" aria-label="Close" onClick={(event) => {
                 const tab_hosturl = new URL(tab.url).hostname;
-                console.log(tab_hosturl);
-                console.log("currTabs");
-                console.log(updatedTabs);
-                console.log("isGroupButtonDisabled");
-                console.log(isGroupButtonDisabled);
+      
                 chrome.tabs.remove(tab.id);
                   const updatedGroupTabs = [];
                   const updatedTabs = currTabs.filter((remtab) => remtab.id != tab.id);
-                  console.log("updatedTabs");
-                  console.log(updatedTabs);
                   setCurrTabs([...updatedTabs]);
+
                   var updatedGroupsForTabs = [];
                   for (const grouped_arr of currGroupTabs) {
                     const updated_arr = grouped_arr.filter((grouped_tab) => grouped_tab.id != tab.id);
@@ -98,7 +91,6 @@ function GetTabListForDT({tabType, currGroups, setCurrGroups, currGroupTabs, set
                       }
                       index++;
                     }
-                    console.log(updatedGroupButtonDisabledArr);
                     setGroupButtonDisabled([...updatedGroupButtonDisabledArr]);
                   }
 
@@ -106,9 +98,7 @@ function GetTabListForDT({tabType, currGroups, setCurrGroups, currGroupTabs, set
                   const updatedGroups = currGroups.filter((currGroup) => tab.groupId !== currGroup.id);
                   setCurrGroups(updatedGroups);
                   }
-
                   setCurrGroupTabs([...updatedGroupTabs]);
-                
               }}></button>
               </div>
             </div>

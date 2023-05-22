@@ -46,7 +46,7 @@ hostUrls, setHostUrls, currTabs, setCurrTabs, isGroupButtonDisabled, setGroupBut
             </div>
             <div className="right-side-items d-flex">
               <button className="group" disabled={isGroupButtonDisabled[index]} onClick= { async () => {      
-
+                console.log(hostTabs);
                 groupID = await chrome.tabs.group({ tabIds });  
 
                 setGroupButtonDisabled((currDisabledState) => {
@@ -61,17 +61,25 @@ hostUrls, setHostUrls, currTabs, setCurrTabs, isGroupButtonDisabled, setGroupBut
                 await chrome.tabGroups.update( groupID, { collapsed: true, title: truncatedTitle });
                 const group = await chrome.tabGroups.get(groupID);
 
-                // We can do this because the Quick Group feature only groups the tabs of their respective hostUrls
-                var updatedTabs = currTabs.filter((currTab) => currTab.url != tabs_in_group[0].url ); // assuming these tabs' groupId is -1
-                
-                for (const tab of tabs_in_group) {
-                  tabs_are_included = JSON.stringify(currGroupTabs).includes(tab.url);
-                  const is_tab_included = JSON.stringify(currTabs).includes(tab.id);
-                  if (is_tab_included) {
+                var updatedTabs = [];
+                for (const tab of currTabs) {
+                  const groupedTab = tabs_in_group.filter((groupedTab) => groupedTab.url == tab.url && groupedTab.id == tab.id); 
+                  if (groupedTab.length != 0) {
+                    updatedTabs.push(...groupedTab);
+                  } else {
                     updatedTabs.push(tab);
                   }
                 }
+
+                // console.log(updatedTabs);
+
+                // console.log(currTabs);
+                // console.log(tabs_in_group);
+                for (const tab of tabs_in_group) {
+                  tabs_are_included = JSON.stringify(currGroupTabs).includes(tab.url);
+                }
                 // TODO: Redo this logic
+                // TODO: Implement the Modal and rework the logic based on the two buttons provided there
                 if (!tabs_are_included) {
                   setCurrGroupTabs(currGroupTabs => [...currGroupTabs, [...tabs_in_group]]); // remember to rework the currGroupTabs
                   setCurrGroups(currGroups => [...currGroups, group]);
