@@ -41,12 +41,25 @@ function DisplayGroups({currGroups, setCurrGroups, currGroupTabs, setCurrGroupTa
                     </Dropdown.Toggle>
                     <Dropdown.Menu>
                     <Dropdown.Item onClick={ async () => {
-
+                        var updatedTabs = [];
+                        var tempTab = null;
+                        for (const tab of currTabs) {
+                            if (groupTabs[0].includes(tab)) {
+                                tempTab = Object.assign({}, tab);
+                                tempTab.groupId = -1;
+                                updatedTabs.push(tempTab);
+                            } else {
+                                updatedTabs.push(tab);
+                            }
+                        }
+                        
                         const updatedGroupTabs = currGroupTabs.filter((gTabs) => gTabs[0].groupId != groupTabs[0][0].groupId);
                         await chrome.tabs.ungroup(tabIds, ()=>{});
                         const updatedGroups = currGroups.filter((group) => group !== currGroup);
                         setCurrGroupTabs(updatedGroupTabs);
                         setCurrGroups(updatedGroups);    
+                        setCurrTabs(updatedTabs);
+
                         
                         const groupTabsUrls = [...getHostUrls(groupTabs[0])];
                         const hostUrlIndexes = groupTabsUrls.map((groupTabsUrl) => hostUrls.indexOf(groupTabsUrl)).filter((index) => index !== -1);                        

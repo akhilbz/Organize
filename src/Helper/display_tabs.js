@@ -10,12 +10,13 @@ import extension_logo from '/Users/akhileshbitla/Work/products/Organize/src/imag
 
 function DisplayTabs({ currGroups, setCurrGroups, currGroupTabs, setCurrGroupTabs,
 hostUrls, setHostUrls, currTabs, setCurrTabs, isGroupButtonDisabled, setGroupButtonDisabled, collator}) {
-
+  // console.log(isGroupButtonDisabled);
+  // console.log(hostUrls);
   return (
   <> { 
   hostUrls.map((hostUrl, index) => {
     const hostTabs = currTabs.filter((tab) => tab.url.includes(`://${hostUrl}/`)); // tab refers to the tab of each currTabs
-
+    // console.log(hostTabs);
     hostTabs.sort((a, b) => collator.compare(a.title, b.title)); // sorts by title for all hostTabs
 
     // clean this code:
@@ -35,6 +36,7 @@ hostUrls, setHostUrls, currTabs, setCurrTabs, isGroupButtonDisabled, setGroupBut
     const tabIds = hostTabs.map(({ id }) => id);
     const truncatedTitle = truncateText(hostTitle, 25);
     var groupID = 0;
+
     return (
       <div key={index} className="col-md-4 mb-2">
         <div className="card card-tabs">
@@ -47,6 +49,9 @@ hostUrls, setHostUrls, currTabs, setCurrTabs, isGroupButtonDisabled, setGroupBut
             <div className="right-side-items d-flex">
               <button className="group" disabled={isGroupButtonDisabled[index]} onClick= { async () => {      
                 console.log(hostTabs);
+                const someTabsGrouped = hostTabs.some((tab) => tab.groupId !== -1);
+                console.log(someTabsGrouped);
+                
                 groupID = await chrome.tabs.group({ tabIds });  
 
                 setGroupButtonDisabled((currDisabledState) => {
@@ -71,10 +76,6 @@ hostUrls, setHostUrls, currTabs, setCurrTabs, isGroupButtonDisabled, setGroupBut
                   }
                 }
 
-                // console.log(updatedTabs);
-
-                // console.log(currTabs);
-                // console.log(tabs_in_group);
                 for (const tab of tabs_in_group) {
                   tabs_are_included = JSON.stringify(currGroupTabs).includes(tab.url);
                 }
@@ -85,7 +86,6 @@ hostUrls, setHostUrls, currTabs, setCurrTabs, isGroupButtonDisabled, setGroupBut
                   setCurrGroups(currGroups => [...currGroups, group]);
                 }
                 setCurrTabs([...updatedTabs]);
-
                 }}>
                 <FontAwesomeIcon icon={faLayerGroup} className="fa-layer-group fa-thin fa-lg ${isGroupButtonDisabled[index] ? 'disabled' : 'enabled'}" />
                 <span className="tooltip group-label">{isGroupButtonDisabled[index] ? 'All Grouped' : 'Quick Group'}</span>
@@ -100,10 +100,10 @@ hostUrls, setHostUrls, currTabs, setCurrTabs, isGroupButtonDisabled, setGroupBut
 
                 // updating tabs and corresponding host urls for tabs section
                 const updatedTabs = currTabs.filter((tab) => !hostTabs.includes(tab));
-                console.log(updatedTabs);
+                // console.log(updatedTabs);
                 const updatedHostUrls = getHostUrls(updatedTabs);
-                console.log(updatedHostUrls);
-                console.log(isGroupButtonDisabled);
+                // console.log(updatedHostUrls);
+                // console.log(isGroupButtonDisabled);
                 var updatedGroupButtonDisabledArr = [];
                 var url_index = 0;
                 for (const url of updatedHostUrls) {
