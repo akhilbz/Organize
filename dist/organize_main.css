@@ -10897,7 +10897,10 @@ body {
 }
 
 .header-text {
-  max-width: 285px; /* Optional: set a max-width to limit the width of the text */
+  max-width: 285px;
+  white-space: nowrap; /* Prevent line breaks */
+  overflow: hidden; /* Hide the overflowing content */
+  text-overflow: ellipsis; /* Add the ellipsis */
   margin-top: 5px !important;
   margin-bottom: 5px !important;
   padding-bottom: auto;
@@ -10957,6 +10960,31 @@ body {
   opacity: 1;
 }
 
+.modal {
+  display: flex;
+  position: fixed;
+  top: 30%;
+  width: 100%;
+  height: 100%;
+}
+
+.modal-backdrop.show {
+  opacity: 0.1;
+}
+
+.modal-body-container {
+  max-height: 125px !important; /* Set the desired fixed height */
+  overflow-y: auto; /* Enable vertical scrolling */
+}
+
+.grouped-tab-modal {
+  font-size: 0.8rem;
+  max-width: 275px;
+  white-space: nowrap; /* Prevent line breaks */
+  overflow: hidden; /* Hide the overflowing content */
+  text-overflow: ellipsis; /* Add the ellipsis */
+}
+
 .card-settings {
   background: none;
   border: none;
@@ -11006,6 +11034,11 @@ body {
 
 .sub-title {
   cursor: pointer;
+  font-size: 1rem;
+  max-width: 250px;
+  white-space: nowrap; /* Prevent line breaks */
+  overflow: hidden; /* Hide the overflowing content */
+  text-overflow: ellipsis; /* Add the ellipsis */
 }
 
 ul {
@@ -11043,6 +11076,10 @@ li:nth-child(even) {
   align-items: center !important;
 }
 
+.group-indicator-div {
+  max-width: 90px !important;
+}
+
 .group-indicator {
   padding-top: 5px;
   margin-right: 3px !important;
@@ -11050,9 +11087,36 @@ li:nth-child(even) {
   color: #495057;
   font-style: italic !important;
   text-decoration: underline;
+  max-width: -moz-fit-content !important;
+  max-width: fit-content !important;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
 }
 
-.tab-text-size {
-  justify-content: end !important;
-  font-size: 1rem;
+.show-more-button {
+  background-color: transparent;
+  border: none;
+  cursor: pointer;
+  padding: 0;
+  margin-top: 10px;
+  font-size: 14px;
+  color: #007bff;
+  text-decoration: underline;
+  transition: color 0.3s ease;
+}
+
+.show-more-button:hover {
+  color: #0056b3;
+}
+
+/* Animation styles */
+.remaining-items {
+  max-height: 0;
+  overflow: hidden;
+  transition: max-height 0.3s ease;
+}
+
+.show-all .remaining-items {
+  max-height: 1000px; /* Adjust the maximum height as needed */
 }/*# sourceMappingURL=organize_main.css.map */

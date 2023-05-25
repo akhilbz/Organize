@@ -15,6 +15,8 @@ const container = document.getElementById("react-target");
   const [currTabs, setCurrTabs] = useState([]);
   const [hostUrls, setHostUrls] = useState([]);
   const [isGroupButtonDisabled, setGroupButtonDisabled] = useState([]);
+  const [showModal, setShowModal] = useState(false);
+  const [showModalArr, setShowModalArr] = useState([]);
   const collator = new Intl.Collator();
 
   useEffect(() => {
@@ -38,6 +40,7 @@ const container = document.getElementById("react-target");
        
       // Group Button Disabled/Enabled state:
       var isButtonDisabled = [];
+      var isModalEnabled = [];
       for (const hostUrl of urls) {
         const hostTabs = tabs.filter((tab) => tab.url.includes(`://${hostUrl}/`));
         var isDisabled = false;
@@ -50,12 +53,44 @@ const container = document.getElementById("react-target");
           }
         }
         isButtonDisabled.push(isDisabled);
+        var notAllGrouped = false;
+        var nonGrouped = 0;
+        if (hostTabs.length > 1) {
+            for (const tab of hostTabs) {
+              if (tab.groupId === -1) {
+                nonGrouped++;
+              }
+            }
+        
+            if (nonGrouped != 0 && nonGrouped < hostTabs.length) {
+              notAllGrouped = true;
+            } 
+        }
+        isModalEnabled.push(notAllGrouped);
       }
+
+      // var notAllGrouped = false; // if hostTabs.length == 1
+      // var nonGrouped = 0;
+      // if (hostTabs.length > 1) {
+      //   for (const tab of hostTabs) {
+      //     if (tab.groupId === -1) {
+      //       nonGrouped++;
+      //     }
+      //   }
+    
+      //   if (nonGrouped != 0 && nonGrouped < hostTabs.length) {
+      //     notAllGrouped = true;
+      //   } 
+      // } 
+      // console.log(nonGrouped + " " + hostTabs.length);
+      // console.log(isModalEnabled);
+      
       setCurrTabs(tabs);
       setHostUrls([...urls]);
       setCurrGroups([...groups]); 
       setCurrGroupTabs([...tabsInGroups]);
       setGroupButtonDisabled([...isButtonDisabled]);
+      setShowModalArr([...isModalEnabled]);
     }
 
     fetchData();
@@ -82,7 +117,8 @@ const container = document.getElementById("react-target");
       <h5 className="tab-head">Tabs</h5>
       <DisplayTabs currGroups={currGroups} setCurrGroups={setCurrGroups} currGroupTabs={currGroupTabs} 
       setCurrGroupTabs={setCurrGroupTabs} currTabs={currTabs} setCurrTabs={setCurrTabs} hostUrls={hostUrls} 
-      setHostUrls={setHostUrls} isGroupButtonDisabled={isGroupButtonDisabled} setGroupButtonDisabled={setGroupButtonDisabled} collator={collator} />
+      setHostUrls={setHostUrls} isGroupButtonDisabled={isGroupButtonDisabled} setGroupButtonDisabled={setGroupButtonDisabled}
+      showModal={showModal} setShowModal={setShowModal} showModalArr={showModalArr} setShowModalArr={setShowModalArr} collator={collator} />
       </div>
     </div>
   );

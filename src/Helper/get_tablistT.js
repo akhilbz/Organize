@@ -11,6 +11,7 @@ function GetTabListForDT({tabType, currGroups, setCurrGroups, currGroupTabs, set
         const title = tab.title.includes("-") ? tab.title.split("-")[0].trim() : tab.title.includes("–") ? tab.title.split("–")[0].trim() :
         tab.title.includes("|") ? tab.title.split("|")[0].trim() : tab.title;
         const curr_tab = tab;
+        
         // Group Name Logic (group indicator):
         var group_name = "";
         if (tab.groupId != -1) {
@@ -28,11 +29,11 @@ function GetTabListForDT({tabType, currGroups, setCurrGroups, currGroupTabs, set
                   await chrome.tabs.update(curr_tab.id, { active: true });
                   await chrome.windows.update(curr_tab.windowId, { focused: true });
               }}>
-              <h5 className="sub-title card-subtitle tab-text-size">{truncateText(title, 35)}</h5>
+              <h5 className="sub-title">{truncateText(title, 35)}</h5>
               </a>
-              <div className="tab-list-items d-flex">
-              <h6 className="group-indicator">{group_name}</h6>
-              <button type="button" className="btn-close" aria-label="Close" onClick={(event) => {
+              <div className="tab-list-items justify-content-between d-flex">
+              <div className="group-indicator-div"><h6 className="group-indicator">{group_name}</h6></div>
+              <button type="button" className="btn-close"  aria-label="Close" onClick={(event) => {
                 const tab_hosturl = new URL(tab.url).hostname;
       
                 chrome.tabs.remove(tab.id);
