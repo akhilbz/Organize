@@ -1,9 +1,9 @@
-import React from "react";
-// import { truncateText, groupTitle, getHostUrls } from "./helper_functions";
 
 export async function GroupAllTabs({ tabIds, index, truncatedTitle, setGroupButtonDisabled, currTabs, setCurrTabs, currGroupTabs, 
     setCurrGroupTabs, currGroups, setCurrGroups }) {
-    console.log(tabIds);
+    // console.log(currGroupTabs);
+    // console.log(tabIds);
+    // console.log(truncatedTitle);
     var groupID = await chrome.tabs.group({ tabIds });  
 
     setGroupButtonDisabled((currDisabledState) => {
@@ -29,8 +29,9 @@ export async function GroupAllTabs({ tabIds, index, truncatedTitle, setGroupButt
     }
 
     for (const tab of tabs_in_group) {
-        tabs_are_included = JSON.stringify(currGroupTabs).includes(tab.url);
+        tabs_are_included = JSON.stringify(currGroupTabs).includes(tab.id);
     }
+    // console.log(tabs_are_included);
     // TODO: Redo this logic
     // TODO: Implement the Modal and rework the logic based on the two buttons provided there
     if (!tabs_are_included) {

@@ -6,9 +6,10 @@ import { faLayerGroup, faEllipsisV } from '@fortawesome/free-solid-svg-icons';
 import { getHostUrls } from "./helper_functions";
 
 function DisplayGroups({currGroups, setCurrGroups, currGroupTabs, setCurrGroupTabs,
-     currTabs, setCurrTabs, hostUrls, setHostUrls, isGroupButtonDisabled, setGroupButtonDisabled}) {
+     currTabs, setCurrTabs, hostUrls, setHostUrls, isGroupButtonDisabled, setGroupButtonDisabled, 
+     showModalArr, setShowModalArr, currHostUrlIndex, setCurrHostUrlIndex}) {
     const [showGroupLists, setShowGroupLists] = useState([]);
-    
+    // console.log("currIndex: " + currIndex);
     return (
         <> {
         currGroups.map((currGroup, index) => {
@@ -18,7 +19,7 @@ function DisplayGroups({currGroups, setCurrGroups, currGroupTabs, setCurrGroupTa
             // console.log(groupTabs);
             showGroupLists.push(!currGroup.collapsed);
             const tabIds = groupTabs[0].map(({ id }) => id);
-
+            
             // console.log(tabIds);
             return (
             <div key={index} className="col-md-4 mb-2 ">
@@ -45,14 +46,14 @@ function DisplayGroups({currGroups, setCurrGroups, currGroupTabs, setCurrGroupTa
                         var tempTab = null;
                         for (const tab of currTabs) {
                             if (groupTabs[0].includes(tab)) {
-                                tempTab = Object.assign({}, tab);
+                                tempTab = Object.assign({}, tab); // storing tab in a temorary object
                                 tempTab.groupId = -1;
                                 updatedTabs.push(tempTab);
                             } else {
                                 updatedTabs.push(tab);
                             }
                         }
-                        
+
                         const updatedGroupTabs = currGroupTabs.filter((gTabs) => gTabs[0].groupId != groupTabs[0][0].groupId);
                         await chrome.tabs.ungroup(tabIds, ()=>{});
                         const updatedGroups = currGroups.filter((group) => group !== currGroup);
@@ -70,7 +71,9 @@ function DisplayGroups({currGroups, setCurrGroups, currGroupTabs, setCurrGroupTa
                             // updatedGroupButtonDisabled[index] = false;
                             return updatedGroupButtonDisabled;
                           });
-
+                          const updatedArr = showModalArr.map((value, i) => (i === currHostUrlIndex ? !value : value));
+                          console.log(updatedArr);
+                          setShowModalArr(updatedArr);
                     }}>Ungroup</Dropdown.Item>
                     <Dropdown.Item onClick={""}>Close Group</Dropdown.Item>
                     </Dropdown.Menu>

@@ -17,6 +17,8 @@ const container = document.getElementById("react-target");
   const [isGroupButtonDisabled, setGroupButtonDisabled] = useState([]);
   const [showModal, setShowModal] = useState(false);
   const [showModalArr, setShowModalArr] = useState([]);
+  const [currHostUrlIndex, setCurrHostUrlIndex] = useState(0);
+
   const collator = new Intl.Collator();
 
   useEffect(() => {
@@ -112,13 +114,15 @@ const container = document.getElementById("react-target");
        {/* Make a collapsable feature here to collapse DisplayGroups */}
       <DisplayGroups currGroups={currGroups} setCurrGroups={setCurrGroups} currGroupTabs={currGroupTabs} 
       setCurrGroupTabs={setCurrGroupTabs} currTabs={currTabs} setCurrTabs={setCurrTabs} hostUrls={hostUrls} 
-      setHostUrls={setHostUrls} isGroupButtonDisabled={isGroupButtonDisabled} setGroupButtonDisabled={setGroupButtonDisabled} collator={collator} />
+      setHostUrls={setHostUrls} isGroupButtonDisabled={isGroupButtonDisabled} setGroupButtonDisabled={setGroupButtonDisabled} 
+      showModalArr={showModalArr} setShowModalArr={setShowModalArr} currHostUrlIndex={currHostUrlIndex} setCurrHostUrlIndex={setCurrHostUrlIndex} collator={collator} />
       </div>
       <h5 className="tab-head">Tabs</h5>
       <DisplayTabs currGroups={currGroups} setCurrGroups={setCurrGroups} currGroupTabs={currGroupTabs} 
       setCurrGroupTabs={setCurrGroupTabs} currTabs={currTabs} setCurrTabs={setCurrTabs} hostUrls={hostUrls} 
       setHostUrls={setHostUrls} isGroupButtonDisabled={isGroupButtonDisabled} setGroupButtonDisabled={setGroupButtonDisabled}
-      showModal={showModal} setShowModal={setShowModal} showModalArr={showModalArr} setShowModalArr={setShowModalArr} collator={collator} />
+      showModal={showModal} setShowModal={setShowModal} showModalArr={showModalArr} setShowModalArr={setShowModalArr} 
+      currHostUrlIndex={currHostUrlIndex} setCurrHostUrlIndex={setCurrHostUrlIndex} collator={collator} />
       </div>
     </div>
   );

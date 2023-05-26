@@ -11,8 +11,11 @@ import extension_logo from '/Users/akhileshbitla/Work/products/Organize/src/imag
 
 
 function DisplayTabs({ currGroups, setCurrGroups, currGroupTabs, setCurrGroupTabs,
-hostUrls, setHostUrls, currTabs, setCurrTabs, isGroupButtonDisabled, setGroupButtonDisabled, showModal, setShowModal, showModalArr, setShowModalArr, collator}) {
+hostUrls, setHostUrls, currTabs, setCurrTabs, isGroupButtonDisabled, setGroupButtonDisabled, 
+showModal, setShowModal, showModalArr, setShowModalArr, currHostUrlIndex, setCurrHostUrlIndex, collator}) {
   const [currHostTabs, setCurrHostTabs] = useState([]);
+  const [currHostUrl, setCurrHostUrl] = useState("");
+  // const [currGroupId, setCurrGroupId] = useState(0);
   // console.log(isGroupButtonDisabled);
   // console.log(hostUrls);
   return (
@@ -34,6 +37,7 @@ hostUrls, setHostUrls, currTabs, setCurrTabs, isGroupButtonDisabled, setGroupBut
     favIcon_img = require('/Users/akhileshbitla/Work/products/Organize/src/images/settings-icon.png').default;
   }
 
+  
   // console.log(hostTabs);
   // console.log(showModalArr[index]);
 
@@ -41,7 +45,6 @@ hostUrls, setHostUrls, currTabs, setCurrTabs, isGroupButtonDisabled, setGroupBut
   var hostTitle = groupTitle(hostUrl);
   const tabIds = hostTabs.map(({ id }) => id);
   const truncatedTitle = truncateText(hostTitle, 25);
-
   return (
     <div key={index} className="col-md-4 mb-2">
       <div className="card card-tabs">
@@ -53,16 +56,18 @@ hostUrls, setHostUrls, currTabs, setCurrTabs, isGroupButtonDisabled, setGroupBut
           </div>
           <div className="right-side-items d-flex">
             <button className="group" disabled={isGroupButtonDisabled[index]} onClick= { () => {
-              console.log(hostTabs);
-              if (showModalArr[index]) { setShowModal(true); setCurrHostTabs(hostTabs); }
+              // console.log(hostTabs);
+              if (showModalArr[index]) { setCurrHostUrlIndex(index); setShowModal(true); setCurrHostTabs(hostTabs); setCurrHostUrl(hostUrl); }
               else { GroupAllTabs({tabIds, index, truncatedTitle, setGroupButtonDisabled, 
               currTabs, setCurrTabs, currGroupTabs, setCurrGroupTabs, currGroups, setCurrGroups});} }}>
               <FontAwesomeIcon icon={faLayerGroup} className="fa-layer-group fa-thin fa-lg ${isGroupButtonDisabled[index] ? 'disabled' : 'enabled'}" />
               <span className="tooltip group-label">{isGroupButtonDisabled[index] ? 'All Grouped' : 'Quick Group'}</span>
             </button>
             
-            {showModalArr[index] && (<GroupOnlySome key={index} index={index} hostUrl={hostUrls[index]} showModal={showModal} setShowModal={setShowModal} 
-            currHostTabs={currHostTabs} setCurrHostTabs={setCurrHostTabs} currGroups={currGroups} currGroupTabs={currGroupTabs}/>)}
+            {showModalArr[index] && (<GroupOnlySome index={currHostUrlIndex} showModal={showModal} setShowModal={setShowModal} 
+            currHostTabs={currHostTabs} setCurrHostTabs={setCurrHostTabs} currHostUrl={currHostUrl} currGroups={currGroups} setCurrGroups={setCurrGroups} 
+            currGroupTabs={currGroupTabs} setCurrGroupTabs={setCurrGroupTabs} isGroupButtonDisabled={isGroupButtonDisabled} 
+            setGroupButtonDisabled={setGroupButtonDisabled} currTabs={currTabs} setCurrTabs={setCurrTabs} />)}
 
             <Dropdown className="card-settings">
             <Dropdown.Toggle variant="success">
