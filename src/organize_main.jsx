@@ -17,7 +17,7 @@ const container = document.getElementById("react-target");
   const [isGroupButtonDisabled, setGroupButtonDisabled] = useState([]);
   const [showModal, setShowModal] = useState(false);
   const [showModalArr, setShowModalArr] = useState([]);
-  const [currHostUrlIndex, setCurrHostUrlIndex] = useState(0);
+  const [currHostUrlIndex, setCurrHostUrlIndex] = useState(-1);
 
   const collator = new Intl.Collator();
 
@@ -71,22 +71,6 @@ const container = document.getElementById("react-target");
         isModalEnabled.push(notAllGrouped);
       }
 
-      // var notAllGrouped = false; // if hostTabs.length == 1
-      // var nonGrouped = 0;
-      // if (hostTabs.length > 1) {
-      //   for (const tab of hostTabs) {
-      //     if (tab.groupId === -1) {
-      //       nonGrouped++;
-      //     }
-      //   }
-    
-      //   if (nonGrouped != 0 && nonGrouped < hostTabs.length) {
-      //     notAllGrouped = true;
-      //   } 
-      // } 
-      // console.log(nonGrouped + " " + hostTabs.length);
-      // console.log(isModalEnabled);
-      
       setCurrTabs(tabs);
       setHostUrls([...urls]);
       setCurrGroups([...groups]); 

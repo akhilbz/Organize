@@ -5,8 +5,10 @@ export async function GroupAllTabs({ tabIds, index, truncatedTitle, setGroupButt
     // console.log(tabIds);
     // console.log(truncatedTitle);
     var groupID = await chrome.tabs.group({ tabIds });  
+    await chrome.tabGroups.update( groupID, { collapsed: true, title: truncatedTitle });
+    const group = await chrome.tabGroups.get(groupID);
 
-    setGroupButtonDisabled((currDisabledState) => {
+    await setGroupButtonDisabled((currDisabledState) => {
         const updatedGroupButtonDisabled = [...currDisabledState];
         updatedGroupButtonDisabled[index] = true;
         return updatedGroupButtonDisabled;
@@ -14,9 +16,6 @@ export async function GroupAllTabs({ tabIds, index, truncatedTitle, setGroupButt
 
     const tabs_in_group = await chrome.tabs.query({groupId: groupID});
     var tabs_are_included = false;      
-
-    await chrome.tabGroups.update( groupID, { collapsed: true, title: truncatedTitle });
-    const group = await chrome.tabGroups.get(groupID);
 
     var updatedTabs = [];
     for (const tab of currTabs) {
@@ -35,8 +34,8 @@ export async function GroupAllTabs({ tabIds, index, truncatedTitle, setGroupButt
     // TODO: Redo this logic
     // TODO: Implement the Modal and rework the logic based on the two buttons provided there
     if (!tabs_are_included) {
-        setCurrGroupTabs(currGroupTabs => [...currGroupTabs, [...tabs_in_group]]); // remember to rework the currGroupTabs
-        setCurrGroups(currGroups => [...currGroups, group]);
+        await setCurrGroupTabs(currGroupTabs => [...currGroupTabs, [...tabs_in_group]]); // remember to rework the currGroupTabs
+        await setCurrGroups(currGroups => [...currGroups, group]);
     }
-    setCurrTabs([...updatedTabs]);
+    await setCurrTabs([...updatedTabs]);
 }

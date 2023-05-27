@@ -16,14 +16,12 @@ showModal, setShowModal, showModalArr, setShowModalArr, currHostUrlIndex, setCur
   const [currHostTabs, setCurrHostTabs] = useState([]);
   const [currHostUrl, setCurrHostUrl] = useState("");
   // const [currGroupId, setCurrGroupId] = useState(0);
-  // console.log(isGroupButtonDisabled);
-  // console.log(hostUrls);
+
   return (
   <> { 
-  
   hostUrls.map((hostUrl, index) => {
     const hostTabs = currTabs.filter((tab) => tab.url.includes(`://${hostUrl}/`)); // tab refers to the tab of each currTabs
-    // console.log(hostTabs);
+    console.log(hostTabs);
     hostTabs.sort((a, b) => collator.compare(a.title, b.title)); // sorts by title for all hostTabs
     // clean this code:
     let favIcon_img = hostTabs[0].favIconUrl;
@@ -35,11 +33,7 @@ showModal, setShowModal, showModalArr, setShowModalArr, currHostUrlIndex, setCur
     favIcon_img = require('/Users/akhileshbitla/Work/products/Organize/src/images/history_icon.png').default;
   } else if (hostTabs[0].url.includes("chrome://settings/")) {
     favIcon_img = require('/Users/akhileshbitla/Work/products/Organize/src/images/settings-icon.png').default;
-  }
-
-  
-  // console.log(hostTabs);
-  // console.log(showModalArr[index]);
+  } 
 
   // Group Title Logic:
   var hostTitle = groupTitle(hostUrl);
@@ -56,8 +50,7 @@ showModal, setShowModal, showModalArr, setShowModalArr, currHostUrlIndex, setCur
           </div>
           <div className="right-side-items d-flex">
             <button className="group" disabled={isGroupButtonDisabled[index]} onClick= { () => {
-              // console.log(hostTabs);
-              if (showModalArr[index]) { setCurrHostUrlIndex(index); setShowModal(true); setCurrHostTabs(hostTabs); setCurrHostUrl(hostUrl); }
+              if (showModalArr[index]) { setShowModal(true); setCurrHostUrlIndex(index); setCurrHostTabs(hostTabs); setCurrHostUrl(hostUrl); }
               else { GroupAllTabs({tabIds, index, truncatedTitle, setGroupButtonDisabled, 
               currTabs, setCurrTabs, currGroupTabs, setCurrGroupTabs, currGroups, setCurrGroups});} }}>
               <FontAwesomeIcon icon={faLayerGroup} className="fa-layer-group fa-thin fa-lg ${isGroupButtonDisabled[index] ? 'disabled' : 'enabled'}" />

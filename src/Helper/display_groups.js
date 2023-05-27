@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import { debounce } from 'lodash';
 import GetTabListForDG from "./get_tablistG";
 import { Collapse, Dropdown } from "react-bootstrap";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
@@ -9,7 +10,7 @@ function DisplayGroups({currGroups, setCurrGroups, currGroupTabs, setCurrGroupTa
      currTabs, setCurrTabs, hostUrls, setHostUrls, isGroupButtonDisabled, setGroupButtonDisabled, 
      showModalArr, setShowModalArr, currHostUrlIndex, setCurrHostUrlIndex}) {
     const [showGroupLists, setShowGroupLists] = useState([]);
-    // console.log("currIndex: " + currIndex);
+    console.log("currHostUrlIndex: " + currHostUrlIndex);
     return (
         <> {
         currGroups.map((currGroup, index) => {
@@ -17,20 +18,22 @@ function DisplayGroups({currGroups, setCurrGroups, currGroupTabs, setCurrGroupTa
             // console.log(currGroupTabs);
             const groupTabs = currGroupTabs.filter((grpTab) => grpTab[0].groupId == currGroup.id);
             // console.log(groupTabs);
+            // console.log(currGroup);
             showGroupLists.push(!currGroup.collapsed);
             const tabIds = groupTabs[0].map(({ id }) => id);
             
-            // console.log(tabIds);
+            // console.log(showGroupLists);
             return (
             <div key={index} className="col-md-4 mb-2 ">
             
               <div className="card .card-group">
-                <div onClick={ async () => {
+                <div onClick={ debounce(async () => {
                     const allUpdatedGLists = [...showGroupLists];
-                    allUpdatedGLists[index] =  !showGroupLists[index];
-                    await chrome.tabGroups.update(currGroup.id, { collapsed: !allUpdatedGLists[index] });
+                    const collapsedStatus =  !showGroupLists[index];
+                    await chrome.tabGroups.update(currGroup.id, { collapsed: !collapsedStatus });
+                    allUpdatedGLists[index] = collapsedStatus;
                     setShowGroupLists(allUpdatedGLists);
-                    }} 
+                    })} 
                     className="collapse-feature card-header d-flex justify-content-between" aria-expanded={showGroupLists[index]} aria-controls="collapseGroup${index}">
                   <div className="left-side-items d-flex">
                     <h4 className="title card-title header-text">{currGroup.title}</h4>
@@ -71,9 +74,11 @@ function DisplayGroups({currGroups, setCurrGroups, currGroupTabs, setCurrGroupTa
                             // updatedGroupButtonDisabled[index] = false;
                             return updatedGroupButtonDisabled;
                           });
+                          console.log(currHostUrlIndex);
                           const updatedArr = showModalArr.map((value, i) => (i === currHostUrlIndex ? !value : value));
                           console.log(updatedArr);
                           setShowModalArr(updatedArr);
+                          setCurrHostUrlIndex(-1);
                     }}>Ungroup</Dropdown.Item>
                     <Dropdown.Item onClick={""}>Close Group</Dropdown.Item>
                     </Dropdown.Menu>
