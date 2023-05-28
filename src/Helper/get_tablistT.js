@@ -3,7 +3,7 @@ import { getHostUrls, truncateText } from "./helper_functions";
 
 
 function GetTabListForDT({tabType, currGroups, setCurrGroups, currGroupTabs, setCurrGroupTabs, currTabs, setCurrTabs, 
-  hostUrls, setHostUrls, isGroupButtonDisabled, setGroupButtonDisabled}) {   
+  hostUrls, setHostUrls, isGroupButtonDisabled, setGroupButtonDisabled, isGroupCollapsed, setIsGroupCollapsed}) {   
 
   return (    
       <> {
@@ -37,11 +37,11 @@ function GetTabListForDT({tabType, currGroups, setCurrGroups, currGroupTabs, set
                 const tab_hosturl = new URL(tab.url).hostname;
       
                 chrome.tabs.remove(tab.id);
+
                   const updatedGroupTabs = [];
                   const updatedTabs = currTabs.filter((remtab) => remtab.id != tab.id);
                   setCurrTabs([...updatedTabs]);
 
-                  var updatedGroupsForTabs = [];
                   for (const grouped_arr of currGroupTabs) {
                     const updated_arr = grouped_arr.filter((grouped_tab) => grouped_tab.id != tab.id);
                     if (updated_arr.length > 0) {
@@ -62,7 +62,6 @@ function GetTabListForDT({tabType, currGroups, setCurrGroups, currGroupTabs, set
                     setHostUrls([...updatedHostUrls]);
                     setGroupButtonDisabled(updatedGroupButtonDisabledArr);
                   } else {
-                    var isButtonDisabled = [];
                     var url_index = 0;
                     for (const url of hostUrls) {
                       if (tab_hosturl == url) {
@@ -96,7 +95,19 @@ function GetTabListForDT({tabType, currGroups, setCurrGroups, currGroupTabs, set
                   }
 
                   if (currGroupTabs.length - updatedGroupTabs.length == 1) {
-                  const updatedGroups = currGroups.filter((currGroup) => tab.groupId !== currGroup.id);
+                  var updatedGroups = [];
+                  var updatedCollapsedStates = [];
+                  var collapsedStateIndex = 0;
+                  for (const group of currGroups) {
+                    if (group.id !== tab.groupId) {
+                      updatedGroups.push(group);
+                      updatedCollapsedStates.push(isGroupCollapsed[collapsedStateIndex]);
+                    }
+                    collapsedStateIndex++;
+                  }
+                  // const updatedGroups = currGroups.filter((currGroup) => tab.groupId !== currGroup.id);
+                  // const updatedCollapseStates = isGroupCollapsed
+                  setIsGroupCollapsed(updatedCollapsedStates);
                   setCurrGroups(updatedGroups);
                   }
                   setCurrGroupTabs([...updatedGroupTabs]);

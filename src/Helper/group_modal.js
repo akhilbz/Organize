@@ -1,13 +1,15 @@
 import React, { useState } from "react";
 import { GroupAllTabs } from "./group_no_modal";
-import { truncateText, groupTitle } from "./helper_functions";
+import { truncateText, groupTitle, getHostUrls } from "./helper_functions";
 import { Modal } from 'react-bootstrap';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faEllipsisH } from '@fortawesome/free-solid-svg-icons';
 
-function GroupOnlySome({index, showModal, setShowModal, currHostTabs, currHostUrl, currGroups, setCurrGroups, currGroupTabs, 
-    setCurrGroupTabs, isGroupButtonDisabled, setGroupButtonDisabled, currTabs, setCurrTabs }) {
+function GroupOnlySome({currHostUrlIndex, showModal, setShowModal, currHostTabs, hostTabs, currHostUrl, hostUrls, currGroups, setCurrGroups, currGroupTabs, 
+    setCurrGroupTabs, isGroupButtonDisabled, setGroupButtonDisabled, currTabs, setCurrTabs, isGroupCollapsed, setIsGroupCollapsed, showModalArr,
+    setShowModalArr }) {
     const [showAll, setShowAll] = useState(false);
+    // console.log(hostTabs);
     const MAX_VISIBLE_ITEMS = 4;
     const allCurrTabIds = currHostTabs.map(({ id }) => id);
     const remCurrTabIds = currHostTabs.filter(({ groupId }) => groupId === -1).map(({ id }) => id);
@@ -40,7 +42,7 @@ function GroupOnlySome({index, showModal, setShowModal, currHostTabs, currHostUr
     const visibleGroupedTabsArr = showAll ? groupedTabsArr : groupedTabsArr.slice(0, MAX_VISIBLE_ITEMS);
     // console.log(visibleGroupedTabsArr);
     return (
-        <div key={index}>
+        <div key={currHostUrlIndex}>
         <Modal show={showModal} onHide={handleCloseModal}>
             <Modal.Header closeButton>
             <Modal.Title>Group Tabs</Modal.Title>
@@ -78,12 +80,12 @@ function GroupOnlySome({index, showModal, setShowModal, currHostTabs, currHostUr
             </Modal.Body>
             <Modal.Footer>
                 <div className="d-flex justify-content-between">
-                    <button className="btn btn-light" onClick={() => GroupAllTabs({tabIds: remCurrTabIds, index, truncatedTitle, setGroupButtonDisabled, 
-              currTabs, setCurrTabs, currGroupTabs, setCurrGroupTabs, currGroups, setCurrGroups})}>Group Remaining</button>
+                    <button className="btn btn-light" onClick={() => GroupAllTabs({tabIds: remCurrTabIds, currHostUrlIndex, truncatedTitle, 
+                    setGroupButtonDisabled, currTabs, setCurrTabs, currGroupTabs, setCurrGroupTabs, currGroups, 
+                    setCurrGroups, isGroupCollapsed, setIsGroupCollapsed})}>Group Remaining</button>
 
-                    <button className="btn btn-outline-danger" onClick={() => {
-                        // console.log(currGroupTabs);
-                        // console.log(currGroups);
+                    <button className="btn btn-outline-danger" onClick={async () => {
+                        // This is to remove the existing group and groupedTabs and replace it with the new group
                         var updatedCurrGroupTabs = [];
                         var updatedCurrGroups = [];
                         var currGroup = null;
@@ -96,25 +98,100 @@ function GroupOnlySome({index, showModal, setShowModal, currHostTabs, currHostUr
                         }
                         
                         if (currGroup !== null) {
-                            for (const currGroupTab of currGroupTabs) {
-                                if (currGroupTab[0].groupId !== currGroup.id) {
-                                    updatedCurrGroupTabs.push(currGroupTab);
-                                }
+                        var removedGroupedTabs = null;
+                        for (const currGroupTab of currGroupTabs) {
+                            if (currGroupTab[0].groupId !== currGroup.id) {
+                                updatedCurrGroupTabs.push(currGroupTab);
+                            } else {
+                                removedGroupedTabs = currGroupTab;
                             }
-                            setCurrGroupTabs([...updatedCurrGroupTabs]);
-                        } else {
-                            setCurrGroupTabs([...currGroupTabs]);
                         }
 
-                        // console.log(updatedCurrGroups);
-                        // console.log(updatedCurrGroupTabs);
-
+                        const allCurrTabIdsSet = new Set(allCurrTabIds);
+                        const notSameHost_Tab = removedGroupedTabs.filter((removedTab) => !allCurrTabIdsSet.has(removedTab.id));
+                        console.log(notSameHost_Tab);
                         setCurrGroups([...updatedCurrGroups]); 
+                        setCurrGroupTabs([...updatedCurrGroupTabs]);
+                        // if tabs with other host urls are stored in the same group, then we need to update the following state variables:
+                        if (notSameHost_Tab.length != 0) {
+                            const removedTabHostUrls = [...getHostUrls(notSameHost_Tab)];
+                            // console.log(removedTabHostUrls);
+                            const notSameHost_TabIds = notSameHost_Tab.map((tab) => tab.id);
+                            var updatedTabs = [];
+                            for (const tab of currTabs) {
+                                if (notSameHost_TabIds.some((t) => t === tab.id)) {
+                                    const tempTab = Object.assign({}, tab); // storing tab in a temorary object
+                                    tempTab.groupId = -1;
+                                    updatedTabs.push(tempTab);
+                                } else {
+                                    updatedTabs.push(tab);
+                                }
+                            }
+                            setCurrTabs([...updatedTabs]);
+                            
+                            await chrome.tabs.ungroup(notSameHost_TabIds, ()=>{});
+                            const hostUrlIndexes = removedTabHostUrls.map((removedTabHostUrl) => hostUrls.indexOf(removedTabHostUrl)).filter((index) => index !== -1);   
+                            const hostUrlIndexesSet = new Set(hostUrlIndexes);
+                            console.log(hostUrlIndexes);
+                            console.log(hostUrls);
+                            console.log(showModalArr);   
+                            console.log(currHostUrl);       
+                            const currHostUrlIndex = hostUrls.indexOf(currHostUrl);
+                 
+                            const updatedShowModalArr = showModalArr.map((showModal, i) => {
+                                const hostTabs = updatedTabs.filter((tab) => tab.url.includes(`://${hostUrls[i]}/`));
+                                if (i == currHostUrlIndex || (hostUrlIndexesSet.has(i))) {
+                                    if (hostTabs.length > 1) {
+                                    return !showModal;
+                                } else if (hostTabs == 1 && hostTabs[0].groupId === -1) {
+                                    return false;
+                                } 
+                                } else {
+                                    return showModal;
+                                }
+                            });
+                            console.log(updatedShowModalArr);
+                            setShowModalArr(updatedShowModalArr);
+                            // console.log(isGroupButtonDisabled);
+                            const updatedGroupButtonDisabled = isGroupButtonDisabled.map((groupButtonDisabled, i) => {
+                                const hostTabs = updatedTabs.filter((tab) => tab.url.includes(`://${hostUrls[i]}/`));
+                                if (hostTabs.length == 1 && hostTabs[0].groupId === -1) {
+                                    return updatedShowModalArr[i];
+                                } else {
+                                    return !updatedShowModalArr[i];
+                                }
+                            });
+                            console.log(updatedGroupButtonDisabled);
+                            setGroupButtonDisabled([...updatedGroupButtonDisabled]);
+                            // setGroupButtonDisabled((currDisabledState) => {
+                            //     const updatedGroupButtonDisabled = [...currDisabledState];
+                            //     hostUrlIndexes.forEach((index) => updatedGroupButtonDisabled[index] = false);
+                            //     return updatedGroupButtonDisabled;
+                            // });
                         
-                        GroupAllTabs({tabIds: allCurrTabIds, index, truncatedTitle, setGroupButtonDisabled, 
-                        currTabs, setCurrTabs, currGroupTabs, setCurrGroupTabs, currGroups, setCurrGroups});
-                        // console.log(isGroupButtonDisabled);
-                        // console.log(index);
+                           
+                        } else {
+                            const updatedShowModalArr = showModalArr.map((showModal, i) => {
+                                if (i == currHostUrlIndex) {
+                                    return !showModal;
+                                } else {
+                                    return showModal;
+                                }
+                            });
+                            console.log(updatedShowModalArr);
+                            setShowModalArr(updatedShowModalArr);
+                            const updatedGroupButtonDisabled = isGroupButtonDisabled.map((groupButtonDisabled, i) => {
+                                return !updatedShowModalArr[i];
+                            });
+                            console.log(updatedGroupButtonDisabled);
+                            setGroupButtonDisabled([...updatedGroupButtonDisabled]);
+                        }
+                            
+                        } 
+                        
+                        GroupAllTabs({tabIds: allCurrTabIds, currHostUrlIndex, truncatedTitle, setGroupButtonDisabled, 
+                        currTabs, setCurrTabs, currGroupTabs, setCurrGroupTabs, currGroups, setCurrGroups, 
+                        isGroupCollapsed, setIsGroupCollapsed});
                         handleCloseModal();
                         }}>Group All</button>
                 </div>

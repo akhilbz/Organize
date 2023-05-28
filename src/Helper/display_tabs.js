@@ -12,7 +12,8 @@ import extension_logo from '/Users/akhileshbitla/Work/products/Organize/src/imag
 
 function DisplayTabs({ currGroups, setCurrGroups, currGroupTabs, setCurrGroupTabs,
 hostUrls, setHostUrls, currTabs, setCurrTabs, isGroupButtonDisabled, setGroupButtonDisabled, 
-showModal, setShowModal, showModalArr, setShowModalArr, currHostUrlIndex, setCurrHostUrlIndex, collator}) {
+showModal, setShowModal, showModalArr, setShowModalArr, currHostUrlIndex, setCurrHostUrlIndex,
+isGroupCollapsed, setIsGroupCollapsed, collator}) {
   const [currHostTabs, setCurrHostTabs] = useState([]);
   const [currHostUrl, setCurrHostUrl] = useState("");
   // const [currGroupId, setCurrGroupId] = useState(0);
@@ -21,7 +22,7 @@ showModal, setShowModal, showModalArr, setShowModalArr, currHostUrlIndex, setCur
   <> { 
   hostUrls.map((hostUrl, index) => {
     const hostTabs = currTabs.filter((tab) => tab.url.includes(`://${hostUrl}/`)); // tab refers to the tab of each currTabs
-    console.log(hostTabs);
+    // console.log(hostTabs);
     hostTabs.sort((a, b) => collator.compare(a.title, b.title)); // sorts by title for all hostTabs
     // clean this code:
     let favIcon_img = hostTabs[0].favIconUrl;
@@ -51,16 +52,17 @@ showModal, setShowModal, showModalArr, setShowModalArr, currHostUrlIndex, setCur
           <div className="right-side-items d-flex">
             <button className="group" disabled={isGroupButtonDisabled[index]} onClick= { () => {
               if (showModalArr[index]) { setShowModal(true); setCurrHostUrlIndex(index); setCurrHostTabs(hostTabs); setCurrHostUrl(hostUrl); }
-              else { GroupAllTabs({tabIds, index, truncatedTitle, setGroupButtonDisabled, 
-              currTabs, setCurrTabs, currGroupTabs, setCurrGroupTabs, currGroups, setCurrGroups});} }}>
+              else { GroupAllTabs({tabIds, index, truncatedTitle, setGroupButtonDisabled, currTabs, setCurrTabs, currGroupTabs, 
+              setCurrGroupTabs, currGroups, setCurrGroups, isGroupCollapsed, setIsGroupCollapsed});} }}>
               <FontAwesomeIcon icon={faLayerGroup} className="fa-layer-group fa-thin fa-lg ${isGroupButtonDisabled[index] ? 'disabled' : 'enabled'}" />
               <span className="tooltip group-label">{isGroupButtonDisabled[index] ? 'All Grouped' : 'Quick Group'}</span>
             </button>
             
-            {showModalArr[index] && (<GroupOnlySome index={currHostUrlIndex} showModal={showModal} setShowModal={setShowModal} 
-            currHostTabs={currHostTabs} setCurrHostTabs={setCurrHostTabs} currHostUrl={currHostUrl} currGroups={currGroups} setCurrGroups={setCurrGroups} 
-            currGroupTabs={currGroupTabs} setCurrGroupTabs={setCurrGroupTabs} isGroupButtonDisabled={isGroupButtonDisabled} 
-            setGroupButtonDisabled={setGroupButtonDisabled} currTabs={currTabs} setCurrTabs={setCurrTabs} />)}
+            {showModalArr[index] && (<GroupOnlySome currHostUrlIndex={currHostUrlIndex} showModal={showModal} setShowModal={setShowModal} 
+            currHostTabs={currHostTabs} setCurrHostTabs={setCurrHostTabs} hostTabs={hostTabs} currHostUrl={currHostUrl} hostUrls={hostUrls} currGroups={currGroups} 
+            setCurrGroups={setCurrGroups} currGroupTabs={currGroupTabs} setCurrGroupTabs={setCurrGroupTabs} isGroupButtonDisabled={isGroupButtonDisabled} 
+            setGroupButtonDisabled={setGroupButtonDisabled} currTabs={currTabs} setCurrTabs={setCurrTabs} isGroupCollapsed={isGroupCollapsed} 
+            setIsGroupCollapsed={setIsGroupCollapsed} showModalArr={showModalArr} setShowModalArr={setShowModalArr} />)}
 
             <Dropdown className="card-settings">
             <Dropdown.Toggle variant="success">
@@ -107,7 +109,8 @@ showModal, setShowModal, showModalArr, setShowModalArr, currHostUrlIndex, setCur
         <ul className="list-group list-group-flush">
           <GetTabListForDT tabType={hostTabs} currGroups={currGroups} setCurrGroups={setCurrGroups} currGroupTabs={currGroupTabs}
           setCurrGroupTabs={setCurrGroupTabs} currTabs={currTabs} setCurrTabs={setCurrTabs} hostUrls={hostUrls} setHostUrls={setHostUrls}
-          isGroupButtonDisabled={isGroupButtonDisabled} setGroupButtonDisabled={setGroupButtonDisabled} />
+          isGroupButtonDisabled={isGroupButtonDisabled} setGroupButtonDisabled={setGroupButtonDisabled} 
+          isGroupCollapsed={isGroupCollapsed} setIsGroupCollapsed={setIsGroupCollapsed} />
         </ul>
       </div>
     </div>

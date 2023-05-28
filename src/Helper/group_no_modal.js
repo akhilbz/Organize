@@ -1,9 +1,6 @@
 
 export async function GroupAllTabs({ tabIds, index, truncatedTitle, setGroupButtonDisabled, currTabs, setCurrTabs, currGroupTabs, 
-    setCurrGroupTabs, currGroups, setCurrGroups }) {
-    // console.log(currGroupTabs);
-    // console.log(tabIds);
-    // console.log(truncatedTitle);
+    setCurrGroupTabs, currGroups, setCurrGroups, isGroupCollapsed, setIsGroupCollapsed }) {
     var groupID = await chrome.tabs.group({ tabIds });  
     await chrome.tabGroups.update( groupID, { collapsed: true, title: truncatedTitle });
     const group = await chrome.tabGroups.get(groupID);
@@ -36,6 +33,7 @@ export async function GroupAllTabs({ tabIds, index, truncatedTitle, setGroupButt
     if (!tabs_are_included) {
         await setCurrGroupTabs(currGroupTabs => [...currGroupTabs, [...tabs_in_group]]); // remember to rework the currGroupTabs
         await setCurrGroups(currGroups => [...currGroups, group]);
+        await setIsGroupCollapsed(currIsCollapsedState => [...currIsCollapsedState, !group.collapsed]);
     }
     await setCurrTabs([...updatedTabs]);
 }
