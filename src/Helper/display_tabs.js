@@ -70,17 +70,33 @@ isGroupCollapsed, setIsGroupCollapsed, collator}) {
             </Dropdown.Toggle>
             <Dropdown.Menu>
             <Dropdown.Item onClick={async ()=> {
+              await chrome.tabs.remove(tabIds, ()=>{});
               // updating tabs and corresponding host urls for tabs section
               const updatedTabs = currTabs.filter((tab) => !hostTabs.includes(tab));
+              setCurrTabs([...updatedTabs]);
               const updatedHostUrls = getHostUrls(updatedTabs);
-              var updatedGroupButtonDisabledArr = [];
-              var url_index = 0;
-              for (const url of updatedHostUrls) {
-                if (url_index != index) {
-                  updatedGroupButtonDisabledArr.push(isGroupButtonDisabled[url_index]);
-                }
-                url_index++;
-              }
+              setHostUrls([...updatedHostUrls]);
+              setGroupButtonDisabled(currDisabledState => {
+                const updatedDisabledState = currDisabledState.filter((disabledState, stateIndex) => stateIndex !== index);
+                // console.log(updatedDisabledState);
+                return updatedDisabledState;
+              });
+              // console.log(showModalArr);
+              setShowModalArr(currShowModalState => {
+                const updatedShowModalState = currShowModalState.filter((showModalState, stateIndex) => stateIndex !== index);
+                // console.log(updatedShowModalState);
+                return updatedShowModalState;
+              });
+              // var updatedGroupButtonDisabledArr = [];
+              // var url_index = 0;
+              // for (const url of hostUrls) {
+              //   if (url_index != index) {
+              //     updatedGroupButtonDisabledArr.push(isGroupButtonDisabled[url_index]);
+              //   }
+              //   url_index++;
+              // }
+              // setGroupButtonDisabled([...updatedGroupButtonDisabledArr]);
+              // console.log(updatedGroupButtonDisabledArr);
 
               var updatedCurrGroupTabs = []; 
               for (const groupTabs of currGroupTabs) {
@@ -89,17 +105,16 @@ isGroupCollapsed, setIsGroupCollapsed, collator}) {
                 updatedCurrGroupTabs.push(updatedTabs);
                 }
               }
+              console.log(updatedCurrGroupTabs);
+              console.log(isGroupCollapsed);
+
               // updating current groups
               const groupIds = updatedCurrGroupTabs.map((updatedGroupTabs) => updatedGroupTabs[0].groupId);
               const updatedGroups = currGroups.filter(({ id }) => groupIds.includes(id));
-              // TODO: update showModalArr (remove element from array)
-              setCurrTabs([...updatedTabs]);
-              setHostUrls([...updatedHostUrls]);
-              setGroupButtonDisabled([...updatedGroupButtonDisabledArr]);
+              const updatedCollapsedStates = updatedGroups.map((group) => group.collapsed);
               setCurrGroupTabs([...updatedCurrGroupTabs]);
               setCurrGroups(updatedGroups);
-              await chrome.tabs.remove(tabIds, ()=>{});
-              
+              setIsGroupCollapsed(updatedCollapsedStates);
             }}>Close All Tabs</Dropdown.Item>
             </Dropdown.Menu>
             <span className="tooltip settings-label">Settings</span>

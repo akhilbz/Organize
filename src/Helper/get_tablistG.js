@@ -23,9 +23,9 @@ isGroupButtonDisabled, setGroupButtonDisabled, showModalArr, setShowModalArr}) {
                 </a>
                 <button type="button" className="btn-close" aria-label="Close" onClick={() =>{
                   chrome.tabs.remove(tab.id);
-                  const tab_hosturl = new URL(tab.url).hostname;
-                  const hostTabs = currTabs.filter((tab) => tab.url.includes(`://${tab_hosturl}/`));
-                  const tabHostUrlIndex = hostUrls.indexOf(tab_hosturl);
+                  const tabHostUrl = new URL(tab.url).hostname;
+                  const hostTabs = currTabs.filter((tab) => tab.url.includes(`://${tabHostUrl}/`));
+                  const tabHostUrlIndex = hostUrls.indexOf(tabHostUrl);
                   if (hostTabs.length == 1) {
                     setGroupButtonDisabled(currDisabledState => {
                       const updatedDisabledState = [];

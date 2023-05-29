@@ -43,7 +43,7 @@ function GetTabListForDT({tabType, currGroups, setCurrGroups, currGroupTabs, set
                 const tabHostUrlIndex = hostUrls.indexOf(tabHostUrl);
                 if (tabType.length == 1) {
                   setHostUrls(currHostUrls => {
-                    const updatedHostUrls = currHostUrls.filter((url) => url != tab_hosturl);
+                    const updatedHostUrls = currHostUrls.filter((url) => url != tabHostUrl);
                     return updatedHostUrls;
                   });
                   setGroupButtonDisabled(currDisabledState => {
@@ -81,7 +81,6 @@ function GetTabListForDT({tabType, currGroups, setCurrGroups, currGroupTabs, set
                       }
                       index++;
                     }
-                    // console.log(updatedDisabledState);
                     return updatedDisabledState;
                   });
 
@@ -99,20 +98,8 @@ function GetTabListForDT({tabType, currGroups, setCurrGroups, currGroupTabs, set
                       notAllGrouped = true;
                     } 
                     updatedShowModalState[tabHostUrlIndex] = notAllGrouped;
-                    // console.log(updatedShowModalState);
                     return updatedShowModalState;
                   });
-                  
-                  // for (const hostTab of tabType) {
-                  //   if (hostTab != tab) {
-                  //     if (hostTab.groupId !== -1) {
-                  //       isDisabled = true;
-                  //     } else {
-                  //       isDisabled = false;
-                  //       break;
-                  //     }
-                  //   }
-                  // }
                 }
 
                 const updatedGroupTabs = [];
