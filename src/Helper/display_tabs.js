@@ -52,7 +52,7 @@ isGroupCollapsed, setIsGroupCollapsed, collator}) {
           <div className="right-side-items d-flex">
             <button className="group" disabled={isGroupButtonDisabled[index]} onClick= { () => {
               if (showModalArr[index]) { setShowModal(true); setCurrHostUrlIndex(index); setCurrHostTabs(hostTabs); setCurrHostUrl(hostUrl); }
-              else { console.log("no modal"); GroupAllTabs({tabIds, index, truncatedTitle, setGroupButtonDisabled, currTabs, setCurrTabs, currGroupTabs, 
+              else { GroupAllTabs({tabIds, index, truncatedTitle, setGroupButtonDisabled, currTabs, setCurrTabs, currGroupTabs, 
               setCurrGroupTabs, currGroups, setCurrGroups, isGroupCollapsed, setIsGroupCollapsed});} }}>
               <FontAwesomeIcon icon={faLayerGroup} className="fa-layer-group fa-thin fa-lg ${isGroupButtonDisabled[index] ? 'disabled' : 'enabled'}" />
               <span className="tooltip group-label">{isGroupButtonDisabled[index] ? 'All Grouped' : 'Quick Group'}</span>
@@ -92,7 +92,7 @@ isGroupCollapsed, setIsGroupCollapsed, collator}) {
               // updating current groups
               const groupIds = updatedCurrGroupTabs.map((updatedGroupTabs) => updatedGroupTabs[0].groupId);
               const updatedGroups = currGroups.filter(({ id }) => groupIds.includes(id));
-
+              // TODO: update showModalArr (remove element from array)
               setCurrTabs([...updatedTabs]);
               setHostUrls([...updatedHostUrls]);
               setGroupButtonDisabled([...updatedGroupButtonDisabledArr]);

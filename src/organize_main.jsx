@@ -58,6 +58,7 @@ const container = document.getElementById("react-target");
           }
         }
         isButtonDisabled.push(isDisabled);
+        
         var notAllGrouped = false;
         var nonGrouped = 0;
         if (hostTabs.length > 1) {

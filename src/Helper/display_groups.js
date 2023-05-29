@@ -8,7 +8,7 @@ import { getHostUrls } from "./helper_functions";
 function DisplayGroups({currGroups, setCurrGroups, currGroupTabs, setCurrGroupTabs,
      currTabs, setCurrTabs, hostUrls, setHostUrls, isGroupButtonDisabled, setGroupButtonDisabled, 
      showModalArr, setShowModalArr, currHostUrlIndex, setCurrHostUrlIndex, isGroupCollapsed, setIsGroupCollapsed}) {
-    // console.log(isGroupCollapsed);
+    
     const handleCollapseGroup = async (currGroupId, index) => {
     await chrome.tabGroups.update(currGroupId, { collapsed: !isGroupCollapsed[index] });
     setIsGroupCollapsed(currIsGroupCollapsedState => currIsGroupCollapsedState.map((state, i) => {
@@ -21,7 +21,6 @@ function DisplayGroups({currGroups, setCurrGroups, currGroupTabs, setCurrGroupTa
             const currGroupId = currGroup.id;
             const groupTabs = currGroupTabs.filter((grpTab) => grpTab[0].groupId == currGroupId);
             const tabIds = groupTabs[0].map(({ id }) => id);
-            // console.log(index);
             return (
             <div key={index} className="col-md-4 mb-2 ">
             
@@ -53,6 +52,7 @@ function DisplayGroups({currGroups, setCurrGroups, currGroupTabs, setCurrGroupTa
 
                         const updatedGroupTabs = currGroupTabs.filter((gTabs) => gTabs[0].groupId != groupTabs[0][0].groupId);
                         await chrome.tabs.ungroup(tabIds, ()=>{});
+
                         const updatedCollapseStates = isGroupCollapsed.filter((state, i) => i !== index);
                         setIsGroupCollapsed(updatedCollapseStates);
                         const updatedGroups = currGroups.filter((group) => group !== currGroup);
@@ -67,17 +67,28 @@ function DisplayGroups({currGroups, setCurrGroups, currGroupTabs, setCurrGroupTa
                         setGroupButtonDisabled((currDisabledState) => {
                             const updatedGroupButtonDisabled = [...currDisabledState];
                             hostUrlIndexes.forEach((index) => updatedGroupButtonDisabled[index] = false);
-                            // updatedGroupButtonDisabled[index] = false;
-                            console.log(updatedGroupButtonDisabled);
                             return updatedGroupButtonDisabled;
                           });
-                          console.log(hostUrlIndexes);
-                        //   const hostTabs = updatedTabs.filter((tab) => tab.url.includes(`://${hostUrls[currHostUrlIndex]}/`));
-                          const updatedArr = showModalArr.map((value, i) => (i === currHostUrlIndex ? !value : value));
-                          
-                          console.log(updatedArr);
-                          setShowModalArr(updatedArr);
 
+                          const hostTabs = updatedTabs.filter((tab) => tab.url.includes(`://${hostUrls[currHostUrlIndex]}/`));
+                          setShowModalArr(currShowModalArrState => {
+                            const updatedShowModalArrState = [...currShowModalArrState];
+                            var notAllGrouped = false;
+                            var nonGrouped = 0;
+                            if (hostTabs.length > 1) {
+                                for (const tab of hostTabs) {
+                                  if (tab.groupId === -1) {
+                                    nonGrouped++;
+                                  }
+                                }
+                            
+                                if (nonGrouped != 0 && nonGrouped < hostTabs.length) {
+                                  notAllGrouped = true;
+                                } 
+                            }
+                            updatedShowModalArrState[currHostUrlIndex] = notAllGrouped;
+                            return updatedShowModalArrState;
+                          });
                           setCurrHostUrlIndex(-1);
                     }}>Ungroup</Dropdown.Item>
                     <Dropdown.Item onClick={""}>Close Group</Dropdown.Item>
