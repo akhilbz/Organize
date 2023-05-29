@@ -68,10 +68,16 @@ function DisplayGroups({currGroups, setCurrGroups, currGroupTabs, setCurrGroupTa
                             const updatedGroupButtonDisabled = [...currDisabledState];
                             hostUrlIndexes.forEach((index) => updatedGroupButtonDisabled[index] = false);
                             // updatedGroupButtonDisabled[index] = false;
+                            console.log(updatedGroupButtonDisabled);
                             return updatedGroupButtonDisabled;
                           });
+                          console.log(hostUrlIndexes);
+                        //   const hostTabs = updatedTabs.filter((tab) => tab.url.includes(`://${hostUrls[currHostUrlIndex]}/`));
                           const updatedArr = showModalArr.map((value, i) => (i === currHostUrlIndex ? !value : value));
+                          
+                          console.log(updatedArr);
                           setShowModalArr(updatedArr);
+
                           setCurrHostUrlIndex(-1);
                     }}>Ungroup</Dropdown.Item>
                     <Dropdown.Item onClick={""}>Close Group</Dropdown.Item>
