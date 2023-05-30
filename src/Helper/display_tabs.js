@@ -16,15 +16,13 @@ showModal, setShowModal, showModalArr, setShowModalArr, currHostUrlIndex, setCur
 isGroupCollapsed, setIsGroupCollapsed, collator}) {
   const [currHostTabs, setCurrHostTabs] = useState([]);
   const [currHostUrl, setCurrHostUrl] = useState("");
-  // const [currGroupId, setCurrGroupId] = useState(0);
 
   return (
   <> { 
   hostUrls.map((hostUrl, index) => {
     const hostTabs = currTabs.filter((tab) => tab.url.includes(`://${hostUrl}/`)); // tab refers to the tab of each currTabs
-    // console.log(hostTabs);
     hostTabs.sort((a, b) => collator.compare(a.title, b.title)); // sorts by title for all hostTabs
-    // clean this code:
+    // TODO: clean this code:
     let favIcon_img = hostTabs[0].favIconUrl;
     if (hostTabs[0].url.includes("chrome://newtab/")) { 
       favIcon_img = require('/Users/akhileshbitla/Work/products/Organize/src/images/chrome_icon.png').default;
@@ -78,25 +76,12 @@ isGroupCollapsed, setIsGroupCollapsed, collator}) {
               setHostUrls([...updatedHostUrls]);
               setGroupButtonDisabled(currDisabledState => {
                 const updatedDisabledState = currDisabledState.filter((disabledState, stateIndex) => stateIndex !== index);
-                // console.log(updatedDisabledState);
                 return updatedDisabledState;
               });
-              // console.log(showModalArr);
               setShowModalArr(currShowModalState => {
                 const updatedShowModalState = currShowModalState.filter((showModalState, stateIndex) => stateIndex !== index);
-                // console.log(updatedShowModalState);
                 return updatedShowModalState;
               });
-              // var updatedGroupButtonDisabledArr = [];
-              // var url_index = 0;
-              // for (const url of hostUrls) {
-              //   if (url_index != index) {
-              //     updatedGroupButtonDisabledArr.push(isGroupButtonDisabled[url_index]);
-              //   }
-              //   url_index++;
-              // }
-              // setGroupButtonDisabled([...updatedGroupButtonDisabledArr]);
-              // console.log(updatedGroupButtonDisabledArr);
 
               var updatedCurrGroupTabs = []; 
               for (const groupTabs of currGroupTabs) {

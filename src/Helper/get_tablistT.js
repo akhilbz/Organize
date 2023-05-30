@@ -94,7 +94,7 @@ function GetTabListForDT({tabType, currGroups, setCurrGroups, currGroupTabs, set
                       }
                     }
                 
-                    if (nonGrouped != 0 && nonGrouped < hostTabs.length) {
+                    if (nonGrouped != 0 && nonGrouped < tabType.length) {
                       notAllGrouped = true;
                     } 
                     updatedShowModalState[tabHostUrlIndex] = notAllGrouped;
