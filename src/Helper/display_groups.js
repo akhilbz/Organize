@@ -8,7 +8,6 @@ import { getHostUrls } from "./helper_functions";
 function DisplayGroups({currGroups, setCurrGroups, currGroupTabs, setCurrGroupTabs,
      currTabs, setCurrTabs, hostUrls, setHostUrls, isGroupButtonDisabled, setGroupButtonDisabled, 
      showModalArr, setShowModalArr, currHostUrlIndex, setCurrHostUrlIndex, isGroupCollapsed, setIsGroupCollapsed}) {
-    
     const handleCollapseGroup = async (currGroupId, index) => {
     await chrome.tabGroups.update(currGroupId, { collapsed: !isGroupCollapsed[index] });
     setIsGroupCollapsed(currIsGroupCollapsedState => currIsGroupCollapsedState.map((state, i) => {
