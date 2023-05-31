@@ -1,6 +1,5 @@
 import React from "react";
 import GetTabListForDG from "./get_tablistG";
-import { lighten } from 'polished';
 import { Collapse, Dropdown } from "react-bootstrap";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faEllipsisV } from '@fortawesome/free-solid-svg-icons';
@@ -19,7 +18,6 @@ function DisplayGroups({ currActiveTab, currGroups, setCurrGroups, currGroupTabs
     return (
         <> {
         currGroups.map((currGroup, index) => {
-          console.log(currGroup);
             const currGroupId = currGroup.id;
             const groupTabs = currGroupTabs.filter((grpTab) => grpTab[0].groupId == currGroupId);
             const tabIds = groupTabs[0].map(({ id }) => id);
@@ -30,7 +28,7 @@ function DisplayGroups({ currActiveTab, currGroups, setCurrGroups, currGroupTabs
                 <div onClick={() => handleCollapseGroup(currGroupId, index)} className="collapse-feature card-header d-flex justify-content-between" 
                 aria-expanded={!isGroupCollapsed[index]} aria-controls="collapseGroup${index}">
                   <div className="left-side-items d-flex">
-                    <div class="circle" style={{backgroundColor: getModdedColor(currGroup.color)}}></div>
+                    <div className="circle" style={{backgroundColor: getModdedColor(currGroup.color)}}></div>
                     <h4 className={'header-text ' + (currGroup.title.length == 0 ? 'nameless-header-text' : '')}>{(currGroup.title.length == 0) ? "no_name" : currGroup.title}</h4>
                   </div>
                   <div className="group-right-side-items d-flex">  
@@ -105,7 +103,8 @@ function DisplayGroups({ currActiveTab, currGroups, setCurrGroups, currGroupTabs
                     </Dropdown>
                   </div>
                 </div>
-                <Collapse in={!isGroupCollapsed[index]}>
+                {/* <div className="collapse-container"> */}
+                <Collapse className="collapse-container" in={!isGroupCollapsed[index]}>
                     <div className="" id={'collapseGroup${index}'}>              
                     <ul className="list-group list-group-flush">
                         <GetTabListForDG tabType={groupTabs[0]} currActiveTab={currActiveTab} currGroup={currGroup} currGroupIndex={index} currGroups={currGroups} setCurrGroups={setCurrGroups} 
@@ -115,6 +114,7 @@ function DisplayGroups({ currActiveTab, currGroups, setCurrGroups, currGroupTabs
                     </ul>
                     </div>
                 </Collapse>
+                {/* </div> */}
               </div>
             </div>
             );

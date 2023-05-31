@@ -1,5 +1,5 @@
 import React from "react";
-import { getHostUrls, truncateText } from "../helper_functions";
+import { truncateText, getModdedColor } from "../helper_functions";
 
 
 function GetTabListForDT({tabType, currActiveTab, currGroups, setCurrGroups, currGroupTabs, setCurrGroupTabs, currTabs, setCurrTabs, 
@@ -15,10 +15,16 @@ function GetTabListForDT({tabType, currActiveTab, currGroups, setCurrGroups, cur
         
         // Group Name Logic (group indicator):
         var group_name = "";
+        var name_color = null;
         if (tab.groupId != -1) {
           for (const group of currGroups) {
             if (group.id == tab.groupId) {
-              group_name += group.title;
+              name_color = getModdedColor(group.color);
+              if (group.title.length > 0) {
+              group_name = group.title;
+              } else {
+                group_name = "no_name";
+              }
             }
           }
         }
@@ -33,7 +39,7 @@ function GetTabListForDT({tabType, currActiveTab, currGroups, setCurrGroups, cur
               <h5 className={(tab.id === currActiveTab.id ? 'active-tab-text' : 'sub-title')}>{truncateText(title, 35)}</h5>
               </a>
               <div className="tab-list-items justify-content-between d-flex">
-              <div className="group-indicator-div"><h6 className="group-indicator">{group_name.length == 0 ? "no_name" : group_name}</h6></div>
+              <div className="group-indicator-div"><h6 className="group-indicator">{group_name}</h6></div>
               <button type="button" className="btn-close"  aria-label="Close" onClick={(event) => {
                 chrome.tabs.remove(tab.id);
                 const updatedTabs = currTabs.filter((remtab) => remtab.id != tab.id);

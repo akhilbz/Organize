@@ -40,9 +40,7 @@ function GroupOnlySome({currHostUrlIndex, showModal, setShowModal, currHostTabs,
         }
     }
     const visibleGroupedTabsArr = showAll ? groupedTabsArr : groupedTabsArr.slice(0, MAX_VISIBLE_ITEMS);
-    console.log(isGroupCollapsed);
     const handleGroupRemTabs = async () => {
-        console.log(currHostUrlIndex);
         setShowModalArr(currShowModalState => {
             const updatedShowModalArr = [...currShowModalState];
             // updatedShowModalArr[currHostUrlIndex] = false;

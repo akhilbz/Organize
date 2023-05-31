@@ -10870,6 +10870,7 @@ body {
 
 .collapse-feature {
   cursor: pointer;
+  border-bottom: none !important;
   flex-grow: 1;
   height: 100%; /* Extend the height to match other components */
   text-decoration: none; /* Remove underline if needed */
@@ -10881,11 +10882,20 @@ body {
   transition: height 2s ease; /* Apply a smooth transition to the height property */
 }
 
+.collapse-container {
+  overflow: hidden !important;
+  border-bottom-left-radius: 0.375rem !important;
+  border-bottom-right-radius: 0.375rem !important;
+}
+
 .group-right-side-items {
   height: 20%;
 }
 
 .card {
+  border-bottom-left-radius: 0.375rem !important;
+  border-bottom-right-radius: 0.375rem !important;
+  overflow: hidden !important;
   --bs-card-border-width: 0.1px ;
 }
 
@@ -10900,7 +10910,9 @@ body {
 }
 
 .card-header {
+  border-bottom: none !important;
   background-color: #e0e0e0 !important;
+  overflow: hidden !important;
 }
 
 .tab-head {
@@ -10994,12 +11006,17 @@ body {
   height: 100%;
 }
 
+.modal-title {
+  font-weight: 400 !important;
+}
+
 .modal-backdrop.show {
   opacity: 0.1;
 }
 
 .modal-subheading {
   font-size: 0.85rem;
+  font-weight: 400 !important;
 }
 
 .modal-body-container {
@@ -11012,6 +11029,7 @@ body {
 
 .modal-sub-statement {
   font-size: 0.6rem;
+  font-weight: 400 !important;
   color: #333333;
   margin-bottom: 0px;
 }
@@ -11038,7 +11056,6 @@ body {
   padding: 0;
   margin-top: -3px;
   font-size: 14px;
-  color: #007bff;
   text-decoration: underline;
   transition: color 0.3s ease;
 }
@@ -11055,11 +11072,38 @@ body {
 }
 
 .grouped-tab-modal {
+  align-self: center !important;
   font-size: 0.8rem;
+  font-weight: 400 !important;
+  margin-left: 5px !important;
+  margin-top: 2px !important;
+  padding-top: 0px !important;
+  margin-bottom: 2px !important;
   max-width: 275px;
   white-space: nowrap; /* Prevent line breaks */
   overflow: hidden; /* Hide the overflowing content */
   text-overflow: ellipsis; /* Add the ellipsis */
+}
+
+.group-indicator-div {
+  max-width: 90px !important;
+}
+
+.group-indicator {
+  margin-top: auto !important;
+  padding-top: 0px !important;
+  margin-bottom: 2px !important;
+  margin-right: 5px !important;
+  font-size: 0.6rem;
+  font-weight: 400 !important;
+  color: #495057;
+  font-style: italic !important;
+  text-decoration: underline;
+  max-width: -moz-fit-content !important;
+  max-width: fit-content !important;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
 }
 
 .card-settings {
@@ -11183,22 +11227,4 @@ li:nth-child(even) {
 
 .tab-list-items {
   align-items: center !important;
-}
-
-.group-indicator-div {
-  max-width: 90px !important;
-}
-
-.group-indicator {
-  padding-top: 5px;
-  margin-right: 3px !important;
-  font-size: 0.6rem;
-  color: #495057;
-  font-style: italic !important;
-  text-decoration: underline;
-  max-width: -moz-fit-content !important;
-  max-width: fit-content !important;
-  overflow: hidden;
-  text-overflow: ellipsis;
-  white-space: nowrap;
 }/*# sourceMappingURL=organize_main.css.map */

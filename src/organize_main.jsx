@@ -27,7 +27,6 @@ const container = document.getElementById("react-target");
     async function fetchData() {
       const tabs = await chrome.tabs.query({ currentWindow: true });
       const activeTab = tabs.filter((tab) => tab.active);
-      console.log(activeTab[0]);
       const groups = await chrome.tabGroups.query({ windowId: chrome.windows.WINDOW_ID_CURRENT });
       groups.sort((a, b) => collator.compare(a.title, b.title));
       tabs.sort((a, b) => collator.compare(a.title, b.title)); // sort by title
