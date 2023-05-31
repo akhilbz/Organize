@@ -64,10 +64,12 @@ isGroupButtonDisabled, setGroupButtonDisabled, showModalArr, setShowModalArr}) {
                   }
                   console.log(updatedGroupTabs);
                   setCurrGroupTabs([...updatedGroupTabs]);
-
+                  console.log(tabType);
                   if (tabType.length == 1) {
                     const updatedGroups = currGroups.filter((group) => group !== currGroup);
+                    console.log(updatedGroups);
                     const updatedCollapseStates = isGroupCollapsed.filter((state, i) => i !== currGroupIndex);
+                    console.log(updatedCollapseStates);
                     setIsGroupCollapsed(updatedCollapseStates);
                     setCurrGroups(updatedGroups);
 

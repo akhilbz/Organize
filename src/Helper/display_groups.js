@@ -38,17 +38,17 @@ function DisplayGroups({currGroups, setCurrGroups, currGroupTabs, setCurrGroupTa
                     <Dropdown.Item onClick={ async () => {
                         var updatedTabs = [];
                         var tempTab = null;
-
+                        console.log(groupTabs[0]);
                         for (const tab of currTabs) {
-                            if (groupTabs[0].includes(tab)) {
-                                tempTab = Object.assign({}, tab); // storing tab in a temorary object
+                            if (groupTabs[0].some((groupedTab) => groupedTab.id === tab.id)) {
+                                tempTab = Object.assign({}, tab); // storing tab in a temporary object
                                 tempTab.groupId = -1;
                                 updatedTabs.push(tempTab);
                             } else {
                                 updatedTabs.push(tab);
                             }
                         }
-
+                        console.log(updatedTabs);
                         const updatedGroupTabs = currGroupTabs.filter((gTabs) => gTabs[0].groupId != groupTabs[0][0].groupId);
                         await chrome.tabs.ungroup(tabIds, ()=>{});
 
@@ -66,26 +66,31 @@ function DisplayGroups({currGroups, setCurrGroups, currGroupTabs, setCurrGroupTa
                         setGroupButtonDisabled((currDisabledState) => {
                             const updatedGroupButtonDisabled = [...currDisabledState];
                             hostUrlIndexes.forEach((index) => updatedGroupButtonDisabled[index] = false);
+                            console.log(updatedGroupButtonDisabled);
                             return updatedGroupButtonDisabled;
                           });
 
-                          const hostTabs = updatedTabs.filter((tab) => tab.url.includes(`://${hostUrls[currHostUrlIndex]}/`));
+                          console.log(hostUrlIndexes);
                           setShowModalArr(currShowModalArrState => {
                             const updatedShowModalArrState = [...currShowModalArrState];
-                            var notAllGrouped = false;
-                            var nonGrouped = 0;
-                            if (hostTabs.length > 1) {
-                                for (const tab of hostTabs) {
-                                  if (tab.groupId === -1) {
-                                    nonGrouped++;
-                                  }
-                                }
-                            
-                                if (nonGrouped != 0 && nonGrouped < hostTabs.length) {
-                                  notAllGrouped = true;
-                                } 
+                            for (const urlIndex of hostUrlIndexes) {
+                              var notAllGrouped = false;
+                              var nonGrouped = 0;
+                              const hostTabs = updatedTabs.filter((tab) => tab.url.includes(`://${hostUrls[urlIndex]}/`));
+                              console.log("hostTabs:", hostTabs);
+                              if (hostTabs.length > 1) {
+                                  for (const tab of hostTabs) {
+                                    if (tab.groupId === -1) {
+                                      nonGrouped++;
+                                    }
+                                  } 
+                                  if (nonGrouped != 0 && nonGrouped < hostTabs.length) {
+                                    notAllGrouped = true;
+                                  } 
+                              }
+                              updatedShowModalArrState[urlIndex] = notAllGrouped;
                             }
-                            updatedShowModalArrState[currHostUrlIndex] = notAllGrouped;
+                            console.log(updatedShowModalArrState);
                             return updatedShowModalArrState;
                           });
                           setCurrHostUrlIndex(-1);

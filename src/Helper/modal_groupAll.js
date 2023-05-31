@@ -1,7 +1,7 @@
 import { getHostUrls } from "./helper_functions";
 
-export async function handleGroupAllTabs({ allCurrTabIds, truncatedTitle, currGroups, setCurrGroups, isGroupCollapsed, setIsGroupCollapsed,
-    currGroupTabs, setCurrGroupTabs, currTabs, setCurrTabs, hostUrls, currHostUrl, showModalArr, setShowModalArr, 
+export async function handleGroupAllTabs({ allCurrTabIds, currHostUrlIndex, truncatedTitle, currGroups, setCurrGroups, isGroupCollapsed, 
+    setIsGroupCollapsed, currGroupTabs, setCurrGroupTabs, currTabs, setCurrTabs, hostUrls, currHostUrl, showModalArr, setShowModalArr, 
     isGroupButtonDisabled, setGroupButtonDisabled}) {
 
     // This is to remove the existing group and groupedTabs and replace it with the new group
@@ -128,9 +128,9 @@ export async function handleGroupAllTabs({ allCurrTabIds, truncatedTitle, currGr
             return isDisabled;
             }
         });
-        // console.log(currGroups);
-        // console.log(isGroupCollapsed);
-        // console.log(updatedGroupButtonDisabled);
+        console.log(currGroups);
+        console.log(isGroupCollapsed);
+        console.log(updatedGroupButtonDisabled);
         setGroupButtonDisabled([...updatedGroupButtonDisabled]); 
     // } 
     } else {
@@ -138,15 +138,15 @@ export async function handleGroupAllTabs({ allCurrTabIds, truncatedTitle, currGr
         // update currGroups if size is only one & isGroupCollapsed
         // update currGroupTabs regardless (updated above)
         // update currTabs by making groupid -1
-        // console.log(currTabs);
-        // console.log("here");
+        console.log(currTabs);
+        console.log("here");
         var updatedCurrGroupTabs = [];
         for (const currGroupTab of currGroupTabs) {
             const updatedGroupTab = currGroupTab.filter((groupedTab) => !allCurrTabIdsSet.has(groupedTab.id));
             // console.log(updatedGroupTab);
             updatedCurrGroupTabs.push(updatedGroupTab);
         }
-        // console.log(currGroupTabs);
+        console.log(currGroupTabs);
         // console.log(updatedCurrGroupTabs);
         setCurrGroupTabs([...updatedCurrGroupTabs]);
         setCurrTabs(tabs => {
@@ -160,13 +160,13 @@ export async function handleGroupAllTabs({ allCurrTabIds, truncatedTitle, currGr
                     updatedTabs.push(tab);
                 }
             }
-            // console.log(updatedTabs);
+            console.log(updatedTabs);
             return updatedTabs;
         });
         const groupsIdSet = new Set(currGroups.map(({id}) => id));
         const updatedCurrGroups = [];
         const updatedGroupCollapsedState  = [];
-        // console.log(updatedCurrGroupTabs);
+        console.log(updatedCurrGroupTabs);
         for (const currGroupTab of updatedCurrGroupTabs) {
             if (groupsIdSet.has(currGroupTab[0].groupId)) {
                 const group = currGroups.find(({ id }) => id === currGroupTab[0].groupId);
@@ -181,21 +181,21 @@ export async function handleGroupAllTabs({ allCurrTabIds, truncatedTitle, currGr
                 }
             }
         }
-        // console.log(updatedCurrGroups);
+        console.log(updatedCurrGroups);
         setCurrGroups(updatedCurrGroups);
-        // console.log(isGroupCollapsed);
+        console.log(isGroupCollapsed);
         setIsGroupCollapsed(updatedGroupCollapsedState);
         await setShowModalArr((currShowModalArr) => {
             const updatedShowModalArr = [...currShowModalArr];
             updatedShowModalArr[currHostUrlIndex] = false;
-            // console.log(updatedShowModalArr);
+            console.log(updatedShowModalArr);
             return updatedShowModalArr;
         });
 
         await setGroupButtonDisabled((currDisabledState) => {
             const updatedGroupButtonDisabled = [...currDisabledState];
             updatedGroupButtonDisabled[currHostUrlIndex] = true;
-            // console.log(updatedGroupButtonDisabled);
+            console.log(updatedGroupButtonDisabled);
             return updatedGroupButtonDisabled;
         });
     } 
