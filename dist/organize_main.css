@@ -10940,6 +10940,7 @@ body {
 
 .tooltip {
   position: absolute;
+  z-index: 800 !important;
   background-color: white;
   color: black;
   font-size: 0.5rem;
@@ -10961,8 +10962,9 @@ body {
 }
 
 .modal {
-  display: flex;
   position: fixed;
+  z-index: 3000 !important;
+  display: flex;
   top: 20.5%;
   width: 100%;
   height: 100%;

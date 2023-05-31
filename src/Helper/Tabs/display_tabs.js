@@ -1,8 +1,8 @@
 import React, { useState } from "react";
 import GetTabListForDT from "./get_tablistT";
-import GroupOnlySome from "./group_modal";
+import GroupOnlySome from "./Group_Modal/group_modal";
 import { GroupAllTabs } from "./group_no_modal";
-import { truncateText, groupTitle, getHostUrls } from "./helper_functions";
+import { truncateText, groupTitle, getHostUrls } from "../helper_functions";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faLayerGroup, faEllipsisV } from '@fortawesome/free-solid-svg-icons';
 import { Dropdown } from "react-bootstrap";

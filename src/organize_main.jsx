@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
-import DisplayTabs from "./Helper/display_tabs.js";
-import DisplayGroups from "./Helper/display_groups.js";
+import DisplayTabs from "./Helper/Tabs/display_tabs.js";
+import DisplayGroups from "./Helper/Groups/display_groups.js";
 import { getHostUrls } from "./Helper/helper_functions.js";
 // import AllTemplates from "./Helper/templates.js";
 import { createRoot } from 'react-dom/client';
@@ -58,7 +58,7 @@ const container = document.getElementById("react-target");
           }
         }
         isButtonDisabled.push(isDisabled);
-        
+
         var notAllGrouped = false;
         var nonGrouped = 0;
         if (hostTabs.length > 1) {

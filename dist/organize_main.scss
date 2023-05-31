@@ -157,12 +157,12 @@
   }
 
   .enabled {
-    
     color: #000
   }
 
   .tooltip {
     position: absolute;
+    z-index: 800 !important;
     background-color: #FFFFFFff;
     // z-index: 9000 !important;
     color: black;
@@ -187,8 +187,9 @@
   
   // group_modal.js
   .modal {
-    display: flex;
     position: fixed;
+    z-index: 3000 !important;
+    display: flex;
     top: 20.5%;
     width: 100%;
     height: 100%;

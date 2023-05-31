@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
-import { GroupAllTabs } from "./group_no_modal";
+import { GroupAllTabs } from "../group_no_modal";
 import { handleGroupAllTabs } from "./modal_groupAll";
-import { truncateText, groupTitle, getHostUrls } from "./helper_functions";
+import { truncateText, groupTitle, getHostUrls } from "../../helper_functions";
 import { Modal } from 'react-bootstrap';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faEllipsisH } from '@fortawesome/free-solid-svg-icons';

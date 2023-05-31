@@ -3,7 +3,7 @@ import GetTabListForDG from "./get_tablistG";
 import { Collapse, Dropdown } from "react-bootstrap";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faEllipsisV } from '@fortawesome/free-solid-svg-icons';
-import { getHostUrls } from "./helper_functions";
+import { getHostUrls } from "../helper_functions";
 
 function DisplayGroups({currGroups, setCurrGroups, currGroupTabs, setCurrGroupTabs,
      currTabs, setCurrTabs, hostUrls, setHostUrls, isGroupButtonDisabled, setGroupButtonDisabled, 

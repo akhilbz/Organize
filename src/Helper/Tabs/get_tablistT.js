@@ -1,5 +1,5 @@
 import React from "react";
-import { getHostUrls, truncateText } from "./helper_functions";
+import { getHostUrls, truncateText } from "../helper_functions";
 
 
 function GetTabListForDT({tabType, currGroups, setCurrGroups, currGroupTabs, setCurrGroupTabs, currTabs, setCurrTabs, 

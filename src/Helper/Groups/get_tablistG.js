@@ -1,5 +1,5 @@
 import React, { useCallback } from "react";
-import { truncateText, getHostUrls } from "./helper_functions";
+import { truncateText, getHostUrls } from "../helper_functions";
 
 
 function GetTabListForDG({tabType, currGroup, currGroupIndex, currGroups, setCurrGroups, currGroupTabs, 

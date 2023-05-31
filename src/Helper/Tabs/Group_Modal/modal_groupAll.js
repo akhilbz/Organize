@@ -1,4 +1,4 @@
-import { getHostUrls } from "./helper_functions";
+import { getHostUrls } from "../../helper_functions";
 
 export async function handleGroupAllTabs({ allCurrTabIds, currHostUrlIndex, truncatedTitle, currGroups, setCurrGroups, isGroupCollapsed, 
     setIsGroupCollapsed, currGroupTabs, setCurrGroupTabs, currTabs, setCurrTabs, hostUrls, currHostUrl, showModalArr, setShowModalArr, 
