@@ -2,7 +2,7 @@ import React, { useCallback } from "react";
 import { truncateText, getHostUrls } from "../helper_functions";
 
 
-function GetTabListForDG({tabType, currGroup, currGroupIndex, currGroups, setCurrGroups, currGroupTabs, 
+function GetTabListForDG({tabType, currActiveTab, currGroup, currGroupIndex, currGroups, setCurrGroups, currGroupTabs, 
 setCurrGroupTabs, currTabs, setCurrTabs, hostUrls, setHostUrls, isGroupCollapsed, setIsGroupCollapsed,
 isGroupButtonDisabled, setGroupButtonDisabled, showModalArr, setShowModalArr}) {   
   return (    
@@ -13,13 +13,13 @@ isGroupButtonDisabled, setGroupButtonDisabled, showModalArr, setShowModalArr}) {
           const curr_tab = tab;
           const truncatedTitle = truncateText(title, 35);
           return (
-            <li key={index} className="list-group-item">
+            <li key={index} className={'list-group-item ' + (tab.id === currActiveTab.id ? 'active-tab' : '')}>
               <div className="d-flex justify-content-between align-items-center">
                 <a onClick={async () => {
                   await chrome.tabs.update(tab.id, { active: true });
                   await chrome.windows.update(tab.windowId, { focused: true });
                 }}>
-                  <h5 className="sub-title card-subtitle tab-text-size">{truncatedTitle}</h5>
+                  <h5 className={(tab.id === currActiveTab.id ? 'active-tab-text' : 'sub-title')}>{truncatedTitle}</h5>
                 </a>
                 <button type="button" className="btn-close" aria-label="Close" onClick={() =>{
                   chrome.tabs.remove(tab.id);

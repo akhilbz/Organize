@@ -45,3 +45,26 @@ export function getHostUrls(tabs) {
 
   return hostUrls;
 }
+
+export function getModdedColor(color) {
+  switch (color) {
+    case "grey":
+      return "#a9a9a9";
+    case "blue":
+      return "#8aa2d9";
+    case "red":
+      return "#ff8787";
+    case "yellow":
+      return "#fddc68";
+    case "green":
+      return "#68b670";
+    case "pink":
+      return "#fca5c3";
+    case "purple":
+      return "#c49de6";
+    case "cyan":
+      return "#7fd9e8";
+    case "orange": 
+    return "#ffac75";
+  }
+}

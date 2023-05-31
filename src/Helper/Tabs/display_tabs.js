@@ -10,7 +10,7 @@ import chrome_logo from '/Users/akhileshbitla/Work/products/Organize/src/images/
 import extension_logo from '/Users/akhileshbitla/Work/products/Organize/src/images/extension_icon.png';
 
 
-function DisplayTabs({ currGroups, setCurrGroups, currGroupTabs, setCurrGroupTabs,
+function DisplayTabs({ currActiveTab, currGroups, setCurrGroups, currGroupTabs, setCurrGroupTabs,
 hostUrls, setHostUrls, currTabs, setCurrTabs, isGroupButtonDisabled, setGroupButtonDisabled, 
 showModal, setShowModal, showModalArr, setShowModalArr, currHostUrlIndex, setCurrHostUrlIndex,
 isGroupCollapsed, setIsGroupCollapsed, collator}) {
@@ -41,11 +41,11 @@ isGroupCollapsed, setIsGroupCollapsed, collator}) {
   return (
     <div key={index} className="col-md-4 mb-2">
       <div className="card card-tabs">
-        <div className="card-header d-flex justify-content-between">
+        <div className="card-header tab-header d-flex justify-content-between">
           <div className="left-side-items d-flex">
           <img className="favicon" src={favIcon_img} alt="" />
 
-          <h4 className="title card-title header-text">{truncatedTitle}</h4>
+          <h4 className="header-text">{truncatedTitle}</h4>
           </div>
           <div className="right-side-items d-flex">
             <button className="group" disabled={isGroupButtonDisabled[index]} onClick= { () => {
@@ -107,7 +107,7 @@ isGroupCollapsed, setIsGroupCollapsed, collator}) {
           </div>
         </div>
         <ul className="list-group list-group-flush">
-          <GetTabListForDT tabType={hostTabs} currGroups={currGroups} setCurrGroups={setCurrGroups} currGroupTabs={currGroupTabs}
+          <GetTabListForDT tabType={hostTabs} currActiveTab={currActiveTab} currGroups={currGroups} setCurrGroups={setCurrGroups} currGroupTabs={currGroupTabs}
           setCurrGroupTabs={setCurrGroupTabs} currTabs={currTabs} setCurrTabs={setCurrTabs} hostUrls={hostUrls} setHostUrls={setHostUrls}
           isGroupButtonDisabled={isGroupButtonDisabled} setGroupButtonDisabled={setGroupButtonDisabled} isGroupCollapsed={isGroupCollapsed} 
           setIsGroupCollapsed={setIsGroupCollapsed} showModalArr={showModalArr} setShowModalArr={setShowModalArr}/>

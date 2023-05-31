@@ -1,13 +1,15 @@
 import React from "react";
 import GetTabListForDG from "./get_tablistG";
+import { lighten } from 'polished';
 import { Collapse, Dropdown } from "react-bootstrap";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faEllipsisV } from '@fortawesome/free-solid-svg-icons';
-import { getHostUrls } from "../helper_functions";
+import { getHostUrls, getModdedColor } from "../helper_functions";
 
-function DisplayGroups({currGroups, setCurrGroups, currGroupTabs, setCurrGroupTabs,
+function DisplayGroups({ currActiveTab, currGroups, setCurrGroups, currGroupTabs, setCurrGroupTabs,
      currTabs, setCurrTabs, hostUrls, setHostUrls, isGroupButtonDisabled, setGroupButtonDisabled, 
-     showModalArr, setShowModalArr, currHostUrlIndex, setCurrHostUrlIndex, isGroupCollapsed, setIsGroupCollapsed}) {
+     showModalArr, setShowModalArr, currHostUrlIndex, setCurrHostUrlIndex, isGroupCollapsed, setIsGroupCollapsed }) {
+    
     const handleCollapseGroup = async (currGroupId, index) => {
     await chrome.tabGroups.update(currGroupId, { collapsed: !isGroupCollapsed[index] });
     setIsGroupCollapsed(currIsGroupCollapsedState => currIsGroupCollapsedState.map((state, i) => {
@@ -17,6 +19,7 @@ function DisplayGroups({currGroups, setCurrGroups, currGroupTabs, setCurrGroupTa
     return (
         <> {
         currGroups.map((currGroup, index) => {
+          console.log(currGroup);
             const currGroupId = currGroup.id;
             const groupTabs = currGroupTabs.filter((grpTab) => grpTab[0].groupId == currGroupId);
             const tabIds = groupTabs[0].map(({ id }) => id);
@@ -27,7 +30,8 @@ function DisplayGroups({currGroups, setCurrGroups, currGroupTabs, setCurrGroupTa
                 <div onClick={() => handleCollapseGroup(currGroupId, index)} className="collapse-feature card-header d-flex justify-content-between" 
                 aria-expanded={!isGroupCollapsed[index]} aria-controls="collapseGroup${index}">
                   <div className="left-side-items d-flex">
-                    <h4 className="title card-title header-text">{currGroup.title}</h4>
+                    <div class="circle" style={{backgroundColor: getModdedColor(currGroup.color)}}></div>
+                    <h4 className={'header-text ' + (currGroup.title.length == 0 ? 'nameless-header-text' : '')}>{(currGroup.title.length == 0) ? "no_name" : currGroup.title}</h4>
                   </div>
                   <div className="group-right-side-items d-flex">  
                     <Dropdown className="card-settings" onClick={async (e) => {e.stopPropagation();}}>
@@ -104,7 +108,7 @@ function DisplayGroups({currGroups, setCurrGroups, currGroupTabs, setCurrGroupTa
                 <Collapse in={!isGroupCollapsed[index]}>
                     <div className="" id={'collapseGroup${index}'}>              
                     <ul className="list-group list-group-flush">
-                        <GetTabListForDG tabType={groupTabs[0]} currGroup={currGroup} currGroupIndex={index} currGroups={currGroups} setCurrGroups={setCurrGroups} 
+                        <GetTabListForDG tabType={groupTabs[0]} currActiveTab={currActiveTab} currGroup={currGroup} currGroupIndex={index} currGroups={currGroups} setCurrGroups={setCurrGroups} 
                         currGroupTabs={currGroupTabs} setCurrGroupTabs={setCurrGroupTabs} currTabs={currTabs} setCurrTabs={setCurrTabs} 
                         hostUrls={hostUrls} setHostUrls={setHostUrls} isGroupButtonDisabled={isGroupButtonDisabled} setGroupButtonDisabled={setGroupButtonDisabled} 
                         isGroupCollapsed={isGroupCollapsed} setIsGroupCollapsed={setIsGroupCollapsed} showModalArr={showModalArr} setShowModalArr={setShowModalArr}/>

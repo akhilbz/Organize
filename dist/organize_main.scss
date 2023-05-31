@@ -50,8 +50,10 @@
 
   // ----------------------------------------------------------------
   .group-head {
-     margin-top: 18px !important;
-     padding-left: 8px !important; 
+    font-size: 1.4rem !important;
+    font-weight: 400 !important;
+    margin-top: 18px !important;
+    padding-left: 8px !important; 
   }
 
   .groups-section {
@@ -83,9 +85,28 @@
   //   top: 25px !important;
   --bs-card-border-width: 0.1px
   }
+
+  .circle {
+    height: 20px;
+    width: 20px;
+    border-radius: 50%;
+    margin-right: 10px;
+    margin-top: 9px !important;
+    margin-bottom: 5px !important;
+    padding-bottom: auto;
+
+  }
+
   // ----------------------------------------------------------------
   // Tabs/Groups Section:
+
+  .card-header {
+    background-color: #e0e0e0 !important;
+  }
+
   .tab-head {
+    font-size: 1.4rem !important;
+    font-weight: 400 !important;
     margin-top: 6px !important;
     padding-left: 8px !important; 
   }
@@ -107,18 +128,18 @@
   // Host URL (left side)
 
   .header-text {
-    // font-size: 1.2rem;
-    // white-space: nowrap; /* Prevents text from wrapping */
-    // overflow: hidden; /* Hides any overflowing text */
-    // text-overflow: ellipsis; /* Adds ... at the end of the line */
+    font-weight: 400;
     max-width: 285px; 
     // max-width: fit-content !important;
     white-space: nowrap; /* Prevent line breaks */
     overflow: hidden; /* Hide the overflowing content */
     text-overflow: ellipsis; /* Add the ellipsis */
-    margin-top: 5px !important;
+    margin-top: 4.25px !important;
     margin-bottom: 5px !important;
     padding-bottom: auto;
+  }
+  .nameless-header-text {
+    font-style: italic;
   }
 
   // Host Logo (left side)
@@ -126,7 +147,7 @@
     height: 20px;
     width: 20px;
     margin-right: 10px;
-    margin-top: 7px !important;
+    margin-top: 8px !important;
     margin-bottom: 5px !important;
     padding-bottom: auto;
     // padding-right: 8px;
@@ -167,6 +188,7 @@
     // z-index: 9000 !important;
     color: black;
     font-size: 0.5rem;
+    font-weight: 400;
     padding: 3px;
     border-radius: 5px;
     border: 1px solid rgb(0 0 0 / 17%);
@@ -332,10 +354,17 @@
   .sub-title {
     cursor: pointer;
     font-size: 1rem;
+    font-weight: 400 !important;
     max-width: 250px;
     white-space: nowrap; /* Prevent line breaks */
     overflow: hidden; /* Hide the overflowing content */
     text-overflow: ellipsis; /* Add the ellipsis */
+  }
+
+  .sub-title:hover {
+    visibility: visible !important;
+    color: #007bff !important;
+    text-decoration: underline !important;
   }
   
   ul {
@@ -355,10 +384,36 @@
     background: #ffffff;
   }
 
+  .active-tab {
+    // background-color: #e0e0e0 !important;
+    background-color: #f1f1f1 !important;
+
+  }
+  .active-tab-text {
+    cursor: pointer;
+    font-size: 1rem;
+    font-weight: 400 !important;
+    max-width: 250px;
+    white-space: nowrap; /* Prevent line breaks */
+    overflow: hidden; /* Hide the overflowing content */
+    text-overflow: ellipsis; /* Add the ellipsis */    
+  }
+
+  .active-tab-text:hover {
+    visibility: visible !important;
+    color:#ffd700 !important;
+    text-decoration: underline !important;
+  }
+
   .list-group-item {
     position: relative;
     overflow: hidden;
     transition: height 0.1s ease-out, opacity 0.1s ease-out; /* Animate the height and opacity with a 0.3s ease-out transition */
+  }
+
+  .click-tab-text {
+    color: #007bff !important;
+    text-decoration: underline !important;
   }
 
   .list-group-item.closed {

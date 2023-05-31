@@ -2,7 +2,7 @@ import React from "react";
 import { getHostUrls, truncateText } from "../helper_functions";
 
 
-function GetTabListForDT({tabType, currGroups, setCurrGroups, currGroupTabs, setCurrGroupTabs, currTabs, setCurrTabs, 
+function GetTabListForDT({tabType, currActiveTab, currGroups, setCurrGroups, currGroupTabs, setCurrGroupTabs, currTabs, setCurrTabs, 
   hostUrls, setHostUrls, isGroupButtonDisabled, setGroupButtonDisabled, isGroupCollapsed, setIsGroupCollapsed,
   showModalArr, setShowModalArr}) {   
 
@@ -24,16 +24,16 @@ function GetTabListForDT({tabType, currGroups, setCurrGroups, currGroupTabs, set
         }
 
         return (
-          <li key={index} className="list-group-item">
+          <li key={index} className={'list-group-item ' + (tab.id === currActiveTab.id ? 'active-tab' : '')}>
             <div className="d-flex justify-content-between align-items-center">
               <a onClick={async ()=> {
                   await chrome.tabs.update(curr_tab.id, { active: true });
                   await chrome.windows.update(curr_tab.windowId, { focused: true });
               }}>
-              <h5 className="sub-title">{truncateText(title, 35)}</h5>
+              <h5 className={(tab.id === currActiveTab.id ? 'active-tab-text' : 'sub-title')}>{truncateText(title, 35)}</h5>
               </a>
               <div className="tab-list-items justify-content-between d-flex">
-              <div className="group-indicator-div"><h6 className="group-indicator">{group_name}</h6></div>
+              <div className="group-indicator-div"><h6 className="group-indicator">{group_name.length == 0 ? "no_name" : group_name}</h6></div>
               <button type="button" className="btn-close"  aria-label="Close" onClick={(event) => {
                 chrome.tabs.remove(tab.id);
                 const updatedTabs = currTabs.filter((remtab) => remtab.id != tab.id);

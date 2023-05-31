@@ -19,12 +19,15 @@ const container = document.getElementById("react-target");
   const [showModal, setShowModal] = useState(false);
   const [showModalArr, setShowModalArr] = useState([]);
   const [currHostUrlIndex, setCurrHostUrlIndex] = useState(-1);
+  const [currActiveTab, setCurrActiveTab] = useState(null);
 
   const collator = new Intl.Collator();
 
   useEffect(() => {
     async function fetchData() {
       const tabs = await chrome.tabs.query({ currentWindow: true });
+      const activeTab = tabs.filter((tab) => tab.active);
+      console.log(activeTab[0]);
       const groups = await chrome.tabGroups.query({ windowId: chrome.windows.WINDOW_ID_CURRENT });
       groups.sort((a, b) => collator.compare(a.title, b.title));
       tabs.sort((a, b) => collator.compare(a.title, b.title)); // sort by title
@@ -76,6 +79,7 @@ const container = document.getElementById("react-target");
       }
       
       setCurrTabs(tabs);
+      setCurrActiveTab(activeTab[0]);
       setHostUrls([...urls]);
       setCurrGroups([...groups]); 
       setCurrGroupTabs([...tabsInGroups]);
@@ -98,16 +102,16 @@ const container = document.getElementById("react-target");
       <div className="groups-section border-bottom">
       <h5 className="group-head">Groups</h5>
 
-      <DisplayGroups currGroups={currGroups} setCurrGroups={setCurrGroups} currGroupTabs={currGroupTabs} 
-      setCurrGroupTabs={setCurrGroupTabs} currTabs={currTabs} setCurrTabs={setCurrTabs} hostUrls={hostUrls} 
+      <DisplayGroups currActiveTab={currActiveTab} setCurrActiveTab={setCurrActiveTab} currGroups={currGroups} setCurrGroups={setCurrGroups}
+      currGroupTabs={currGroupTabs} setCurrGroupTabs={setCurrGroupTabs} currTabs={currTabs} setCurrTabs={setCurrTabs} hostUrls={hostUrls} 
       setHostUrls={setHostUrls} isGroupButtonDisabled={isGroupButtonDisabled} setGroupButtonDisabled={setGroupButtonDisabled} 
       showModalArr={showModalArr} setShowModalArr={setShowModalArr} currHostUrlIndex={currHostUrlIndex} 
       setCurrHostUrlIndex={setCurrHostUrlIndex} isGroupCollapsed={isGroupCollapsed} setIsGroupCollapsed={setIsGroupCollapsed} />
       </div>
 
       <h5 className="tab-head">Tabs</h5>
-      <DisplayTabs currGroups={currGroups} setCurrGroups={setCurrGroups} currGroupTabs={currGroupTabs} 
-      setCurrGroupTabs={setCurrGroupTabs} currTabs={currTabs} setCurrTabs={setCurrTabs} hostUrls={hostUrls} 
+      <DisplayTabs currActiveTab={currActiveTab} setCurrActiveTab={setCurrActiveTab} currGroups={currGroups} setCurrGroups={setCurrGroups} 
+      currGroupTabs={currGroupTabs} setCurrGroupTabs={setCurrGroupTabs} currTabs={currTabs} setCurrTabs={setCurrTabs} hostUrls={hostUrls} 
       setHostUrls={setHostUrls} isGroupButtonDisabled={isGroupButtonDisabled} setGroupButtonDisabled={setGroupButtonDisabled}
       showModal={showModal} setShowModal={setShowModal} showModalArr={showModalArr} setShowModalArr={setShowModalArr} 
       currHostUrlIndex={currHostUrlIndex} setCurrHostUrlIndex={setCurrHostUrlIndex} isGroupCollapsed={isGroupCollapsed} 
