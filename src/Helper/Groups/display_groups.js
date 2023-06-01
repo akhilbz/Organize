@@ -23,8 +23,7 @@ function DisplayGroups({ currActiveTab, currGroups, setCurrGroups, currGroupTabs
             const tabIds = groupTabs[0].map(({ id }) => id);
             return (
             <div key={index} className="col-md-4 mb-2 ">
-            
-              <div className="card .card-group">
+              <div className="card">
                 <div onClick={() => handleCollapseGroup(currGroupId, index)} className="collapse-feature card-header d-flex justify-content-between" 
                 aria-expanded={!isGroupCollapsed[index]} aria-controls="collapseGroup${index}">
                   <div className="left-side-items d-flex">
@@ -32,7 +31,9 @@ function DisplayGroups({ currActiveTab, currGroups, setCurrGroups, currGroupTabs
                     <h4 className={'header-text ' + (currGroup.title.length == 0 ? 'nameless-header-text' : '')}>{(currGroup.title.length == 0) ? "no_name" : currGroup.title}</h4>
                   </div>
                   <div className="group-right-side-items d-flex">  
-                    <Dropdown className="card-settings" onClick={async (e) => {e.stopPropagation();}}>
+                    <Dropdown className="card-settings" onClick={async (e) => {
+                      e.preventDefault();
+                      e.stopPropagation();}}>
                     <Dropdown.Toggle variant="success">
                       <FontAwesomeIcon icon={faEllipsisV} style={{ color: '#000000' }} className="fa-ellipsis-v fa-thin fa-lg" />    
                     </Dropdown.Toggle>
@@ -50,7 +51,7 @@ function DisplayGroups({ currActiveTab, currGroups, setCurrGroups, currGroupTabs
                                 updatedTabs.push(tab);
                             }
                         }
-                        console.log(updatedTabs);
+                        // console.log(updatedTabs);
                         const updatedGroupTabs = currGroupTabs.filter((gTabs) => gTabs[0].groupId != groupTabs[0][0].groupId);
                         await chrome.tabs.ungroup(tabIds, ()=>{});
 
@@ -103,7 +104,6 @@ function DisplayGroups({ currActiveTab, currGroups, setCurrGroups, currGroupTabs
                     </Dropdown>
                   </div>
                 </div>
-                {/* <div className="collapse-container"> */}
                 <Collapse className="collapse-container" in={!isGroupCollapsed[index]}>
                     <div className="" id={'collapseGroup${index}'}>              
                     <ul className="list-group list-group-flush">
@@ -114,7 +114,6 @@ function DisplayGroups({ currActiveTab, currGroups, setCurrGroups, currGroupTabs
                     </ul>
                     </div>
                 </Collapse>
-                {/* </div> */}
               </div>
             </div>
             );

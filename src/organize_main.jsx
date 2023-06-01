@@ -108,7 +108,10 @@ const container = document.getElementById("react-target");
       setCurrHostUrlIndex={setCurrHostUrlIndex} isGroupCollapsed={isGroupCollapsed} setIsGroupCollapsed={setIsGroupCollapsed} />
       </div>
 
-      <h5 className="tab-head">Tabs</h5>
+      <div className="tab-section-header d-flex justify-content-between">
+        <h5 className="tab-head">Tabs</h5>
+        <button type="button" class="btn btn-outline-warning new-group-btn">New Group</button>
+      </div>
       <DisplayTabs currActiveTab={currActiveTab} setCurrActiveTab={setCurrActiveTab} currGroups={currGroups} setCurrGroups={setCurrGroups} 
       currGroupTabs={currGroupTabs} setCurrGroupTabs={setCurrGroupTabs} currTabs={currTabs} setCurrTabs={setCurrTabs} hostUrls={hostUrls} 
       setHostUrls={setHostUrls} isGroupButtonDisabled={isGroupButtonDisabled} setGroupButtonDisabled={setGroupButtonDisabled}

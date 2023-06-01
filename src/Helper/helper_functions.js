@@ -51,7 +51,7 @@ export function getModdedColor(color) {
     case "grey":
       return "#a9a9a9";
     case "blue":
-      return "#8aa2d9";
+      return "#9fb0e0";
     case "red":
       return "#ff8787";
     case "yellow":

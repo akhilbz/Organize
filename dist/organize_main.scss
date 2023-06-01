@@ -78,7 +78,7 @@
   }
 
   .collapse-container {
-    overflow: hidden !important;
+    // overflow: hidden !important;
     border-bottom-left-radius: 0.375rem !important;
     border-bottom-right-radius: 0.375rem !important;
   }
@@ -92,7 +92,6 @@
   //   top: 25px !important;
   border-bottom-left-radius: 0.375rem !important;
   border-bottom-right-radius: 0.375rem !important;
-  overflow: hidden !important;
   --bs-card-border-width: 0.1px
   }
 
@@ -109,17 +108,33 @@
 
   // ----------------------------------------------------------------
   // Tabs/Groups Section:
+  .tab-section-header {
+    padding-bottom: -6px !important;
+  }
+
+  .new-group-btn {
+    font-size: 0.9rem !important;
+    // text-align: center;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-top: 6px !important;
+    margin-right: 5px !important;
+    padding-right: 8px !important; 
+    width: 100px; /* Adjust the width as needed */
+    height: 33px; 
+    font-size: 12px;
+  }
 
   .card-header {
     border-bottom: none !important;
     background-color: #e0e0e0 !important;
-    overflow: hidden !important;
   }
 
   .tab-head {
     font-size: 1.4rem !important;
     font-weight: 400 !important;
-    margin-top: 6px !important;
+    margin-top: 9px !important;
     padding-left: 8px !important; 
   }
   // Card Content (Header)
@@ -144,7 +159,7 @@
     max-width: 285px; 
     // max-width: fit-content !important;
     white-space: nowrap; /* Prevent line breaks */
-    overflow: hidden; /* Hide the overflowing content */
+    // overflow: hidden; /* Hide the overflowing content */
     text-overflow: ellipsis; /* Add the ellipsis */
     margin-top: 4.25px !important;
     margin-bottom: 5px !important;
@@ -335,6 +350,7 @@
 
   // Card Settings Button (right side)
   .card-settings {
+    // z-index: 1000 !important;
     background: none;
     border: none;
     font-size: 1rem;
@@ -383,7 +399,7 @@
 
 
 .dropdown-menu {
-  z-index: 3000 !important;
+  z-index: 850 !important;
   top: -15% !important;
   // left: -270% !important;
   --bs-dropdown-min-width: none; 
