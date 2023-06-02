@@ -10907,7 +10907,7 @@ body {
   padding-bottom: auto;
 }
 
-.tab-section-header {
+.tab-section {
   padding-bottom: -6px !important;
 }
 
@@ -10922,6 +10922,34 @@ body {
   width: 100px; /* Adjust the width as needed */
   height: 33px;
   font-size: 12px;
+}
+
+.new-group-grp-btn {
+  font-size: 0.9rem !important;
+  display: flex;
+  justify-content: center;
+  margin-top: 6px !important;
+  margin-right: 5px !important;
+  padding-right: 8px !important;
+  width: 33px !important; /* Adjust the width as needed */
+  height: 33px !important;
+}
+
+.btn-group-icon {
+  margin-right: 3px !important;
+}
+
+.btn-group-cancel {
+  font-size: 0.9rem !important;
+  display: flex !important;
+  text-align: center !important;
+  align-items: center !important;
+  justify-content: center !important;
+  margin-top: 6px !important;
+  margin-left: 0px !important;
+  margin-right: 5px !important;
+  width: 60px; /* Adjust the width as needed */
+  height: 33px;
 }
 
 .card-header {
@@ -10972,7 +11000,7 @@ body {
   align-self: flex-end;
 }
 
-.fa-layer-group {
+.group-icon {
   margin-bottom: 5.5px;
   padding-bottom: auto;
 }
@@ -11169,6 +11197,8 @@ body {
 .sub-title {
   cursor: pointer;
   font-size: 1rem;
+  margin-left: 5px !important;
+  margin-top: 10px !important;
   font-weight: 400 !important;
   max-width: 250px;
   white-space: nowrap; /* Prevent line breaks */
@@ -11201,6 +11231,10 @@ li:nth-child(even) {
   background: #ffffff;
 }
 
+.tab-checkbox {
+  margin-top: 9px !important;
+}
+
 .active-tab {
   background-color: #f1f1f1 !important;
 }
@@ -11208,6 +11242,8 @@ li:nth-child(even) {
 .active-tab-text {
   cursor: pointer;
   font-size: 1rem;
+  margin-left: 5px !important;
+  margin-top: 10px !important;
   font-weight: 400 !important;
   max-width: 250px;
   white-space: nowrap; /* Prevent line breaks */

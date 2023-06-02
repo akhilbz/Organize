@@ -2,10 +2,9 @@ import React, { useState, useEffect } from "react";
 import DisplayTabs from "./Helper/Tabs/display_tabs.js";
 import DisplayGroups from "./Helper/Groups/display_groups.js";
 import { getHostUrls } from "./Helper/helper_functions.js";
-// import AllTemplates from "./Helper/templates.js";
 import { createRoot } from 'react-dom/client';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faSearch } from '@fortawesome/free-solid-svg-icons';
+import { faSearch, faLayerGroup } from '@fortawesome/free-solid-svg-icons';
 
 const container = document.getElementById("react-target");
 
@@ -20,7 +19,7 @@ const container = document.getElementById("react-target");
   const [showModalArr, setShowModalArr] = useState([]);
   const [currHostUrlIndex, setCurrHostUrlIndex] = useState(-1);
   const [currActiveTab, setCurrActiveTab] = useState(null);
-
+  const [showCheckboxesAndBtns, setShowCheckboxesAndBtns] = useState(false);
   const collator = new Intl.Collator();
 
   useEffect(() => {
@@ -90,6 +89,7 @@ const container = document.getElementById("react-target");
 
     fetchData();
   }, []);
+
   return (
     <div className="main_body">
     <nav className="navbar fixed-top border-bottom">
@@ -97,10 +97,10 @@ const container = document.getElementById("react-target");
       <button className="search "><FontAwesomeIcon icon={faSearch} style={{ color: '#000000' }} className="fa-search fa-thin fa-lg" /></button>
     </nav>
     
-    <div className="container-fluid">
+    <div className="tabs-groups-container container-fluid">
       <div className="groups-section border-bottom">
-      <h5 className="group-head">Groups</h5>
 
+      <h5 className="group-head">Groups</h5>
       <DisplayGroups currActiveTab={currActiveTab} setCurrActiveTab={setCurrActiveTab} currGroups={currGroups} setCurrGroups={setCurrGroups}
       currGroupTabs={currGroupTabs} setCurrGroupTabs={setCurrGroupTabs} currTabs={currTabs} setCurrTabs={setCurrTabs} hostUrls={hostUrls} 
       setHostUrls={setHostUrls} isGroupButtonDisabled={isGroupButtonDisabled} setGroupButtonDisabled={setGroupButtonDisabled} 
@@ -108,16 +108,23 @@ const container = document.getElementById("react-target");
       setCurrHostUrlIndex={setCurrHostUrlIndex} isGroupCollapsed={isGroupCollapsed} setIsGroupCollapsed={setIsGroupCollapsed} />
       </div>
 
-      <div className="tab-section-header d-flex justify-content-between">
+      <div className="tab-section d-flex justify-content-between">
         <h5 className="tab-head">Tabs</h5>
-        <button type="button" class="btn btn-outline-warning new-group-btn">New Group</button>
+        {!showCheckboxesAndBtns && (<button type="button" className="btn btn-outline-warning new-group-btn" onClick={() => {setShowCheckboxesAndBtns(true);}}>New Group</button>)}
+        {showCheckboxesAndBtns && (<div className="d-flex">
+        <button type="button" className="btn btn-outline-danger btn-group-cancel" onClick={() => {setShowCheckboxesAndBtns(false);}}>Cancel</button>
+        <button type="button" className="btn btn-warning new-group-grp-btn" onClick="">
+        <FontAwesomeIcon icon={faLayerGroup} className="fa-layer-group fa-thin fa-lg btn-group-icon"/>
+        </button>
+        </div>)}
       </div>
       <DisplayTabs currActiveTab={currActiveTab} setCurrActiveTab={setCurrActiveTab} currGroups={currGroups} setCurrGroups={setCurrGroups} 
       currGroupTabs={currGroupTabs} setCurrGroupTabs={setCurrGroupTabs} currTabs={currTabs} setCurrTabs={setCurrTabs} hostUrls={hostUrls} 
       setHostUrls={setHostUrls} isGroupButtonDisabled={isGroupButtonDisabled} setGroupButtonDisabled={setGroupButtonDisabled}
       showModal={showModal} setShowModal={setShowModal} showModalArr={showModalArr} setShowModalArr={setShowModalArr} 
       currHostUrlIndex={currHostUrlIndex} setCurrHostUrlIndex={setCurrHostUrlIndex} isGroupCollapsed={isGroupCollapsed} 
-      setIsGroupCollapsed={setIsGroupCollapsed} collator={collator} />
+      setIsGroupCollapsed={setIsGroupCollapsed} showCheckboxesAndBtns={showCheckboxesAndBtns} 
+      setShowCheckboxesAndBtns={setShowCheckboxesAndBtns} collator={collator} />
       </div>
     </div>
   );

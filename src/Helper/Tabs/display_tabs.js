@@ -13,7 +13,7 @@ import extension_logo from '/Users/akhileshbitla/Work/products/Organize/src/imag
 function DisplayTabs({ currActiveTab, currGroups, setCurrGroups, currGroupTabs, setCurrGroupTabs,
 hostUrls, setHostUrls, currTabs, setCurrTabs, isGroupButtonDisabled, setGroupButtonDisabled, 
 showModal, setShowModal, showModalArr, setShowModalArr, currHostUrlIndex, setCurrHostUrlIndex,
-isGroupCollapsed, setIsGroupCollapsed, collator}) {
+isGroupCollapsed, setIsGroupCollapsed, showCheckboxesAndBtns, setShowCheckboxesAndBtns, collator}) {
   const [currHostTabs, setCurrHostTabs] = useState([]);
   const [currHostUrl, setCurrHostUrl] = useState("");
 
@@ -52,7 +52,7 @@ isGroupCollapsed, setIsGroupCollapsed, collator}) {
               if (showModalArr[index]) { setShowModal(true); setCurrHostUrlIndex(index); setCurrHostTabs(hostTabs); setCurrHostUrl(hostUrl); }
               else { GroupAllTabs({tabIds, index, truncatedTitle, setGroupButtonDisabled, currTabs, setCurrTabs, currGroupTabs, 
               setCurrGroupTabs, currGroups, setCurrGroups, isGroupCollapsed, setIsGroupCollapsed});} }}>
-              <FontAwesomeIcon icon={faLayerGroup} className="fa-layer-group fa-thin fa-lg ${isGroupButtonDisabled[index] ? 'disabled' : 'enabled'}" />
+              <FontAwesomeIcon icon={faLayerGroup} className="fa-layer-group group-icon fa-thin fa-lg ${isGroupButtonDisabled[index] ? 'disabled' : 'enabled'}" />
               <span className="tooltip group-label">{isGroupButtonDisabled[index] ? 'All Grouped' : 'Quick Group'}</span>
             </button>
             
@@ -110,7 +110,8 @@ isGroupCollapsed, setIsGroupCollapsed, collator}) {
           <GetTabListForDT tabType={hostTabs} currActiveTab={currActiveTab} currGroups={currGroups} setCurrGroups={setCurrGroups} currGroupTabs={currGroupTabs}
           setCurrGroupTabs={setCurrGroupTabs} currTabs={currTabs} setCurrTabs={setCurrTabs} hostUrls={hostUrls} setHostUrls={setHostUrls}
           isGroupButtonDisabled={isGroupButtonDisabled} setGroupButtonDisabled={setGroupButtonDisabled} isGroupCollapsed={isGroupCollapsed} 
-          setIsGroupCollapsed={setIsGroupCollapsed} showModalArr={showModalArr} setShowModalArr={setShowModalArr}/>
+          setIsGroupCollapsed={setIsGroupCollapsed} showModalArr={showModalArr} setShowModalArr={setShowModalArr} showCheckboxesAndBtns={showCheckboxesAndBtns} 
+          setShowCheckboxesAndBtns={setShowCheckboxesAndBtns} />
         </ul>
       </div>
     </div>
