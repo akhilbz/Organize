@@ -1,10 +1,56 @@
-import React from "react";
+import React, { useState } from "react";
 import { truncateText, getModdedColor } from "../helper_functions";
 
 
 function GetTabListForDT({tabType, currActiveTab, currGroups, setCurrGroups, currGroupTabs, setCurrGroupTabs, currTabs, setCurrTabs, 
   hostUrls, setHostUrls, isGroupButtonDisabled, setGroupButtonDisabled, isGroupCollapsed, setIsGroupCollapsed,
-  showModalArr, setShowModalArr, showCheckboxesAndBtns, setShowCheckboxesAndBtns}) {   
+  showModalArr, setShowModalArr, showCheckboxesAndBtns, setShowCheckboxesAndBtns, addTabIds, setAddTabIds,
+  groupedTabIds, setGroupedTabIds}) {  
+    const addTabIdsSet = new Set(addTabIds);
+
+    function handleCheckBoxFunction(tab) {
+      const tabId = tab.id;
+     
+
+      if (!addTabIdsSet.has(tabId)) {
+        setAddTabIds(currTabIds => {
+          const updatedTabIds = [...currTabIds];
+          updatedTabIds.push(tabId);
+          return updatedTabIds; 
+        });
+
+        if (tab.groupId !== -1) {
+          setGroupedTabIds(currGroupedTabIds => {
+            const updatedGroupedTabIds = [...currGroupedTabIds];
+            updatedGroupedTabIds.push(tabId);
+            return updatedGroupedTabIds;
+          });
+        }
+      } else {
+        console.log("already included in set");
+        console.log(tabId);
+        console.log(tab.groupId);
+        setAddTabIds(currTabIds => {
+          const updatedTabIds = [...currTabIds];
+          const index = updatedTabIds.indexOf(tabId);
+          if (index !== -1) {
+            updatedTabIds.splice(index, 1);
+          }
+          return updatedTabIds; 
+        });
+
+        if (tab.groupId !== -1) {
+          setGroupedTabIds(currGroupedTabIds => {
+            const updatedGroupedTabIds = [...currGroupedTabIds];
+            const index = updatedGroupedTabIds.indexOf(tabId);
+            if (index !== -1) {
+              updatedGroupedTabIds.splice(index, 1);
+            }            
+            return updatedGroupedTabIds;
+          });
+        }
+      }
+    }
   return (    
       <> {
         tabType.map((tab, index) => {
@@ -32,7 +78,8 @@ function GetTabListForDT({tabType, currActiveTab, currGroups, setCurrGroups, cur
           <li key={index} className={'list-group-item ' + (tab.id === currActiveTab.id ? 'active-tab' : '')}>
             <div className="d-flex justify-content-between align-items-center">
               <div className="d-flex">
-              {showCheckboxesAndBtns && (<label className="tab-checkbox"><input type="checkbox"/></label>)}
+              {showCheckboxesAndBtns && (<label className="tab-checkbox"><input type="checkbox" onChange={() => {handleCheckBoxFunction(tab);}} 
+              checked={addTabIdsSet.has(tab.id)}/></label>)}
               <a onClick={async ()=> {
                   await chrome.tabs.update(curr_tab.id, { active: true });
                   await chrome.windows.update(curr_tab.windowId, { focused: true });

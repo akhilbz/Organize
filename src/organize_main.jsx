@@ -5,6 +5,7 @@ import { getHostUrls } from "./Helper/helper_functions.js";
 import { createRoot } from 'react-dom/client';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faSearch, faLayerGroup } from '@fortawesome/free-solid-svg-icons';
+import organize_brand_logo from '/Users/akhileshbitla/Work/products/Organize/src/images/organize-logo7.png';
 
 const container = document.getElementById("react-target");
 
@@ -20,6 +21,8 @@ const container = document.getElementById("react-target");
   const [currHostUrlIndex, setCurrHostUrlIndex] = useState(-1);
   const [currActiveTab, setCurrActiveTab] = useState(null);
   const [showCheckboxesAndBtns, setShowCheckboxesAndBtns] = useState(false);
+  const [addTabIds, setAddTabIds] = useState([]);
+  const [groupedTabIds, setGroupedTabIds] = useState([]);
   const collator = new Intl.Collator();
 
   useEffect(() => {
@@ -93,7 +96,9 @@ const container = document.getElementById("react-target");
   return (
     <div className="main_body">
     <nav className="navbar fixed-top border-bottom">
-      <div><a className="navbar-brand mb-2 h1" href="#">Organize</a></div>
+      <div><a className="navbar-brand mb-2 h1" href="#">
+        <img src={organize_brand_logo} alt="Brand Logo" className="brand-logo" />
+        </a></div>
       <button className="search "><FontAwesomeIcon icon={faSearch} style={{ color: '#000000' }} className="fa-search fa-thin fa-lg" /></button>
     </nav>
     
@@ -112,7 +117,11 @@ const container = document.getElementById("react-target");
         <h5 className="tab-head">Tabs</h5>
         {!showCheckboxesAndBtns && (<button type="button" className="btn btn-outline-warning new-group-btn" onClick={() => {setShowCheckboxesAndBtns(true);}}>New Group</button>)}
         {showCheckboxesAndBtns && (<div className="d-flex">
-        <button type="button" className="btn btn-outline-danger btn-group-cancel" onClick={() => {setShowCheckboxesAndBtns(false);}}>Cancel</button>
+        <button type="button" className="btn btn-outline-danger btn-group-cancel" onClick={() => {
+          setShowCheckboxesAndBtns(false);
+          setAddTabIds([]);
+          setGroupedTabIds([]);
+        }}>Cancel</button>
         <button type="button" className="btn btn-warning new-group-grp-btn" onClick="">
         <FontAwesomeIcon icon={faLayerGroup} className="fa-layer-group fa-thin fa-lg btn-group-icon"/>
         </button>
@@ -124,7 +133,8 @@ const container = document.getElementById("react-target");
       showModal={showModal} setShowModal={setShowModal} showModalArr={showModalArr} setShowModalArr={setShowModalArr} 
       currHostUrlIndex={currHostUrlIndex} setCurrHostUrlIndex={setCurrHostUrlIndex} isGroupCollapsed={isGroupCollapsed} 
       setIsGroupCollapsed={setIsGroupCollapsed} showCheckboxesAndBtns={showCheckboxesAndBtns} 
-      setShowCheckboxesAndBtns={setShowCheckboxesAndBtns} collator={collator} />
+      setShowCheckboxesAndBtns={setShowCheckboxesAndBtns} addTabIds={addTabIds} setAddTabIds={setAddTabIds} 
+      groupedTabIds={groupedTabIds} setGroupedTabIds={setGroupedTabIds} collator={collator} />
       </div>
     </div>
   );

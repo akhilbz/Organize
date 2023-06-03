@@ -10839,13 +10839,22 @@ body {
 }
 
 .navbar .navbar-brand {
-  padding-left: 20px !important;
+  padding-left: 18px !important;
   padding-bottom: 10px !important;
+}
+
+.brand-logo {
+  width: 40px; /* Adjust the width to your desired size */
+  height: auto; /* Maintain aspect ratio */
+  margin-top: 0px !important;
+  margin-bottom: 1px !important;
+  padding: 0px !important;
 }
 
 .search {
   background: none;
   border: none;
+  margin-bottom: 3px !important;
   padding: 0;
   font-size: 1rem;
   cursor: pointer;
@@ -10859,6 +10868,7 @@ body {
 
 .group-head {
   font-size: 1.4rem !important;
+  font-family: "Product Sans", sans-serif;
   font-weight: 400 !important;
   margin-top: 18px !important;
   padding-left: 8px !important;
@@ -10913,6 +10923,7 @@ body {
 
 .new-group-btn {
   font-size: 0.9rem !important;
+  font-family: "Product Sans", sans-serif;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -10921,11 +10932,11 @@ body {
   padding-right: 8px !important;
   width: 100px; /* Adjust the width as needed */
   height: 33px;
-  font-size: 12px;
 }
 
 .new-group-grp-btn {
   font-size: 0.9rem !important;
+  font-family: "Product Sans", sans-serif;
   display: flex;
   justify-content: center;
   margin-top: 6px !important;
@@ -10941,6 +10952,7 @@ body {
 
 .btn-group-cancel {
   font-size: 0.9rem !important;
+  font-family: "Product Sans", sans-serif;
   display: flex !important;
   text-align: center !important;
   align-items: center !important;
@@ -10959,6 +10971,7 @@ body {
 
 .tab-head {
   font-size: 1.4rem !important;
+  font-family: "Product Sans", sans-serif !important;
   font-weight: 400 !important;
   margin-top: 9px !important;
   padding-left: 8px !important;
@@ -11233,6 +11246,10 @@ li:nth-child(even) {
 
 .tab-checkbox {
   margin-top: 9px !important;
+}
+
+input[type=checkbox i] {
+  border-color: #ffffff !important;
 }
 
 .active-tab {

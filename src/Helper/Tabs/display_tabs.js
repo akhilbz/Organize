@@ -13,10 +13,14 @@ import extension_logo from '/Users/akhileshbitla/Work/products/Organize/src/imag
 function DisplayTabs({ currActiveTab, currGroups, setCurrGroups, currGroupTabs, setCurrGroupTabs,
 hostUrls, setHostUrls, currTabs, setCurrTabs, isGroupButtonDisabled, setGroupButtonDisabled, 
 showModal, setShowModal, showModalArr, setShowModalArr, currHostUrlIndex, setCurrHostUrlIndex,
-isGroupCollapsed, setIsGroupCollapsed, showCheckboxesAndBtns, setShowCheckboxesAndBtns, collator}) {
+isGroupCollapsed, setIsGroupCollapsed, showCheckboxesAndBtns, setShowCheckboxesAndBtns, 
+addTabIds, setAddTabIds, groupedTabIds, setGroupedTabIds, collator}) {
   const [currHostTabs, setCurrHostTabs] = useState([]);
   const [currHostUrl, setCurrHostUrl] = useState("");
 
+  // console.log(addTabIds);
+  // console.log(groupedTabIds);
+  // console.log(currTabs);
   return (
   <> { 
   hostUrls.map((hostUrl, index) => {
@@ -111,7 +115,7 @@ isGroupCollapsed, setIsGroupCollapsed, showCheckboxesAndBtns, setShowCheckboxesA
           setCurrGroupTabs={setCurrGroupTabs} currTabs={currTabs} setCurrTabs={setCurrTabs} hostUrls={hostUrls} setHostUrls={setHostUrls}
           isGroupButtonDisabled={isGroupButtonDisabled} setGroupButtonDisabled={setGroupButtonDisabled} isGroupCollapsed={isGroupCollapsed} 
           setIsGroupCollapsed={setIsGroupCollapsed} showModalArr={showModalArr} setShowModalArr={setShowModalArr} showCheckboxesAndBtns={showCheckboxesAndBtns} 
-          setShowCheckboxesAndBtns={setShowCheckboxesAndBtns} />
+          setShowCheckboxesAndBtns={setShowCheckboxesAndBtns} addTabIds={addTabIds} setAddTabIds={setAddTabIds} groupedTabIds={groupedTabIds} setGroupedTabIds={setGroupedTabIds}/>
         </ul>
       </div>
     </div>
