@@ -1,32 +1,45 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
+import { useSelector, useDispatch } from "react-redux";
+import { setCurrGroups,  setCurrGroupTabs, setCurrTabs, setIsGroupCollapsed, setGroupButtonDisabled,
+    setShowModalArr, setShowModal } from "../../../actions";
 import { GroupAllTabs } from "../group_no_modal";
 import { handleGroupAllTabs } from "./modal_groupAll";
-import { truncateText, groupTitle, getHostUrls } from "../../helper_functions";
+import { truncateText, groupTitle } from "../../helper_functions";
 import { Modal } from 'react-bootstrap';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faEllipsisH } from '@fortawesome/free-solid-svg-icons';
 
-function GroupOnlySome({currHostUrlIndex, showModal, setShowModal, currHostTabs, hostTabs, currHostUrl, hostUrls, currGroups, setCurrGroups, currGroupTabs, 
-    setCurrGroupTabs, isGroupButtonDisabled, setGroupButtonDisabled, currTabs, setCurrTabs, isGroupCollapsed, setIsGroupCollapsed, showModalArr,
-    setShowModalArr }) {
+// function GroupOnlySome({currHostUrlIndex, showModal, setShowModal, currHostTabs, hostTabs, currHostUrl, hostUrls, currGroups, setCurrGroups, currGroupTabs, 
+//     setCurrGroupTabs, isGroupButtonDisabled, setGroupButtonDisabled, currTabs, setCurrTabs, isGroupCollapsed, setIsGroupCollapsed, showModalArr,
+//     setShowModalArr }) {
+function GroupOnlySome({ currHostTabs, currHostUrl}) {
+    const currGroups = useSelector(state => state.currGroups);
+    const currGroupTabs = useSelector(state => state.currGroupTabs);
+    const currTabs = useSelector(state => state.currTabs);
+    const hostUrls = useSelector(state => state.hostUrls);
+    const isGroupCollapsed = useSelector(state => state.isGroupCollapsed);
+    const isGroupButtonDisabled = useSelector(state => state.isGroupButtonDisabled);
+    const showModal = useSelector(state => state.showModal);
+    const showModalArr = useSelector(state => state.showModalArr);
+    const currHostUrlIndex = useSelector(state => state.currHostUrlIndex);
     const [showAll, setShowAll] = useState(false);
-    // console.log(hostTabs);
     const MAX_VISIBLE_ITEMS = 4;
     const allCurrTabIds = currHostTabs.map(({ id }) => id);
     const remCurrTabIds = currHostTabs.filter(({ groupId }) => groupId === -1).map(({ id }) => id);
     var hostTitle = groupTitle(currHostUrl);
     const truncatedTitle = truncateText(hostTitle, 25);
+    const dispatch = useDispatch();
 
     const handleCloseModal = () => {
-        setShowModal(false);
+        dispatch(setShowModal(false));
     };
 
     const handleShowMore = () => {
-        setShowAll(true);
+        dispatch(setShowAll(true));
       };
 
     const handleShowLess = () => {
-        setShowAll(false);
+        dispatch(setShowAll(false));
     };
     
     const groupedTabsArr = [];
@@ -41,32 +54,49 @@ function GroupOnlySome({currHostUrlIndex, showModal, setShowModal, currHostTabs,
     }
     const visibleGroupedTabsArr = showAll ? groupedTabsArr : groupedTabsArr.slice(0, MAX_VISIBLE_ITEMS);
     const handleGroupRemTabs = async () => {
-        setShowModalArr(currShowModalState => {
-            const updatedShowModalArr = [...currShowModalState];
-            // updatedShowModalArr[currHostUrlIndex] = false;
-            const hostTabs = currTabs.filter((tab) => tab.url.includes(`://${hostUrls[currHostUrlIndex]}/`));
-            var nonGrouped = 0;
-            if (hostTabs.length > 1) {
-                for (const tab of hostTabs) {
-                  if (tab.groupId === -1) {
-                    nonGrouped++;
-                  }
-                }
-            
-                if (nonGrouped != 0 && nonGrouped < hostTabs.length) {
-                    updatedShowModalArr[currHostUrlIndex] = true;
-                } else {
-                    updatedShowModalArr[currHostUrlIndex]
+        const updatedShowModalArr = [...showModalArr];
+        const hostTabs = currTabs.filter((tab) => tab.url.includes(`://${hostUrls[currHostUrlIndex]}/`));
+        var nonGrouped = 0;
+        if (hostTabs.length > 1) {
+            for (const tab of hostTabs) {
+                if (tab.groupId === -1) {
+                nonGrouped++;
                 }
             }
-            return updatedShowModalArr;
-        });
-
-        setGroupButtonDisabled(currGroupButtonDisabledState => {
-            const updatedGroupButtonDisabled = [...currGroupButtonDisabledState];
-            updatedGroupButtonDisabled[currHostUrlIndex] = true;
-            return updatedGroupButtonDisabled;
-        });
+            if (nonGrouped != 0 && nonGrouped < hostTabs.length) {
+                updatedShowModalArr[currHostUrlIndex] = true;
+            } else {
+                updatedShowModalArr[currHostUrlIndex]
+            }
+        }
+        dispatch(setShowModalArr(updatedShowModalArr));
+        // dispatch(setShowModalArr(currShowModalState => {
+        //     const updatedShowModalArr = [...currShowModalState];
+        //     const hostTabs = currTabs.filter((tab) => tab.url.includes(`://${hostUrls[currHostUrlIndex]}/`));
+        //     var nonGrouped = 0;
+        //     if (hostTabs.length > 1) {
+        //         for (const tab of hostTabs) {
+        //           if (tab.groupId === -1) {
+        //             nonGrouped++;
+        //           }
+        //         }
+            
+        //         if (nonGrouped != 0 && nonGrouped < hostTabs.length) {
+        //             updatedShowModalArr[currHostUrlIndex] = true;
+        //         } else {
+        //             updatedShowModalArr[currHostUrlIndex]
+        //         }
+        //     }
+        //     return updatedShowModalArr;
+        // }));
+        const updatedGroupButtonDisabled = [...isGroupButtonDisabled];
+        updatedGroupButtonDisabled[currHostUrlIndex] = true;
+        dispatch(setGroupButtonDisabled(updatedGroupButtonDisabled));
+        // dispatch(setGroupButtonDisabled(currGroupButtonDisabledState => {
+        //     const updatedGroupButtonDisabled = [...currGroupButtonDisabledState];
+        //     updatedGroupButtonDisabled[currHostUrlIndex] = true;
+        //     return updatedGroupButtonDisabled;
+        // }));
     };
 
     return (
@@ -112,19 +142,19 @@ function GroupOnlySome({currHostUrlIndex, showModal, setShowModal, currHostTabs,
                     handleGroupRemTabs();
                     GroupAllTabs({tabIds: remCurrTabIds, currHostUrlIndex, truncatedTitle, 
                     setGroupButtonDisabled, currTabs, setCurrTabs, currGroupTabs, setCurrGroupTabs, currGroups, 
-                    setCurrGroups, isGroupCollapsed, setIsGroupCollapsed});
+                    setCurrGroups, isGroupCollapsed, setIsGroupCollapsed, dispatch});
                     handleCloseModal();
                     }}>Group Remaining</button>
 
                     <button className="btn btn-outline-danger" onClick={async () => {
-                        handleGroupAllTabs({ allCurrTabIds, currHostUrlIndex, truncatedTitle, currGroups, setCurrGroups, isGroupCollapsed, setIsGroupCollapsed,
-                            currGroupTabs, setCurrGroupTabs, currTabs, setCurrTabs, hostUrls, currHostUrl, showModalArr, setShowModalArr, 
-                            isGroupButtonDisabled, setGroupButtonDisabled});    
-                        GroupAllTabs({tabIds: allCurrTabIds, currHostUrlIndex, truncatedTitle, setGroupButtonDisabled, 
-                        currTabs, setCurrTabs, currGroupTabs, setCurrGroupTabs, currGroups, setCurrGroups, 
-                        isGroupCollapsed, setIsGroupCollapsed});
-                        handleCloseModal();
-                        }}>Group All</button>
+                    handleGroupAllTabs({ allCurrTabIds, currHostUrlIndex, truncatedTitle, currGroups, setCurrGroups, isGroupCollapsed, setIsGroupCollapsed,
+                    currGroupTabs, setCurrGroupTabs, currTabs, setCurrTabs, hostUrls, currHostUrl, showModalArr, setShowModalArr, 
+                    isGroupButtonDisabled, setGroupButtonDisabled, dispatch});    
+                    GroupAllTabs({tabIds: allCurrTabIds, currHostUrlIndex, truncatedTitle, setGroupButtonDisabled, 
+                    currTabs, setCurrTabs, currGroupTabs, setCurrGroupTabs, currGroups, setCurrGroups, 
+                    isGroupCollapsed, setIsGroupCollapsed, dispatch});
+                    handleCloseModal();
+                    }}>Group All</button>
                 </div>
             </Modal.Footer>
         </Modal>

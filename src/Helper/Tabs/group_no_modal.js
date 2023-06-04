@@ -1,15 +1,17 @@
 
-export async function GroupAllTabs({ tabIds, index, truncatedTitle, setGroupButtonDisabled, currTabs, setCurrTabs, currGroupTabs, 
-    setCurrGroupTabs, currGroups, setCurrGroups, isGroupCollapsed, setIsGroupCollapsed }) {
+export async function GroupAllTabs({ tabIds, index, truncatedTitle, isGroupButtonDisabled, setGroupButtonDisabled, currTabs, setCurrTabs, currGroupTabs, 
+    setCurrGroupTabs, currGroups, setCurrGroups, isGroupCollapsed, setIsGroupCollapsed, dispatch }) {
+    // const currTabs = useSelector(state => state.currTabs);
+    // const currGroups = useSelector(state => state.currGroups);
+    // const currGroupTabs = useSelector(state => state.currGroupTabs);
+    // const isGroupCollapsed = useSelector(state => state.isGroupCollapsed);
+    
     var groupID = await chrome.tabs.group({ tabIds });  
     await chrome.tabGroups.update( groupID, { collapsed: true, title: truncatedTitle });
     const group = await chrome.tabGroups.get(groupID);
-
-    await setGroupButtonDisabled((currDisabledState) => {
-        const updatedGroupButtonDisabled = [...currDisabledState];
-        updatedGroupButtonDisabled[index] = true;
-        return updatedGroupButtonDisabled;
-    });
+    const updatedGroupButtonDisabled = [...isGroupButtonDisabled];
+    updatedGroupButtonDisabled[index] = true;
+    dispatch(setGroupButtonDisabled(updatedGroupButtonDisabled));
 
     const tabs_in_group = await chrome.tabs.query({groupId: groupID});
     var tabs_are_included = false;      
@@ -31,9 +33,12 @@ export async function GroupAllTabs({ tabIds, index, truncatedTitle, setGroupButt
     // TODO: Redo this logic
     // TODO: Implement the Modal and rework the logic based on the two buttons provided there
     if (!tabs_are_included) {
-        await setCurrGroupTabs(currGroupTabs => [...currGroupTabs, [...tabs_in_group]]); // remember to rework the currGroupTabs
-        await setCurrGroups(currGroups => [...currGroups, group]);
-        await setIsGroupCollapsed(currIsCollapsedState => [...currIsCollapsedState, !group.collapsed]);
+        const updatedGroupTabs = [...currGroupTabs, [...tabs_in_group]];
+        const updatedGroups = [...currGroups, group];
+        const updatedCollapsedStates = [...isGroupCollapsed, !group.collapsed];
+        dispatch(setCurrGroupTabs(updatedGroupTabs)); // remember to rework the currGroupTabs
+        dispatch(setCurrGroups(updatedGroups));
+        dispatch(setIsGroupCollapsed(updatedCollapsedStates));
     }
-    await setCurrTabs([...updatedTabs]);
+    dispatch(setCurrTabs([...updatedTabs]));
 }

@@ -1,20 +1,41 @@
 import React from "react";
+import { useSelector, useDispatch } from "react-redux";
+import { setCurrTabs, setCurrGroups, setCurrGroupTabs, setIsGroupCollapsed, setGroupButtonDisabled, setShowModalArr } from "../../actions";
 import GetTabListForDG from "./get_tablistG";
 import { Collapse, Dropdown } from "react-bootstrap";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faEllipsisV } from '@fortawesome/free-solid-svg-icons';
 import { getHostUrls, getModdedColor } from "../helper_functions";
 
-function DisplayGroups({ currActiveTab, currGroups, setCurrGroups, currGroupTabs, setCurrGroupTabs,
-     currTabs, setCurrTabs, hostUrls, setHostUrls, isGroupButtonDisabled, setGroupButtonDisabled, 
-     showModalArr, setShowModalArr, currHostUrlIndex, setCurrHostUrlIndex, isGroupCollapsed, setIsGroupCollapsed }) {
-    
+// function DisplayGroups({ currActiveTab, currGroups, setCurrGroups, currGroupTabs, setCurrGroupTabs,
+//      currTabs, setCurrTabs, hostUrls, setHostUrls, isGroupButtonDisabled, setGroupButtonDisabled, 
+//      showModalArr, setShowModalArr, currHostUrlIndex, setCurrHostUrlIndex, isGroupCollapsed, setIsGroupCollapsed }) {
+  function DisplayGroups() {
+      const currGroups = useSelector(state => state.currGroups);
+      const currGroupTabs = useSelector(state => state.currGroupTabs);
+      const currTabs = useSelector(state => state.currTabs);
+      const hostUrls = useSelector(state => state.hostUrls);
+      const isGroupCollapsed = useSelector(state => state.isGroupCollapsed);
+      const isGroupButtonDisabled = useSelector(state => state.isGroupButtonDisabled);
+      const showModalArr = useSelector(state => state.showModalArr);
+      const dispatch = useDispatch();
+
+
     const handleCollapseGroup = async (currGroupId, index) => {
-    await chrome.tabGroups.update(currGroupId, { collapsed: !isGroupCollapsed[index] });
-    setIsGroupCollapsed(currIsGroupCollapsedState => currIsGroupCollapsedState.map((state, i) => {
-        if (i === index) { return !isGroupCollapsed[index]; }
-        return state;
-    })); } 
+      await chrome.tabGroups.update(currGroupId, { collapsed: !isGroupCollapsed[index] });
+      const updatedGroupCollapsedState = [...isGroupCollapsed];
+      updatedGroupCollapsedState[index] = !isGroupCollapsed[index];
+      dispatch(setIsGroupCollapsed(updatedGroupCollapsedState));
+    };
+
+    // dispatch(setIsGroupCollapsed(currIsGroupCollapsedState => {
+    //   const updatedGroupCollapsedState = [...currIsGroupCollapsedState];
+    //   updatedGroupCollapsedState[index] = !currIsGroupCollapsedState[index];
+    //   return updatedGroupCollapsedState;
+    //   // currIsGroupCollapsedState.map((state, i) => {
+    //     // if (i === index) { console.log(index); return !isGroupCollapsed[index]; }
+    //     // return state;
+    // })); } 
     return (
         <> {
         currGroups.map((currGroup, index) => {
@@ -56,47 +77,70 @@ function DisplayGroups({ currActiveTab, currGroups, setCurrGroups, currGroupTabs
                         await chrome.tabs.ungroup(tabIds, ()=>{});
 
                         const updatedCollapseStates = isGroupCollapsed.filter((state, i) => i !== index);
-                        setIsGroupCollapsed(updatedCollapseStates);
+                        dispatch(setIsGroupCollapsed(updatedCollapseStates));
                         const updatedGroups = currGroups.filter((group) => group !== currGroup);
-                        setCurrGroupTabs(updatedGroupTabs);
-                        setCurrGroups(updatedGroups);    
-                        setCurrTabs(updatedTabs);
+                        dispatch(setCurrGroupTabs(updatedGroupTabs));
+                        dispatch(setCurrGroups(updatedGroups));    
+                        dispatch(setCurrTabs(updatedTabs));
 
                         
                         const groupTabsUrls = [...getHostUrls(groupTabs[0])];
                         const hostUrlIndexes = groupTabsUrls.map((groupTabsUrl) => hostUrls.indexOf(groupTabsUrl)).filter((index) => index !== -1);                        
-                        
-                        setGroupButtonDisabled((currDisabledState) => {
-                            const updatedGroupButtonDisabled = [...currDisabledState];
-                            hostUrlIndexes.forEach((index) => updatedGroupButtonDisabled[index] = false);
-                            console.log(updatedGroupButtonDisabled);
-                            return updatedGroupButtonDisabled;
-                          });
+                        const updatedGroupButtonDisabled = [...isGroupButtonDisabled];
+                        hostUrlIndexes.forEach((index) => updatedGroupButtonDisabled[index] = false);
+                        dispatch(setGroupButtonDisabled(updatedGroupButtonDisabled));
 
-                          console.log(hostUrlIndexes);
-                          setShowModalArr(currShowModalArrState => {
-                            const updatedShowModalArrState = [...currShowModalArrState];
-                            for (const urlIndex of hostUrlIndexes) {
-                              var notAllGrouped = false;
-                              var nonGrouped = 0;
-                              const hostTabs = updatedTabs.filter((tab) => tab.url.includes(`://${hostUrls[urlIndex]}/`));
-                              console.log("hostTabs:", hostTabs);
-                              if (hostTabs.length > 1) {
-                                  for (const tab of hostTabs) {
-                                    if (tab.groupId === -1) {
-                                      nonGrouped++;
-                                    }
-                                  } 
-                                  if (nonGrouped != 0 && nonGrouped < hostTabs.length) {
-                                    notAllGrouped = true;
-                                  } 
-                              }
-                              updatedShowModalArrState[urlIndex] = notAllGrouped;
+                        // dispatch(setGroupButtonDisabled((currDisabledState) => {
+                        //     const updatedGroupButtonDisabled = [...currDisabledState];
+                        //     hostUrlIndexes.forEach((index) => updatedGroupButtonDisabled[index] = false);
+                        //     console.log(updatedGroupButtonDisabled);
+                        //     return updatedGroupButtonDisabled;
+                        //   }));
+
+                          // console.log(hostUrlIndexes);
+                          // dispatch(setShowModalArr(currShowModalArrState => {
+                          //   const updatedShowModalArrState = [...currShowModalArrState];
+                          //   for (const urlIndex of hostUrlIndexes) {
+                          //     var notAllGrouped = false;
+                          //     var nonGrouped = 0;
+                          //     const hostTabs = updatedTabs.filter((tab) => tab.url.includes(`://${hostUrls[urlIndex]}/`));
+                          //     console.log("hostTabs:", hostTabs);
+                          //     if (hostTabs.length > 1) {
+                          //         for (const tab of hostTabs) {
+                          //           if (tab.groupId === -1) {
+                          //             nonGrouped++;
+                          //           }
+                          //         } 
+                          //         if (nonGrouped != 0 && nonGrouped < hostTabs.length) {
+                          //           notAllGrouped = true;
+                          //         } 
+                          //     }
+                          //     updatedShowModalArrState[urlIndex] = notAllGrouped;
+                          //   }
+                          //   console.log(updatedShowModalArrState);
+                          //   return updatedShowModalArrState;
+                          // }));
+                          const updatedShowModalArrState = [...showModalArr];
+                          for (const urlIndex of hostUrlIndexes) {
+                            var notAllGrouped = false;
+                            var nonGrouped = 0;
+                            const hostTabs = updatedTabs.filter((tab) => tab.url.includes(`://${hostUrls[urlIndex]}/`));
+                            console.log("hostTabs:", hostTabs);
+                            if (hostTabs.length > 1) {
+                                for (const tab of hostTabs) {
+                                  if (tab.groupId === -1) {
+                                    nonGrouped++;
+                                  }
+                                } 
+                                if (nonGrouped != 0 && nonGrouped < hostTabs.length) {
+                                  notAllGrouped = true;
+                                } 
                             }
-                            console.log(updatedShowModalArrState);
-                            return updatedShowModalArrState;
-                          });
-                          setCurrHostUrlIndex(-1);
+                            updatedShowModalArrState[urlIndex] = notAllGrouped;
+                          }
+                          // console.log(updatedShowModalArrState);
+                          dispatch(setShowModalArr(updatedShowModalArrState));
+                          dispatch(setCurrHostUrlIndex(-1));
                     }}>Ungroup</Dropdown.Item>
                     <Dropdown.Item onClick={""}>Close Group</Dropdown.Item>
                     </Dropdown.Menu>
@@ -107,10 +151,11 @@ function DisplayGroups({ currActiveTab, currGroups, setCurrGroups, currGroupTabs
                 <Collapse className="collapse-container" in={!isGroupCollapsed[index]}>
                     <div className="" id={'collapseGroup${index}'}>              
                     <ul className="list-group list-group-flush">
-                        <GetTabListForDG tabType={groupTabs[0]} currActiveTab={currActiveTab} currGroup={currGroup} currGroupIndex={index} currGroups={currGroups} setCurrGroups={setCurrGroups} 
+                        {/* <GetTabListForDG tabType={groupTabs[0]} currActiveTab={currActiveTab} currGroup={currGroup} currGroupIndex={index} currGroups={currGroups} setCurrGroups={setCurrGroups} 
                         currGroupTabs={currGroupTabs} setCurrGroupTabs={setCurrGroupTabs} currTabs={currTabs} setCurrTabs={setCurrTabs} 
                         hostUrls={hostUrls} setHostUrls={setHostUrls} isGroupButtonDisabled={isGroupButtonDisabled} setGroupButtonDisabled={setGroupButtonDisabled} 
-                        isGroupCollapsed={isGroupCollapsed} setIsGroupCollapsed={setIsGroupCollapsed} showModalArr={showModalArr} setShowModalArr={setShowModalArr}/>
+                        isGroupCollapsed={isGroupCollapsed} setIsGroupCollapsed={setIsGroupCollapsed} showModalArr={showModalArr} setShowModalArr={setShowModalArr}/> */}
+                         <GetTabListForDG tabType={groupTabs[0]} currGroupIndex={index} />
                     </ul>
                     </div>
                 </Collapse>

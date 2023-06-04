@@ -1,53 +1,86 @@
-import React, { useState } from "react";
+import React from "react";
+import { useSelector, useDispatch } from "react-redux";
+import { setCurrGroups,  setCurrGroupTabs, setCurrTabs, setHostUrls, setIsGroupCollapsed, setGroupButtonDisabled,
+  setShowModalArr, setAddTabIds, setGroupedTabIds } from "../../actions";
 import { truncateText, getModdedColor } from "../helper_functions";
 
 
-function GetTabListForDT({tabType, currActiveTab, currGroups, setCurrGroups, currGroupTabs, setCurrGroupTabs, currTabs, setCurrTabs, 
-  hostUrls, setHostUrls, isGroupButtonDisabled, setGroupButtonDisabled, isGroupCollapsed, setIsGroupCollapsed,
-  showModalArr, setShowModalArr, showCheckboxesAndBtns, setShowCheckboxesAndBtns, addTabIds, setAddTabIds,
-  groupedTabIds, setGroupedTabIds}) {  
+// function GetTabListForDT({tabType, currActiveTab, currGroups, setCurrGroups, currGroupTabs, setCurrGroupTabs, currTabs, setCurrTabs, 
+//   hostUrls, setHostUrls, isGroupButtonDisabled, setGroupButtonDisabled, isGroupCollapsed, setIsGroupCollapsed,
+//   showModalArr, setShowModalArr, showCheckboxesAndBtns, setShowCheckboxesAndBtns, addTabIds, setAddTabIds,
+//   groupedTabIds, setGroupedTabIds}) {  
+  function GetTabListForDT({ tabType }) {  
+    const currActiveTab = useSelector(state => state.currActiveTab);
+    const currGroups = useSelector(state => state.currGroups);
+    const currGroupTabs = useSelector(state => state.currGroupTabs);
+    const currTabs = useSelector(state => state.currTabs);
+    const hostUrls = useSelector(state => state.hostUrls);
+    const isGroupCollapsed = useSelector(state => state.isGroupCollapsed);
+    const showModalArr = useSelector(state => state.showModalArr);
+    const isGroupButtonDisabled = useSelector(state => state.isGroupButtonDisabled);
+    const showCheckboxesAndBtns = useSelector(state => state.showCheckboxesAndBtns);
+    const addTabIds = useSelector(state => state.addTabIds);
+    const groupedTabIds = useSelector(state => state.groupedTabIds);
     const addTabIdsSet = new Set(addTabIds);
+    const dispatch = useDispatch();
 
     function handleCheckBoxFunction(tab) {
       const tabId = tab.id;
      
-
+      const updatedTabIds = [...addTabIds];
+      updatedTabIds.push(tabId);
       if (!addTabIdsSet.has(tabId)) {
-        setAddTabIds(currTabIds => {
-          const updatedTabIds = [...currTabIds];
-          updatedTabIds.push(tabId);
-          return updatedTabIds; 
-        });
+        // dispatch(setAddTabIds(currTabIds => {
+        //   const updatedTabIds = [...currTabIds];
+        //   updatedTabIds.push(tabId);
+        //   return updatedTabIds; 
+        // }));
+        dispatch(setAddTabIds(updatedTabIds));
 
         if (tab.groupId !== -1) {
-          setGroupedTabIds(currGroupedTabIds => {
-            const updatedGroupedTabIds = [...currGroupedTabIds];
-            updatedGroupedTabIds.push(tabId);
-            return updatedGroupedTabIds;
-          });
+          // dispatch(setGroupedTabIds(currGroupedTabIds => {
+          //   const updatedGroupedTabIds = [...currGroupedTabIds];
+          //   updatedGroupedTabIds.push(tabId);
+          //   return updatedGroupedTabIds;
+          // }));
+          const updatedGroupedTabIds = [...groupedTabIds];
+          updatedGroupedTabIds.push(tabId);
+          dispatch(setGroupedTabIds(updatedGroupedTabIds));
         }
       } else {
         console.log("already included in set");
         console.log(tabId);
         console.log(tab.groupId);
-        setAddTabIds(currTabIds => {
-          const updatedTabIds = [...currTabIds];
-          const index = updatedTabIds.indexOf(tabId);
-          if (index !== -1) {
-            updatedTabIds.splice(index, 1);
-          }
-          return updatedTabIds; 
-        });
+        const updatedTabIds = [...addTabIds];
+        const index = updatedTabIds.indexOf(tabId);
+        if (index !== -1) {
+          updatedTabIds.splice(index, 1);
+        }
+        dispatch(setAddTabIds(updatedTabIds));
+        // dispatch(setAddTabIds(currTabIds => {
+        //   const updatedTabIds = [...currTabIds];
+        //   const index = updatedTabIds.indexOf(tabId);
+        //   if (index !== -1) {
+        //     updatedTabIds.splice(index, 1);
+        //   }
+        //   return updatedTabIds; 
+        // }));
 
         if (tab.groupId !== -1) {
-          setGroupedTabIds(currGroupedTabIds => {
-            const updatedGroupedTabIds = [...currGroupedTabIds];
+          const updatedGroupedTabIds = [...groupedTabIds];
             const index = updatedGroupedTabIds.indexOf(tabId);
             if (index !== -1) {
               updatedGroupedTabIds.splice(index, 1);
-            }            
-            return updatedGroupedTabIds;
-          });
+            }   
+          dispatch(setGroupedTabIds(updatedGroupedTabIds));
+          // dispatch(setGroupedTabIds(currGroupedTabIds => {
+          //   const updatedGroupedTabIds = [...currGroupedTabIds];
+          //   const index = updatedGroupedTabIds.indexOf(tabId);
+          //   if (index !== -1) {
+          //     updatedGroupedTabIds.splice(index, 1);
+          //   }            
+          //   return updatedGroupedTabIds;
+          // }));
         }
       }
     }
@@ -92,43 +125,62 @@ function GetTabListForDT({tabType, currActiveTab, currGroups, setCurrGroups, cur
               <button type="button" className="btn-close"  aria-label="Close" onClick={(event) => {
                 chrome.tabs.remove(tab.id);
                 const updatedTabs = currTabs.filter((remtab) => remtab.id != tab.id);
-                setCurrTabs([...updatedTabs]);
+                dispatch(setCurrTabs([...updatedTabs]));
                 
                 const tabHostUrl = new URL(tab.url).hostname;
                 const tabHostUrlIndex = hostUrls.indexOf(tabHostUrl);
                 if (tabType.length == 1) {
-                  setHostUrls(currHostUrls => {
-                    const updatedHostUrls = currHostUrls.filter((url) => url != tabHostUrl);
-                    return updatedHostUrls;
-                  });
-                  setGroupButtonDisabled(currDisabledState => {
-                    const updatedDisabledState = [];
-                      var index = 0;
-                      for (const disabledState of currDisabledState) {
-                        if (index !== tabHostUrlIndex) {
-                          updatedDisabledState.push(disabledState);
-                        }
-                        index++;
-                      }
-                      return updatedDisabledState;
-                  });
-                  setShowModalArr(currShowModalState => {
-                    const updatedShowModalState = [];
+                  const updatedHostUrls = hostUrls.filter((url) => url != tabHostUrl);
+                  dispatch(setHostUrls(updatedHostUrls));
+                  // dispatch(setHostUrls(currHostUrls => {
+                  //   const updatedHostUrls = currHostUrls.filter((url) => url != tabHostUrl);
+                  //   return updatedHostUrls;
+                  // }));
+                  const updatedDisabledState = [];
+                  var index = 0;
+                  for (const disabledState of isGroupButtonDisabled) {
+                    if (index !== tabHostUrlIndex) {
+                      updatedDisabledState.push(disabledState);
+                    }
+                    index++;
+                  }
+                  dispatch(setGroupButtonDisabled(updatedDisabledState));
+                  // dispatch(setGroupButtonDisabled(currDisabledState => {
+                  //   const updatedDisabledState = [];
+                  //     var index = 0;
+                  //     for (const disabledState of currDisabledState) {
+                  //       if (index !== tabHostUrlIndex) {
+                  //         updatedDisabledState.push(disabledState);
+                  //       }
+                  //       index++;
+                  //     }
+                  //     return updatedDisabledState;
+                  // }));
+                  const updatedShowModalState = [];
                     var index = 0;
-                    for (const showModalState of currShowModalState) {
+                    for (const showModalState of showModalArr) {
                       if (index !== tabHostUrlIndex) {
                         updatedShowModalState.push(showModalState);
                       }
                       index++;
                     }
-                    return updatedShowModalState;
-                  });
+                    dispatch(setShowModalArr(updatedShowModalState));
+                  // dispatch(setShowModalArr(currShowModalState => {
+                  //   const updatedShowModalState = [];
+                  //   var index = 0;
+                  //   for (const showModalState of currShowModalState) {
+                  //     if (index !== tabHostUrlIndex) {
+                  //       updatedShowModalState.push(showModalState);
+                  //     }
+                  //     index++;
+                  //   }
+                  //   return updatedShowModalState;
+                  // }));
                 } else {
                   const isDisabled = tabType.some((hostTab) => hostTab.id !== tab.id && hostTab.groupId !== -1);
-                  setGroupButtonDisabled(currDisabledState => {
-                    var updatedDisabledState = [];
+                  var updatedDisabledState = [];
                     var index = 0;
-                    for (const disabledState of currDisabledState) {
+                    for (const disabledState of isGroupButtonDisabled) {
                       if (index == tabHostUrlIndex) {
                         updatedDisabledState.push(isDisabled);
                       } else {
@@ -136,25 +188,50 @@ function GetTabListForDT({tabType, currActiveTab, currGroups, setCurrGroups, cur
                       }
                       index++;
                     }
-                    return updatedDisabledState;
-                  });
-
-                  setShowModalArr(currShowModalState => {
-                    const updatedShowModalState = [...currShowModalState];
-                    var notAllGrouped = false;
-                    var nonGrouped = 0;
-                    for (const tab of tabType) {
-                      if (tab.groupId === -1) {
-                        nonGrouped++;
-                      }
+                    dispatch(setGroupButtonDisabled(updatedDisabledState));
+                  // dispatch(setGroupButtonDisabled(currDisabledState => {
+                  //   var updatedDisabledState = [];
+                  //   var index = 0;
+                  //   for (const disabledState of currDisabledState) {
+                  //     if (index == tabHostUrlIndex) {
+                  //       updatedDisabledState.push(isDisabled);
+                  //     } else {
+                  //       updatedDisabledState.push(disabledState);
+                  //     }
+                  //     index++;
+                  //   }
+                  //   return updatedDisabledState;
+                  // }));
+                  const updatedShowModalState = [...showModalArr];
+                  var notAllGrouped = false;
+                  var nonGrouped = 0;
+                  for (const tab of tabType) {
+                    if (tab.groupId === -1) {
+                      nonGrouped++;
                     }
+                  }
+              
+                  if (nonGrouped != 0 && nonGrouped < tabType.length) {
+                    notAllGrouped = true;
+                  } 
+                  updatedShowModalState[tabHostUrlIndex] = notAllGrouped;
+                  dispatch(setShowModalArr(updatedShowModalState));  
+                  // dispatch(setShowModalArr(currShowModalState => {
+                  //   const updatedShowModalState = [...currShowModalState];
+                  //   var notAllGrouped = false;
+                  //   var nonGrouped = 0;
+                  //   for (const tab of tabType) {
+                  //     if (tab.groupId === -1) {
+                  //       nonGrouped++;
+                  //     }
+                  //   }
                 
-                    if (nonGrouped != 0 && nonGrouped < tabType.length) {
-                      notAllGrouped = true;
-                    } 
-                    updatedShowModalState[tabHostUrlIndex] = notAllGrouped;
-                    return updatedShowModalState;
-                  });
+                  //   if (nonGrouped != 0 && nonGrouped < tabType.length) {
+                  //     notAllGrouped = true;
+                  //   } 
+                  //   updatedShowModalState[tabHostUrlIndex] = notAllGrouped;
+                  //   return updatedShowModalState;
+                  // }));
                 }
 
                 const updatedGroupTabs = [];
@@ -176,10 +253,10 @@ function GetTabListForDT({tabType, currActiveTab, currGroups, setCurrGroups, cur
                   }
                   collapsedStateIndex++;
                 }
-                setIsGroupCollapsed(updatedCollapsedStates);
-                setCurrGroups(updatedGroups);
+                dispatch(setIsGroupCollapsed(updatedCollapsedStates));
+                dispatch(setCurrGroups(updatedGroups));
                 }
-                setCurrGroupTabs([...updatedGroupTabs]);
+                dispatch(setCurrGroupTabs([...updatedGroupTabs]));
               }}></button>
               </div>
             </div>
