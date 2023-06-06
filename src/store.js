@@ -1,4 +1,5 @@
 import { configureStore } from '@reduxjs/toolkit';
+// import thunk from 'redux-thunk';
 
 const initialState = {
   currGroups: [],
@@ -29,7 +30,7 @@ const rootReducer = (state = initialState, action) => {
       return { ...state, hostUrls: action.payload };
     case 'SET_IS_GROUP_COLLAPSED':
       return { ...state, isGroupCollapsed: [...action.payload] };
-    case 'SET_IS_GROUP_BUTTON_DISABLED':
+    case 'SET_GROUP_BUTTON_DISABLED':
       return { ...state, isGroupButtonDisabled: [...action.payload] };
       case 'SET_SHOW_MODAL':
         return { ...state, showModal: action.payload };
@@ -45,14 +46,18 @@ const rootReducer = (state = initialState, action) => {
       return { ...state, addTabIds: action.payload };
     case 'SET_GROUPED_TAB_IDS':
       return { ...state, groupedTabIds: action.payload };
+    case 'SET_SHOW_GROUP_MODAL':
+        return { ...state, showGroupModal: action.payload };
     // Add more cases for other actions
     default:
       return state;
   }
 };
 
+
 const store = configureStore({
-    reducer: rootReducer
+    reducer: rootReducer,
+    // middleware: [thunk]
   });
 
 export default store;

@@ -91,12 +91,16 @@ function GroupOnlySome({ currHostTabs, currHostUrl}) {
         // }));
         const updatedGroupButtonDisabled = [...isGroupButtonDisabled];
         updatedGroupButtonDisabled[currHostUrlIndex] = true;
-        dispatch(setGroupButtonDisabled(updatedGroupButtonDisabled));
+        // dispatch(setGroupButtonDisabled(updatedGroupButtonDisabled));
         // dispatch(setGroupButtonDisabled(currGroupButtonDisabledState => {
         //     const updatedGroupButtonDisabled = [...currGroupButtonDisabledState];
         //     updatedGroupButtonDisabled[currHostUrlIndex] = true;
         //     return updatedGroupButtonDisabled;
         // }));
+
+        GroupAllTabs({tabIds: remCurrTabIds, currHostUrlIndex, truncatedTitle, isGroupButtonDisabled: updatedGroupButtonDisabled, 
+            setGroupButtonDisabled, currTabs, setCurrTabs, currGroupTabs, setCurrGroupTabs, 
+            currGroups, setCurrGroups, isGroupCollapsed, setIsGroupCollapsed, dispatch });
     };
 
     return (
@@ -140,9 +144,6 @@ function GroupOnlySome({ currHostTabs, currHostUrl}) {
                 <div className="d-flex justify-content-between">
                     <button className="btn btn-light" onClick={() => {
                     handleGroupRemTabs();
-                    GroupAllTabs({tabIds: remCurrTabIds, currHostUrlIndex, truncatedTitle, 
-                    setGroupButtonDisabled, currTabs, setCurrTabs, currGroupTabs, setCurrGroupTabs, currGroups, 
-                    setCurrGroups, isGroupCollapsed, setIsGroupCollapsed, dispatch});
                     handleCloseModal();
                     }}>Group Remaining</button>
 
@@ -150,9 +151,6 @@ function GroupOnlySome({ currHostTabs, currHostUrl}) {
                     handleGroupAllTabs({ allCurrTabIds, currHostUrlIndex, truncatedTitle, currGroups, setCurrGroups, isGroupCollapsed, setIsGroupCollapsed,
                     currGroupTabs, setCurrGroupTabs, currTabs, setCurrTabs, hostUrls, currHostUrl, showModalArr, setShowModalArr, 
                     isGroupButtonDisabled, setGroupButtonDisabled, dispatch});    
-                    GroupAllTabs({tabIds: allCurrTabIds, currHostUrlIndex, truncatedTitle, setGroupButtonDisabled, 
-                    currTabs, setCurrTabs, currGroupTabs, setCurrGroupTabs, currGroups, setCurrGroups, 
-                    isGroupCollapsed, setIsGroupCollapsed, dispatch});
                     handleCloseModal();
                     }}>Group All</button>
                 </div>

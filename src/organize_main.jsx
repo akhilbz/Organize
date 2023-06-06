@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import { Provider, useSelector, useDispatch } from "react-redux";
 import store from "./store";
 import { setCurrGroups,  setCurrGroupTabs, setCurrTabs, setHostUrls, setIsGroupCollapsed, setGroupButtonDisabled,
-  setShowModalArr, setCurrActiveTab, setShowCheckboxesAndBtns, setAddTabIds, setGroupedTabIds} from "./actions";
+  setShowModalArr, setCurrActiveTab, setShowCheckboxesAndBtns, setAddTabIds, setGroupedTabIds, setShowGroupModal} from "./actions";
 import DisplayTabs from "./Helper/Tabs/display_tabs.js";
 import DisplayGroups from "./Helper/Groups/display_groups.js";
 import { getHostUrls } from "./Helper/helper_functions.js";
@@ -97,6 +97,7 @@ const container = document.getElementById("react-target");
   }, []);
 
   const showCheckboxesAndBtns = useSelector(state => state.showCheckboxesAndBtns);
+  const showGroupModal = useSelector(state => state.showGroupModal);
 
   return (
     <div className="main_body">
@@ -121,7 +122,8 @@ const container = document.getElementById("react-target");
 
       <div className="tab-section d-flex justify-content-between">
         <h5 className="tab-head">Tabs</h5>
-        {!showCheckboxesAndBtns && (<button type="button" onClick={() => {dispatch(setShowCheckboxesAndBtns(true))}}
+        {!showCheckboxesAndBtns && (<button type="button" onClick={() => {
+          dispatch(setShowCheckboxesAndBtns(true)); dispatch(setShowGroupModal(true));}}
         className="btn btn-outline-warning new-group-btn">New Group</button>)}
         {showCheckboxesAndBtns && (<div className="d-flex">
         <button type="button" className="btn btn-outline-danger btn-group-cancel" onClick={() => {

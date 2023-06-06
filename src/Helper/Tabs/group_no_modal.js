@@ -1,14 +1,11 @@
 
-export async function GroupAllTabs({ tabIds, index, truncatedTitle, isGroupButtonDisabled, setGroupButtonDisabled, currTabs, setCurrTabs, currGroupTabs, 
-    setCurrGroupTabs, currGroups, setCurrGroups, isGroupCollapsed, setIsGroupCollapsed, dispatch }) {
-    // const currTabs = useSelector(state => state.currTabs);
-    // const currGroups = useSelector(state => state.currGroups);
-    // const currGroupTabs = useSelector(state => state.currGroupTabs);
-    // const isGroupCollapsed = useSelector(state => state.isGroupCollapsed);
-    
+export async function GroupAllTabs({ tabIds, index, truncatedTitle, isGroupButtonDisabled, setGroupButtonDisabled, currTabs, 
+    setCurrTabs, currGroupTabs, setCurrGroupTabs, currGroups, setCurrGroups, isGroupCollapsed, setIsGroupCollapsed, dispatch }) {
+    console.log(currGroups);
     var groupID = await chrome.tabs.group({ tabIds });  
     await chrome.tabGroups.update( groupID, { collapsed: true, title: truncatedTitle });
     const group = await chrome.tabGroups.get(groupID);
+    console.log(isGroupButtonDisabled);
     const updatedGroupButtonDisabled = [...isGroupButtonDisabled];
     updatedGroupButtonDisabled[index] = true;
     dispatch(setGroupButtonDisabled(updatedGroupButtonDisabled));
