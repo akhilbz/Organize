@@ -49,7 +49,9 @@ import extension_logo from '/Users/akhileshbitla/Work/products/Organize/src/imag
       favIcon_img = require('/Users/akhileshbitla/Work/products/Organize/src/images/history_icon.png').default;
     } else if (hostTabs[0].url.includes("chrome://settings/")) {
       favIcon_img = require('/Users/akhileshbitla/Work/products/Organize/src/images/settings-icon.png').default;
-    } 
+    } else if (!hostTabs[0].favIconUrl) {
+      favIcon_img = require('/Users/akhileshbitla/Work/products/Organize/src/images/favicon_url_not_found_icon.png').default
+    }
 
   // Group Title Logic:
   var hostTitle = groupTitle(hostUrl);

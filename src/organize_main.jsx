@@ -3,6 +3,7 @@ import { Provider, useSelector, useDispatch } from "react-redux";
 import store from "./store";
 import { setCurrGroups,  setCurrGroupTabs, setCurrTabs, setHostUrls, setIsGroupCollapsed, setGroupButtonDisabled,
   setShowModalArr, setCurrActiveTab, setShowCheckboxesAndBtns, setAddTabIds, setGroupedTabIds, setShowGroupModal} from "./actions";
+import NewGroupModal from "./Helper/Tabs/New_Group_Modal/new_group_modal";
 import DisplayTabs from "./Helper/Tabs/display_tabs.js";
 import DisplayGroups from "./Helper/Groups/display_groups.js";
 import { getHostUrls } from "./Helper/helper_functions.js";
@@ -33,6 +34,7 @@ const container = document.getElementById("react-target");
   useEffect(() => {
     async function fetchData() {
       const tabs = await chrome.tabs.query({ currentWindow: true });
+      // console.log(tabs);
       const activeTab = tabs.filter((tab) => tab.active);
       const groups = await chrome.tabGroups.query({ windowId: chrome.windows.WINDOW_ID_CURRENT });
       groups.sort((a, b) => collator.compare(a.title, b.title));
@@ -98,7 +100,7 @@ const container = document.getElementById("react-target");
 
   const showCheckboxesAndBtns = useSelector(state => state.showCheckboxesAndBtns);
   const showGroupModal = useSelector(state => state.showGroupModal);
-
+  const addTabIds = useSelector(state => state.addTabIds);
   return (
     <div className="main_body">
     <nav className="navbar fixed-top border-bottom">
@@ -119,11 +121,11 @@ const container = document.getElementById("react-target");
       setCurrHostUrlIndex={setCurrHostUrlIndex} isGroupCollapsed={isGroupCollapsed} setIsGroupCollapsed={setIsGroupCollapsed} /> */}
       <DisplayGroups />
       </div>
-
+      <div className="tabs-section">
       <div className="tab-section d-flex justify-content-between">
         <h5 className="tab-head">Tabs</h5>
         {!showCheckboxesAndBtns && (<button type="button" onClick={() => {
-          dispatch(setShowCheckboxesAndBtns(true)); dispatch(setShowGroupModal(true));}}
+          dispatch(setShowCheckboxesAndBtns(true));}}
         className="btn btn-outline-warning new-group-btn">New Group</button>)}
         {showCheckboxesAndBtns && (<div className="d-flex">
         <button type="button" className="btn btn-outline-danger btn-group-cancel" onClick={() => {
@@ -131,11 +133,19 @@ const container = document.getElementById("react-target");
           dispatch(setAddTabIds([]));
           dispatch(setGroupedTabIds([]));
         }}>Cancel</button>
-        <button type="button" className="btn btn-warning new-group-grp-btn" >
+        <button type="button" className="btn btn-warning new-group-grp-btn" onClick={() => {
+          if (addTabIds.length > 0) {
+            dispatch(setShowGroupModal(true));
+          } else {
+            // Add an accordion
+          }
+        }
+        }>
         <FontAwesomeIcon icon={faLayerGroup} className="fa-layer-group fa-thin fa-lg btn-group-icon"/>
         </button>
         </div>)}
       </div>
+      {showGroupModal && (<NewGroupModal />)}
       {/* <DisplayTabs currActiveTab={currActiveTab} setCurrActiveTab={setCurrActiveTab} currGroups={currGroups} setCurrGroups={setCurrGroups} 
       currGroupTabs={currGroupTabs} setCurrGroupTabs={setCurrGroupTabs} currTabs={currTabs} setCurrTabs={setCurrTabs} hostUrls={hostUrls} 
       setHostUrls={setHostUrls} isGroupButtonDisabled={isGroupButtonDisabled} setGroupButtonDisabled={setGroupButtonDisabled}
@@ -145,6 +155,7 @@ const container = document.getElementById("react-target");
       setShowCheckboxesAndBtns={setShowCheckboxesAndBtns} addTabIds={addTabIds} setAddTabIds={setAddTabIds} 
       groupedTabIds={groupedTabIds} setGroupedTabIds={setGroupedTabIds} collator={collator} /> */}
       <DisplayTabs />
+      </div>
       </div>
     </div>
   );

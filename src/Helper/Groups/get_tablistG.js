@@ -1,6 +1,6 @@
 import React from "react";
 import { useSelector, useDispatch } from "react-redux";
-import { setCurrTabs, setCurrGroups, setCurrGroupTabs, setIsGroupCollapsed, setGroupButtonDisabled, setShowModalArr } from "../../actions";
+import { setCurrTabs, setCurrGroups, setHostUrls, setCurrGroupTabs, setIsGroupCollapsed, setGroupButtonDisabled, setShowModalArr } from "../../actions";
 import { truncateText, getHostUrls } from "../helper_functions";
 
 
@@ -17,23 +17,43 @@ import { truncateText, getHostUrls } from "../helper_functions";
     const isGroupButtonDisabled = useSelector(state => state.isGroupButtonDisabled);
     const showModalArr = useSelector(state => state.showModalArr);
     const dispatch = useDispatch();
+
+    
     
   return (    
         <> {
           tabType.map((tab, index) => {
-          const title = tab.title.includes("-") ? tab.title.split("-")[0].trim() : tab.title.includes("–") ? tab.title.split("–")[0].trim() :
+          var title = tab.title.includes("-") ? tab.title.split("-")[0].trim() : tab.title.includes("–") ? tab.title.split("–")[0].trim() :
           tab.title.includes("|") ? tab.title.split("|")[0].trim() : tab.title;
+          title = title.length == 0 ? tab.title : title; // if there's nothing after the special chars ( |, -)
           const curr_tab = tab;
           const truncatedTitle = truncateText(title, 35);
+
+          let favIcon_img = tab.favIconUrl;
+          if (tab.url.includes("chrome://newtab/")) { 
+            favIcon_img = require('/Users/akhileshbitla/Work/products/Organize/src/images/chrome_icon.png').default;
+          } else if (tab.url.includes("chrome://extensions/")) {
+            favIcon_img = require('/Users/akhileshbitla/Work/products/Organize/src/images/extension_icon.png').default;
+          } else if (tab.url.includes("chrome://history/")) {
+            favIcon_img = require('/Users/akhileshbitla/Work/products/Organize/src/images/history_icon.png').default;
+          } else if (tab.url.includes("chrome://settings/")) {
+            favIcon_img = require('/Users/akhileshbitla/Work/products/Organize/src/images/settings-icon.png').default;
+          } else if (!tab.favIconUrl) {
+            favIcon_img = require('/Users/akhileshbitla/Work/products/Organize/src/images/favicon_url_not_found_icon.png').default
+          }
+
           return (
             <li key={index} className={'list-group-item ' + (tab.id === currActiveTab.id ? 'active-tab' : '')}>
               <div className="d-flex justify-content-between align-items-center">
+              <div className="left-side-items d-flex">
+              <img className="favicon" src={favIcon_img} alt="" />
                 <a onClick={async () => {
                   await chrome.tabs.update(tab.id, { active: true });
                   await chrome.windows.update(tab.windowId, { focused: true });
                 }}>
                   <h5 className={(tab.id === currActiveTab.id ? 'active-tab-text' : 'sub-title')}>{truncatedTitle}</h5>
                 </a>
+                </div>
                 <button type="button" className="btn-close" aria-label="Close" onClick={() =>{
                   chrome.tabs.remove(tab.id);
                   const tabHostUrl = new URL(tab.url).hostname;

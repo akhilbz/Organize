@@ -87,8 +87,9 @@ import { truncateText, getModdedColor } from "../helper_functions";
   return (    
       <> {
         tabType.map((tab, index) => {
-        const title = tab.title.includes("-") ? tab.title.split("-")[0].trim() : tab.title.includes("–") ? tab.title.split("–")[0].trim() :
+        var title = tab.title.includes("-") ? tab.title.split("-")[0].trim() : tab.title.includes("–") ? tab.title.split("–")[0].trim() :
         tab.title.includes("|") ? tab.title.split("|")[0].trim() : tab.title;
+        title = title.length == 0 ? tab.title : title; // if there's nothing after the special chars ( |, -)
         const curr_tab = tab;
         
         // Group Name Logic (group indicator):
