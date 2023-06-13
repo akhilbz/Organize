@@ -3,13 +3,14 @@ import { Provider, useSelector, useDispatch } from "react-redux";
 import store from "./store";
 import { setCurrGroups,  setCurrGroupTabs, setCurrTabs, setHostUrls, setIsGroupCollapsed, setGroupButtonDisabled,
   setShowModalArr, setCurrActiveTab, setShowCheckboxesAndBtns, setAddTabIds, setGroupedTabIds, setShowGroupModal} from "./actions";
+import TabsPage from "./Helper/Tabs/tabs_page";
 import NewGroupModal from "./Helper/Tabs/New_Group_Modal/new_group_modal";
 import DisplayTabs from "./Helper/Tabs/display_tabs.js";
 import DisplayGroups from "./Helper/Groups/display_groups.js";
 import { getHostUrls } from "./Helper/helper_functions.js";
 import { createRoot } from 'react-dom/client';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faSearch, faLayerGroup } from '@fortawesome/free-solid-svg-icons';
+import { faSearch } from '@fortawesome/free-solid-svg-icons';
 import organize_brand_logo from '/Users/akhileshbitla/Work/products/Organize/src/images/organize-logo7.png';
 
 const container = document.getElementById("react-target");
@@ -98,6 +99,21 @@ const container = document.getElementById("react-target");
     fetchData();
   }, []);
 
+  // useEffect(() => {
+  //   const groupsBtn = document.getElementById('groupsbtn');
+  //   const tabsBtn = document.getElementById('tabsbtn');
+
+  //   groupsBtn.addEventListener('click', function() {
+  //     button1.classList.add('active-btn');
+  //     button2.classList.remove('active-btn');
+  //   });
+    
+  //   tabsBtn.addEventListener('click', function() {
+  //     button1.classList.remove('active-btn');
+  //     button2.classList.add('active-btn');
+  //   });
+  // });
+
   const showCheckboxesAndBtns = useSelector(state => state.showCheckboxesAndBtns);
   const showGroupModal = useSelector(state => state.showGroupModal);
   const addTabIds = useSelector(state => state.addTabIds);
@@ -109,19 +125,16 @@ const container = document.getElementById("react-target");
         </a></div>
       <button className="search "><FontAwesomeIcon icon={faSearch} style={{ color: '#000000' }} className="fa-search fa-thin fa-lg" /></button>
     </nav>
-    
-    <div className="tabs-groups-container container-fluid">
-      <div className="groups-section border-bottom">
-
-      <h5 className="group-head">Groups</h5>
-      {/* <DisplayGroups currActiveTab={currActiveTab} setCurrActiveTab={setCurrActiveTab} currGroups={currGroups} setCurrGroups={setCurrGroups}
-      currGroupTabs={currGroupTabs} setCurrGroupTabs={setCurrGroupTabs} currTabs={currTabs} setCurrTabs={setCurrTabs} hostUrls={hostUrls} 
-      setHostUrls={setHostUrls} isGroupButtonDisabled={isGroupButtonDisabled} setGroupButtonDisabled={setGroupButtonDisabled} 
-      showModalArr={showModalArr} setShowModalArr={setShowModalArr} currHostUrlIndex={currHostUrlIndex} 
-      setCurrHostUrlIndex={setCurrHostUrlIndex} isGroupCollapsed={isGroupCollapsed} setIsGroupCollapsed={setIsGroupCollapsed} /> */}
-      <DisplayGroups />
-      </div>
-      <div className="tabs-section">
+          {/* <div className="d-flex">
+        <button className="" onClick={GroupsPage}>Groups</button>
+        <button className="">Tabs</button>
+      </div> */}
+      {/* <div className="groups-section border-bottom"> */}
+      {/* <h5 className="group-head">Groups</h5> */}
+      {/* <DisplayGroups /> */}
+      {/* </div> */}
+      <TabsPage />
+    {/* <div className="tabs-groups-container container-fluid border-bottom">
       <div className="tab-section d-flex justify-content-between">
         <h5 className="tab-head">Tabs</h5>
         {!showCheckboxesAndBtns && (<button type="button" onClick={() => {
@@ -145,18 +158,11 @@ const container = document.getElementById("react-target");
         </button>
         </div>)}
       </div>
+      </div>
+      <div className="tabs-section container-fluid">
       {showGroupModal && (<NewGroupModal />)}
-      {/* <DisplayTabs currActiveTab={currActiveTab} setCurrActiveTab={setCurrActiveTab} currGroups={currGroups} setCurrGroups={setCurrGroups} 
-      currGroupTabs={currGroupTabs} setCurrGroupTabs={setCurrGroupTabs} currTabs={currTabs} setCurrTabs={setCurrTabs} hostUrls={hostUrls} 
-      setHostUrls={setHostUrls} isGroupButtonDisabled={isGroupButtonDisabled} setGroupButtonDisabled={setGroupButtonDisabled}
-      showModal={showModal} setShowModal={setShowModal} showModalArr={showModalArr} setShowModalArr={setShowModalArr} 
-      currHostUrlIndex={currHostUrlIndex} setCurrHostUrlIndex={setCurrHostUrlIndex} isGroupCollapsed={isGroupCollapsed} 
-      setIsGroupCollapsed={setIsGroupCollapsed} showCheckboxesAndBtns={showCheckboxesAndBtns} 
-      setShowCheckboxesAndBtns={setShowCheckboxesAndBtns} addTabIds={addTabIds} setAddTabIds={setAddTabIds} 
-      groupedTabIds={groupedTabIds} setGroupedTabIds={setGroupedTabIds} collator={collator} /> */}
       <DisplayTabs />
-      </div>
-      </div>
+      </div> */}
     </div>
   );
 }

@@ -10825,13 +10825,14 @@ body {
 }
 
 .main_body {
+  height: auto !important;
   padding-top: 38px;
   background-color: white;
   padding-bottom: 25px;
 }
 
 .navbar {
-  background-color: #fafafb;
+  background-color: #F8F8FA;
   position: fixed absolute;
   width: 100%;
   height: 52px;
@@ -10864,6 +10865,21 @@ body {
   margin-bottom: 1px;
   padding-right: 25px !important;
   padding-bottom: 2px !important;
+}
+
+.tabs-groups-container {
+  background-color: #FCFCFC !important;
+  padding-top: 18px !important;
+  position: fixed !important;
+  border-bottom-left-radius: 0.75rem !important; /* Adjust the radius of the curved edges */
+  border-bottom-right-radius: 0.75rem !important; /* Adjust the radius of the curved edges */
+  z-index: 999;
+}
+
+.tabs-section {
+  position: relative;
+  margin-top: 68px !important;
+  z-index: 1 !important;
 }
 
 .group-head {
@@ -10973,8 +10989,27 @@ body {
   font-size: 1.4rem !important;
   font-family: "Product Sans", sans-serif !important;
   font-weight: 400 !important;
-  margin-top: 9px !important;
+  margin-top: 11px !important;
   padding-left: 8px !important;
+}
+
+.group-tab-switch {
+  margin-top: 9px !important;
+  margin-bottom: 0px !important;
+  padding-left: 7px !important;
+  padding-bottom: 0px !important;
+}
+
+.group-tab-switch-btn {
+  background: none !important;
+  border: none !important;
+  margin: 0px !important;
+  padding: 0px !important;
+}
+
+.group-tab-switch-btn:hover .tooltip {
+  visibility: visible;
+  opacity: 1;
 }
 
 .card-header {
@@ -11052,9 +11087,11 @@ body {
 }
 
 .modal {
+  align-self: auto !important;
   position: fixed;
   z-index: 3000 !important;
   display: flex;
+  overflow: visible !important;
   top: 20.5%;
   width: 100%;
   height: 100%;
@@ -11246,6 +11283,8 @@ li:nth-child(even) {
 
 .tab-checkbox {
   margin-top: 9px !important;
+  height: 20px;
+  width: auto !important;
 }
 
 .active-tab {
@@ -11301,7 +11340,8 @@ li:nth-child(even) {
 
 .text-container {
   border-radius: 5px !important;
-  border-width: 0.1px !important;
+  border-width: 0.2px !important;
+  border-color: rgba(0, 0, 0, 0.35) !important;
   height: 45px !important;
   width: 100%;
   text-indent: 4px !important;

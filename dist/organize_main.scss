@@ -8,6 +8,7 @@
   }
   
   .main_body {
+    height: auto !important;
     padding-top: 38px;
     background-color: #FFFFFFff;
     padding-bottom: 25px;
@@ -16,7 +17,7 @@
 
   // NavBar
   .navbar {
-    background-color: #FAFAFBff;
+    background-color: #F8F8FA;
     position: fixed absolute;
     width: 100%;
     height: 52px;
@@ -54,6 +55,22 @@
 
   }
 
+  .tabs-groups-container {
+    // margin-top: 10px !important;
+    // background-color: #FAFAFBff !important;
+    background-color: #FCFCFC !important;
+    padding-top: 18px !important;
+    position: fixed !important;
+    border-bottom-left-radius: 0.75rem !important; /* Adjust the radius of the curved edges */
+    border-bottom-right-radius: 0.75rem !important; /* Adjust the radius of the curved edges */
+    z-index: 999; 
+  }
+
+  .tabs-section {
+    position: relative;
+    margin-top: 68px !important;
+    z-index: 1 !important;
+  }
   // Groups Section:
 
   // ----------------------------------------------------------------
@@ -177,9 +194,28 @@
     font-size: 1.4rem !important;
     font-family: 'Product Sans', sans-serif !important;
     font-weight: 400 !important;
-    margin-top: 9px !important;
+    margin-top: 11px !important;
     padding-left: 8px !important; 
   }
+
+  .group-tab-switch {
+    margin-top: 9px !important;
+    margin-bottom: 0px !important;
+    padding-left: 7px !important; 
+    padding-bottom: 0px !important;
+  }
+  .group-tab-switch-btn {
+    background: none !important;
+    border: none !important;
+    margin: 0px !important;
+    padding: 0px !important;
+  }
+
+  .group-tab-switch-btn:hover .tooltip {
+    visibility: visible;
+    opacity: 1;    
+  }
+
   // Card Content (Header)
 
   .card-header {
@@ -273,9 +309,11 @@
   
   // group_modal.js
   .modal {
+    align-self: auto !important;
     position: fixed;
     z-index: 3000 !important;
     display: flex;
+    overflow: visible !important;
     top: 20.5%;
     width: 100%;
     height: 100%;
@@ -486,11 +524,9 @@
 
   .tab-checkbox {
     margin-top: 9px !important;
+    height: 20px;
+    width: auto !important;
   }
-
-  // input[type="checkbox" i] {
-  //   border-color: #ffffff !important;
-  // }
 
   .active-tab {
     // background-color: #e0e0e0 !important;
@@ -545,7 +581,8 @@
   }
   .text-container {
     border-radius: 5px !important;
-    border-width: 0.1px !important;
+    border-width: 0.2px !important;
+    border-color: rgb(0 0 0 / 35%) !important;
     height: 45px !important;
     width: 100%;
     text-indent: 4px !important;
