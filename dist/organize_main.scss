@@ -67,11 +67,6 @@
     z-index: 999; 
   }
 
-  // .tabs-groups-container:hover .tooltip {
-  //   visibility: visible;
-  //   opacity: 1;
-  // }
-
   .tabs-section {
     position: relative;
     margin-top: 60px !important;
@@ -95,6 +90,7 @@
     justify-content: center !important;
     flex-direction: column !important;
     align-items: center !important;
+    z-index: 1;
     
   }
 
@@ -209,6 +205,38 @@
     // font-size: 12px;
   }
 
+  .manage-btn {
+    font-size: 0.9rem !important;
+    font-family: 'Product Sans', sans-serif;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-top: 6px !important;
+    margin-right: 5px !important;
+    padding-right: 8px !important; 
+    width: 100px; /* Adjust the width as needed */
+    height: 33px; 
+    z-index: 1;
+    // font-size: 12px;
+  }
+
+  .manage-btn:hover .tooltip {
+    visibility: visible;
+    opacity: 1;    
+  }
+
+  .manage-btn:disabled {
+    pointer-events: all;
+    cursor: auto !important;
+  }
+
+  .manage-tip {
+    z-index: 9000 !important;
+    right: 4%;
+    top: 85% !important;
+
+  }
+
   .new-group-grp-btn {
     font-size: 0.9rem !important;
     font-family: 'Product Sans', sans-serif;
@@ -224,6 +252,7 @@
 
   .new-group-grp-btn:disabled {
     pointer-events: all;
+    cursor: auto !important;
   }
   .new-group-grp-btn:hover .tooltip {
     visibility: visible;

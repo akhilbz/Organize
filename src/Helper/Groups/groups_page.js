@@ -19,7 +19,10 @@ function GroupsPage() {
             <span className="tooltip">Tabs</span>
       </button>
       </div>
-      <button type="button" onClick="" className="btn btn-outline-info new-group-btn" disabled={currGroups == 0}>MANAGE</button>
+      <button type="button" disabled={currGroups == 0} className="btn btn-outline-info manage-btn">
+        MANAGE
+        <span className="tooltip manage-tip">No Groups to Manage</span>
+      </button>
       </div>
       
       <div className="groups-section container-fluid">
