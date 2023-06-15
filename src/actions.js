@@ -14,6 +14,7 @@ export const SET_SHOW_CHECKBOXES_AND_BTNS = 'SET_SHOW_CHECKBOXES_AND_BTNS';
 export const SET_ADD_TAB_IDS = 'SET_ADD_TAB_IDS';
 export const SET_GROUPED_TAB_IDS = 'SET_GROUPED_TAB_IDS';
 export const SET_SHOW_GROUP_MODAL = 'SET_SHOW_GROUP_MODAL';
+export const SET_SWITCH_TO_GROUPS = 'SET_SWITCH_TO_GROUPS';
 
 // action creators
 
@@ -87,4 +88,9 @@ export const setAddTabIds = (addTabIds) => ({
 export const setGroupedTabIds = (groupedTabIds) => ({
     type: SET_GROUPED_TAB_IDS,
     payload: groupedTabIds
+});
+
+export const setSwitchToGroups = (switchToGroups) => ({
+    type: SET_SWITCH_TO_GROUPS,
+    payload: switchToGroups
 });

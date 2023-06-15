@@ -75,11 +75,6 @@ import extension_logo from '/Users/akhileshbitla/Work/products/Organize/src/imag
               <span className="tooltip group-label">{isGroupButtonDisabled[index] ? 'All Grouped' : 'Quick Group'}</span>
             </button>
             
-            {/* {showModalArr[index] && (<GroupOnlySome currHostUrlIndex={currHostUrlIndex} showModal={showModal} setShowModal={setShowModal} 
-            currHostTabs={currHostTabs} setCurrHostTabs={setCurrHostTabs} hostTabs={hostTabs} currHostUrl={currHostUrl} hostUrls={hostUrls} currGroups={currGroups} 
-            setCurrGroups={setCurrGroups} currGroupTabs={currGroupTabs} setCurrGroupTabs={setCurrGroupTabs} isGroupButtonDisabled={isGroupButtonDisabled} 
-            setGroupButtonDisabled={setGroupButtonDisabled} currTabs={currTabs} setCurrTabs={setCurrTabs} isGroupCollapsed={isGroupCollapsed} 
-            setIsGroupCollapsed={setIsGroupCollapsed} showModalArr={showModalArr} setShowModalArr={setShowModalArr} />)} */}
             {showModalArr[index] && (<GroupOnlySome currHostTabs={currHostTabs} setCurrHostTabs={setCurrHostTabs} 
             hostTabs={hostTabs} currHostUrl={currHostUrl} />)}
 
@@ -124,11 +119,6 @@ import extension_logo from '/Users/akhileshbitla/Work/products/Organize/src/imag
           </div>
         </div>
         <ul className="list-group list-group-flush">
-          {/* <GetTabListForDT tabType={hostTabs} currActiveTab={currActiveTab} currGroups={currGroups} setCurrGroups={setCurrGroups} currGroupTabs={currGroupTabs}
-          setCurrGroupTabs={setCurrGroupTabs} currTabs={currTabs} setCurrTabs={setCurrTabs} hostUrls={hostUrls} setHostUrls={setHostUrls}
-          isGroupButtonDisabled={isGroupButtonDisabled} setGroupButtonDisabled={setGroupButtonDisabled} isGroupCollapsed={isGroupCollapsed} 
-          setIsGroupCollapsed={setIsGroupCollapsed} showModalArr={showModalArr} setShowModalArr={setShowModalArr} showCheckboxesAndBtns={showCheckboxesAndBtns} 
-          setShowCheckboxesAndBtns={setShowCheckboxesAndBtns} addTabIds={addTabIds} setAddTabIds={setAddTabIds} groupedTabIds={groupedTabIds} setGroupedTabIds={setGroupedTabIds}/> */}
           <GetTabListForDT tabType={hostTabs} />
         </ul>
       </div>

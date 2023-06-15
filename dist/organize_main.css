@@ -10825,15 +10825,14 @@ body {
 }
 
 .main_body {
-  height: auto !important;
-  padding-top: 38px;
+  height: 100% !important;
   background-color: white;
   padding-bottom: 25px;
 }
 
 .navbar {
   background-color: #F8F8FA;
-  position: fixed absolute;
+  position: fixed;
   width: 100%;
   height: 52px;
   align-items: end;
@@ -10868,8 +10867,9 @@ body {
 }
 
 .tabs-groups-container {
+  height: auto !important;
   background-color: #FCFCFC !important;
-  padding-top: 18px !important;
+  margin-top: -8px !important;
   position: fixed !important;
   border-bottom-left-radius: 0.75rem !important; /* Adjust the radius of the curved edges */
   border-bottom-right-radius: 0.75rem !important; /* Adjust the radius of the curved edges */
@@ -10878,15 +10878,53 @@ body {
 
 .tabs-section {
   position: relative;
-  margin-top: 68px !important;
+  margin-top: 60px !important;
   z-index: 1 !important;
+  min-height: -moz-max-content !important;
+  min-height: max-content !important;
+  padding-top: 45px !important;
+}
+
+.groups-section {
+  position: relative;
+  margin-top: 60px !important;
+  z-index: 1 !important;
+  padding-top: 45px !important;
+}
+
+.no-groups-pic-container {
+  border: 1px solid rgba(0, 0, 0, 0.25);
+  border-radius: 5px !important;
+  height: 250px !important;
+  width: 350px;
+  display: flex !important;
+  justify-content: center !important;
+  flex-direction: column !important;
+  align-items: center !important;
+}
+
+.no-groups-pic {
+  width: 350px;
+  display: flex !important;
+  justify-content: center !important;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.25) !important;
+}
+
+.no-groups-text {
+  font-weight: 400 !important;
+  margin-top: 5px !important;
+}
+
+.empty-groups-pic {
+  height: 200px;
+  width: 200px;
 }
 
 .group-head {
   font-size: 1.4rem !important;
   font-family: "Product Sans", sans-serif;
   font-weight: 400 !important;
-  margin-top: 18px !important;
+  margin-top: 11px !important;
   padding-left: 8px !important;
 }
 
@@ -10905,7 +10943,7 @@ body {
 .collapse {
   height: auto;
   overflow: hidden;
-  transition: height 2s ease; /* Apply a smooth transition to the height property */
+  transition: height 3s ease; /* Apply a smooth transition to the height property */
 }
 
 .collapse-container {
@@ -10933,8 +10971,20 @@ body {
   padding-bottom: auto;
 }
 
+.ungroup-button {
+  background: none !important;
+  border: none !important;
+  margin: 0px !important;
+  padding: 0px !important;
+}
+
+.ungroup-button:hover .tooltip {
+  visibility: visible;
+  opacity: 1;
+}
+
 .tab-section {
-  padding-bottom: -6px !important;
+  padding-top: 0 !important;
 }
 
 .new-group-btn {
@@ -10960,10 +11010,26 @@ body {
   padding-right: 8px !important;
   width: 33px !important; /* Adjust the width as needed */
   height: 33px !important;
+  z-index: 1;
+}
+
+.new-group-grp-btn:disabled {
+  pointer-events: all;
+}
+
+.new-group-grp-btn:hover .tooltip {
+  visibility: visible;
+  opacity: 1;
 }
 
 .btn-group-icon {
   margin-right: 3px !important;
+}
+
+.grp-tooltip {
+  z-index: 9000 !important;
+  right: 1.8%;
+  top: 84%;
 }
 
 .btn-group-cancel {
@@ -11005,6 +11071,25 @@ body {
   border: none !important;
   margin: 0px !important;
   padding: 0px !important;
+}
+
+.tab-group-switch {
+  margin-top: 11px !important;
+  margin-bottom: 0px !important;
+  padding-left: 7px !important;
+  padding-bottom: 0px !important;
+}
+
+.tab-group-switch-btn {
+  background: none !important;
+  border: none !important;
+  margin: 0px !important;
+  padding: 0px !important;
+}
+
+.tab-group-switch-btn:hover .tooltip {
+  visibility: visible;
+  opacity: 1;
 }
 
 .group-tab-switch-btn:hover .tooltip {
@@ -11064,7 +11149,7 @@ body {
 
 .tooltip {
   position: absolute;
-  z-index: 800 !important;
+  z-index: 800;
   background-color: white;
   color: black;
   font-size: 0.5rem;
@@ -11094,7 +11179,7 @@ body {
   overflow: visible !important;
   top: 20.5%;
   width: 100%;
-  height: 100%;
+  height: 100% !important;
 }
 
 .modal-title {
@@ -11102,6 +11187,7 @@ body {
 }
 
 .modal-backdrop.show {
+  height: 100% !important;
   opacity: 0.1;
 }
 

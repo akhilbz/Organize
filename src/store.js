@@ -14,7 +14,8 @@ const initialState = {
   currActiveTab: null,
   showCheckboxesAndBtns: false,
   addTabIds: [],
-  groupedTabIds: []
+  groupedTabIds: [],
+  switchToGroups: false
 };
 
 const rootReducer = (state = initialState, action) => {
@@ -48,6 +49,8 @@ const rootReducer = (state = initialState, action) => {
       return { ...state, groupedTabIds: action.payload };
     case 'SET_SHOW_GROUP_MODAL':
         return { ...state, showGroupModal: action.payload };
+    case 'SET_SWITCH_TO_GROUPS':
+        return { ...state, switchToGroups: action.payload };
     // Add more cases for other actions
     default:
       return state;

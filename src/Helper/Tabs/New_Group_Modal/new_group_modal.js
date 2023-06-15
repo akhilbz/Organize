@@ -92,6 +92,8 @@ function NewGroupModal() {
             dispatch(setShowCheckboxesAndBtns(false));
             dispatch(setAddTabIds([]));
             dispatch(setGroupedTabIds([]));
+            const mainBody = document.getElementById('main-body');
+            mainBody.style.minHeight = '';
             }}>
             <Modal.Header closeButton>
                 <Modal.Title>New Group</Modal.Title>
@@ -140,6 +142,8 @@ function NewGroupModal() {
             <div className="d-flex new-group-mdl-btn">
                 <button className="btn btn-danger" style={{marginRight: 8}} onClick={() => {
                     handleCloseGroupModal();
+                    const mainBody = document.getElementById('main-body');
+                    mainBody.style.minHeight = '';
                     dispatch(setShowCheckboxesAndBtns(false));
                     dispatch(setAddTabIds([]));
                     dispatch(setGroupedTabIds([]));

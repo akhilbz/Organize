@@ -4,6 +4,7 @@ import store from "./store";
 import { setCurrGroups,  setCurrGroupTabs, setCurrTabs, setHostUrls, setIsGroupCollapsed, setGroupButtonDisabled,
   setShowModalArr, setCurrActiveTab, setShowCheckboxesAndBtns, setAddTabIds, setGroupedTabIds, setShowGroupModal} from "./actions";
 import TabsPage from "./Helper/Tabs/tabs_page";
+import GroupsPage from "./Helper/Groups/groups_page";
 import NewGroupModal from "./Helper/Tabs/New_Group_Modal/new_group_modal";
 import DisplayTabs from "./Helper/Tabs/display_tabs.js";
 import DisplayGroups from "./Helper/Groups/display_groups.js";
@@ -17,19 +18,6 @@ const container = document.getElementById("react-target");
 
  function Popup() {
   const dispatch = useDispatch();
-  // const [currGroups, setCurrGroups] = useState([]);
-  // const [currGroupTabs, setCurrGroupTabs] = useState([]);
-  // const [currTabs, setCurrTabs] = useState([]);
-  // const [hostUrls, setHostUrls] = useState([]);
-  // const [isGroupCollapsed, setIsGroupCollapsed] = useState([]);
-  // const [isGroupButtonDisabled, setGroupButtonDisabled] = useState([]);
-  // const [showModal, setShowModal] = useState(false);
-  // const [showModalArr, setShowModalArr] = useState([]);
-  // const [currHostUrlIndex, setCurrHostUrlIndex] = useState(-1);
-  // const [currActiveTab, setCurrActiveTab] = useState(null);
-  // const [showCheckboxesAndBtns, setShowCheckboxesAndBtns] = useState(false);
-  // const [addTabIds, setAddTabIds] = useState([]);
-  // const [groupedTabIds, setGroupedTabIds] = useState([]);
   const collator = new Intl.Collator();
 
   useEffect(() => {
@@ -99,70 +87,17 @@ const container = document.getElementById("react-target");
     fetchData();
   }, []);
 
-  // useEffect(() => {
-  //   const groupsBtn = document.getElementById('groupsbtn');
-  //   const tabsBtn = document.getElementById('tabsbtn');
-
-  //   groupsBtn.addEventListener('click', function() {
-  //     button1.classList.add('active-btn');
-  //     button2.classList.remove('active-btn');
-  //   });
-    
-  //   tabsBtn.addEventListener('click', function() {
-  //     button1.classList.remove('active-btn');
-  //     button2.classList.add('active-btn');
-  //   });
-  // });
-
-  const showCheckboxesAndBtns = useSelector(state => state.showCheckboxesAndBtns);
-  const showGroupModal = useSelector(state => state.showGroupModal);
-  const addTabIds = useSelector(state => state.addTabIds);
+  const switchToGroups = useSelector(state => state.switchToGroups);
   return (
-    <div className="main_body">
+    <div className="main_body" id="main-body">
     <nav className="navbar fixed-top border-bottom">
       <div><a className="navbar-brand mb-2 h1" href="#">
         <img src={organize_brand_logo} alt="Brand Logo" className="brand-logo" />
         </a></div>
       <button className="search "><FontAwesomeIcon icon={faSearch} style={{ color: '#000000' }} className="fa-search fa-thin fa-lg" /></button>
     </nav>
-          {/* <div className="d-flex">
-        <button className="" onClick={GroupsPage}>Groups</button>
-        <button className="">Tabs</button>
-      </div> */}
-      {/* <div className="groups-section border-bottom"> */}
-      {/* <h5 className="group-head">Groups</h5> */}
-      {/* <DisplayGroups /> */}
-      {/* </div> */}
-      <TabsPage />
-    {/* <div className="tabs-groups-container container-fluid border-bottom">
-      <div className="tab-section d-flex justify-content-between">
-        <h5 className="tab-head">Tabs</h5>
-        {!showCheckboxesAndBtns && (<button type="button" onClick={() => {
-          dispatch(setShowCheckboxesAndBtns(true));}}
-        className="btn btn-outline-warning new-group-btn">New Group</button>)}
-        {showCheckboxesAndBtns && (<div className="d-flex">
-        <button type="button" className="btn btn-outline-danger btn-group-cancel" onClick={() => {
-          dispatch(setShowCheckboxesAndBtns(false));
-          dispatch(setAddTabIds([]));
-          dispatch(setGroupedTabIds([]));
-        }}>Cancel</button>
-        <button type="button" className="btn btn-warning new-group-grp-btn" onClick={() => {
-          if (addTabIds.length > 0) {
-            dispatch(setShowGroupModal(true));
-          } else {
-            // Add an accordion
-          }
-        }
-        }>
-        <FontAwesomeIcon icon={faLayerGroup} className="fa-layer-group fa-thin fa-lg btn-group-icon"/>
-        </button>
-        </div>)}
-      </div>
-      </div>
-      <div className="tabs-section container-fluid">
-      {showGroupModal && (<NewGroupModal />)}
-      <DisplayTabs />
-      </div> */}
+     {!switchToGroups && (<TabsPage/>)}
+     {switchToGroups && (<GroupsPage/>)}
     </div>
   );
 }
