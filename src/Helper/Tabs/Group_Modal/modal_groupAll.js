@@ -28,9 +28,9 @@ export async function handleGroupAllTabs({ allCurrTabIds, currHostUrlIndex, trun
     // console.log(removedCurrGroup);
     // console.log(updatedCurrGroups);
     // console.log(updatedCollapsedStates);
-    // dispatch(setIsGroupCollapsed([...updatedCollapsedStates]));
+    dispatch(setIsGroupCollapsed([...updatedCollapsedStates]));
     console.log("updatedCurrGroups: ", updatedCurrGroups);
-    // dispatch(setCurrGroups([...updatedCurrGroups])); 
+    dispatch(setCurrGroups([...updatedCurrGroups])); 
     // console.log(removedCurrGroup);
     if (removedCurrGroup !== null) {
     // console.log("we passed the first big if stmt");
@@ -51,7 +51,7 @@ export async function handleGroupAllTabs({ allCurrTabIds, currHostUrlIndex, trun
             removedGroupedTabs = currGroupTab; // retrieve the grouped tabs that are removed
         }
     }
-    // dispatch(setCurrGroupTabs([...updatedCurrGroupTabs]));
+    dispatch(setCurrGroupTabs([...updatedCurrGroupTabs]));
     // console.log(updatedCurrGroupTabs);
 
     const notSameHost_Tabs = removedGroupedTabs.filter((removedTab) => !allCurrTabIdsSet.has(removedTab.id));
@@ -68,7 +68,7 @@ export async function handleGroupAllTabs({ allCurrTabIds, currHostUrlIndex, trun
                 updatedTabs.push(tab);
             }
         }
-        // dispatch(setCurrTabs([...updatedTabs]));
+        dispatch(setCurrTabs([...updatedTabs]));
 
 
         // Must update the disabled state of group button and model's open/closed state:
@@ -135,7 +135,7 @@ export async function handleGroupAllTabs({ allCurrTabIds, currHostUrlIndex, trun
         console.log(currGroups);
         console.log(isGroupCollapsed);
         console.log(updatedGroupButtonDisabled);
-        // dispatch(setGroupButtonDisabled([...updatedGroupButtonDisabled])); 
+        dispatch(setGroupButtonDisabled([...updatedGroupButtonDisabled])); 
     // } 
     } else {
         // If there are tabs from the same host url that are in other groups, update the following states:
@@ -151,7 +151,7 @@ export async function handleGroupAllTabs({ allCurrTabIds, currHostUrlIndex, trun
         }
         console.log(currGroupTabs);
         // console.log(updatedCurrGroupTabs);
-        // dispatch(setCurrGroupTabs([...updatedCurrGroupTabs]));
+        dispatch(setCurrGroupTabs([...updatedCurrGroupTabs]));
         for (const tab of currTabs) {
             if (allCurrTabIdsSet.has(tab.id) && tab.groupId !== -1) {
                 const tempTab = Object.assign({}, tab); // storing tab in a temorary object
@@ -161,7 +161,7 @@ export async function handleGroupAllTabs({ allCurrTabIds, currHostUrlIndex, trun
                 updatedTabs.push(tab);
             }
         }
-        // dispatch(setCurrTabs(updatedTabs));
+        dispatch(setCurrTabs(updatedTabs));
         // dispatch(setCurrTabs(tabs => {
         //     const updatedTabs = [];
         //     for (const tab of tabs) {
@@ -193,10 +193,10 @@ export async function handleGroupAllTabs({ allCurrTabIds, currHostUrlIndex, trun
                 }
             }
         }
-        console.log(updatedCurrGroups);
-        // dispatch(setCurrGroups(updatedCurrGroups));
-        console.log(isGroupCollapsed);
-        // dispatch(setIsGroupCollapsed(updatedCollapsedStates));
+        // console.log(updatedCurrGroups);
+        dispatch(setCurrGroups(updatedCurrGroups));
+        // console.log(isGroupCollapsed);
+        dispatch(setIsGroupCollapsed(updatedCollapsedStates));
         // dispatch(setShowModalArr((currShowModalArr) => {
         //     const updatedShowModalArr = [...currShowModalArr];
         //     updatedShowModalArr[currHostUrlIndex] = false;
@@ -208,7 +208,7 @@ export async function handleGroupAllTabs({ allCurrTabIds, currHostUrlIndex, trun
         dispatch(setShowModalArr(updatedShowModalArr));
         updatedGroupButtonDisabled = [...isGroupButtonDisabled];
         updatedGroupButtonDisabled[currHostUrlIndex] = true;
-        // dispatch(setGroupButtonDisabled(updatedGroupButtonDisabled));
+        dispatch(setGroupButtonDisabled(updatedGroupButtonDisabled));
         // dispatch(setGroupButtonDisabled((currDisabledState) => {
         //     const updatedGroupButtonDisabled = [...currDisabledState];
         //     updatedGroupButtonDisabled[currHostUrlIndex] = true;

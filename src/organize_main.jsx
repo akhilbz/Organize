@@ -5,14 +5,11 @@ import { setCurrGroups,  setCurrGroupTabs, setCurrTabs, setHostUrls, setIsGroupC
   setShowModalArr, setCurrActiveTab, setShowCheckboxesAndBtns, setAddTabIds, setGroupedTabIds, setShowGroupModal} from "./actions";
 import TabsPage from "./Helper/Tabs/tabs_page";
 import GroupsPage from "./Helper/Groups/groups_page";
-import NewGroupModal from "./Helper/Tabs/New_Group_Modal/new_group_modal";
-import DisplayTabs from "./Helper/Tabs/display_tabs.js";
-import DisplayGroups from "./Helper/Groups/display_groups.js";
 import { getHostUrls } from "./Helper/helper_functions.js";
 import { createRoot } from 'react-dom/client';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faSearch } from '@fortawesome/free-solid-svg-icons';
-import organize_brand_logo from '/Users/akhileshbitla/Work/products/Organize/src/images/organize-logo7.png';
+import organize_brand_logo from '/Users/akhileshbitla/Work/products/Organize/src/images/organize-logo5.png';
 
 const container = document.getElementById("react-target");
 

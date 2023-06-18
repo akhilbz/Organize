@@ -5,7 +5,6 @@ import { useSelector, useDispatch } from "react-redux";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faLayerGroup, faObjectGroup } from '@fortawesome/free-solid-svg-icons';
 import { setShowCheckboxesAndBtns, setAddTabIds, setGroupedTabIds, setShowGroupModal, setSwitchToGroups } from '../../actions';
-import { main } from '@popperjs/core';
 
 function TabsPage() {
     const dispatch = useDispatch();
@@ -41,7 +40,7 @@ function TabsPage() {
           }
         }}>
           <FontAwesomeIcon icon={faLayerGroup} className="fa-layer-group fa-thin fa-lg btn-group-icon"/>
-          <span className="tooltip grp-tooltip">{addTabIds.length == 0 ? 'Pick your Tabs' : 'Group Tabs'}</span>
+          {addTabIds.length === 0 && (<span className="tooltip grp-tooltip">Pick your Tabs</span>)}
         </button>
         </div>)}
       </div>

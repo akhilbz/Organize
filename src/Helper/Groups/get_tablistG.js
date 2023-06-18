@@ -2,7 +2,8 @@ import React from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { setCurrTabs, setCurrGroups, setHostUrls, setCurrGroupTabs, setIsGroupCollapsed, setGroupButtonDisabled, setShowModalArr } from "../../actions";
 import { truncateText, getHostUrls } from "../helper_functions";
-
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faArrowTurnRight, faDiamondTurnRight } from '@fortawesome/free-solid-svg-icons';
 
 // function GetTabListForDG({tabType, currActiveTab, currGroup, currGroupIndex, currGroups, setCurrGroups, currGroupTabs, 
 // setCurrGroupTabs, currTabs, setCurrTabs, hostUrls, setHostUrls, isGroupCollapsed, setIsGroupCollapsed,
@@ -54,6 +55,11 @@ import { truncateText, getHostUrls } from "../helper_functions";
                   <h5 className={(tab.id === currActiveTab.id ? 'active-tab-text' : 'sub-title')}>{truncatedTitle}</h5>
                 </a>
                 </div>
+                <div className="d-flex">
+                <button className="move-btn">
+                  <FontAwesomeIcon icon={faDiamondTurnRight} style={{ color: '#000000' }} className="fa-arrow-turn-right fa-thin fa-lg move-icon" /> 
+                  <span className="tooltip move-tooltip">Move</span> 
+                </button>  
                 <button type="button" className="btn-close" aria-label="Close" onClick={() =>{
                   chrome.tabs.remove(tab.id);
                   const tabHostUrl = new URL(tab.url).hostname;
@@ -124,6 +130,7 @@ import { truncateText, getHostUrls } from "../helper_functions";
                     dispatch(setCurrGroups(updatedGroups));
                   }
                 }}></button>
+                </div>
               </div>
             </li>
           );

@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
-import { setShowGroupModal, setShowCheckboxesAndBtns, setAddTabIds, setGroupedTabIds } from "../../../actions";
+import { setCurrTabs, setCurrGroups, setCurrGroupTabs, setGroupButtonDisabled, setShowModalArr, setShowGroupModal, 
+    setShowCheckboxesAndBtns, setAddTabIds, setGroupedTabIds } from "../../../actions";
 import { Modal } from 'react-bootstrap';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faEllipsisH } from '@fortawesome/free-solid-svg-icons';
@@ -29,8 +30,10 @@ function NewGroupModal() {
     const groupedTabIds = useSelector(state => state.groupedTabIds);
     const groupedTabIdsSet = new Set(groupedTabIds);
     const addTabIds = useSelector(state => state.addTabIds);
+    const hostUrls = useSelector(state => state.hostUrls);
     const currTabs = useSelector(state => state.currTabs);
     const currGroups = useSelector(state => state.currGroups);
+    const currGroupTabs = useSelector(state => state.currGroupTabs);
     const groupedTabs = currTabs.filter((tab) => groupedTabIdsSet.has(tab.id));
     const MAX_VISIBLE_ITEMS = 4;
     const visibleGroupedTabs = showAll ? groupedTabs : groupedTabs.slice(0, MAX_VISIBLE_ITEMS);
@@ -136,7 +139,7 @@ function NewGroupModal() {
                 </button>
                 </div>)}
                 <div className="modal-message-container"><p className="modal-sub-statement">The following tabs are already organized into groups.
-                If you wish to group the above tabs, press the 'Group Tabs' Button.</p></div>
+                If you wish to group the selected tabs, the above tabs will be moved to thew new group.</p></div>
             </Modal.Body>
             <Modal.Footer>
             <div className="d-flex new-group-mdl-btn">
@@ -148,7 +151,103 @@ function NewGroupModal() {
                     dispatch(setAddTabIds([]));
                     dispatch(setGroupedTabIds([]));
                     }}>Close</button>
-                <button className="btn btn-outline-success">Group Tabs</button>
+                <button className="btn btn-outline-success" onClick={ async () => {
+                    var groupID = await chrome.tabs.group({ tabIds: addTabIds });  
+                    await chrome.tabGroups.update( groupID, { collapsed: true, title: inputValue, color: colorReceived });
+                    const group = await chrome.tabGroups.get(groupID);
+                    const addTabIdsSet = new Set(addTabIds);
+                    const groupedTabIdsSet = new Set(groupedTabIds);
+                    // update tabs:
+                    var updatedTabs = [];
+                    for (const tab of currTabs) {
+                        if (addTabIdsSet.has(tab.id)) {
+                            const tempTab = Object.assign({}, tab);
+                            tempTab.groupId = groupID;
+                            updatedTabs.push(tempTab);
+                        } else {
+                            updatedTabs.push(tab);
+                        }
+                    }
+                    // console.log("updatedTabs:", updatedTabs);
+                    dispatch(setCurrTabs(updatedTabs));
+                    
+                    // update group tabs
+                    var updatedGroupTabs = []; 
+                    if (currGroupTabs.length > 0) {
+                        for (const groupTabs of currGroupTabs) {
+                            var groupedTabs = [];
+                            for (const groupTab of groupTabs) {
+                                if (!groupedTabIdsSet.has(groupTab.id)) {
+                                    groupedTabs.push(groupTab);
+                                }
+                            }
+                            // console.log(groupedTabs);
+                            if (groupedTabs.length > 0) {
+                                updatedGroupTabs.push(groupedTabs);
+                            }
+                        }
+                    }
+                    var newlyGroupedTabs = updatedTabs.filter((tab) => addTabIdsSet.has(tab.id));
+                    updatedGroupTabs.push(newlyGroupedTabs);
+                    console.log(updatedGroupTabs);
+                    dispatch(setCurrGroupTabs(updatedGroupTabs));
+
+                    // update groups: 
+                    console.log(currGroups);
+                    var index = 0;
+                    var updatedGroups = [];
+                    if (currGroups.length > 0) {
+                        updatedGroupTabs.forEach((groupTabs) => {
+                            updatedGroups.push(...currGroups.filter((group) => group.id === groupTabs[0].groupId));
+                        });
+                    }
+                    updatedGroups.push(group);
+                    console.log(updatedGroups);
+                    dispatch(setCurrGroups(updatedGroups));
+
+
+                    var isButtonDisabled = [];
+                    var isModalEnabled = [];
+                    for (const hostUrl of hostUrls) {
+                      const hostTabs = updatedTabs.filter((tab) => tab.url.includes(`://${hostUrl}/`));
+                      var isDisabled = false;
+                      for (const tab of hostTabs) {
+                        if (tab.groupId !== -1) {
+                          isDisabled = true;
+                        } else {
+                          isDisabled = false;
+                          break;
+                        }
+                      }
+                      isButtonDisabled.push(isDisabled);
+              
+                      var notAllGrouped = false;
+                      var nonGrouped = 0;
+                      if (hostTabs.length > 1) {
+                          for (const tab of hostTabs) {
+                            if (tab.groupId === -1) {
+                              nonGrouped++;
+                            }
+                          }
+                      
+                          if (nonGrouped != 0 && nonGrouped < hostTabs.length) {
+                            notAllGrouped = true;
+                          } 
+                      }
+                      isModalEnabled.push(notAllGrouped);
+                    }
+
+                    dispatch(setGroupButtonDisabled([...isButtonDisabled]));
+                    dispatch(setShowModalArr([...isModalEnabled]));
+
+                    // update groupTabs:
+                    handleCloseGroupModal();
+                    dispatch(setShowCheckboxesAndBtns(false));
+                    dispatch(setAddTabIds([]));
+                    dispatch(setGroupedTabIds([]));
+                    const mainBody = document.getElementById('main-body');
+                    mainBody.style.minHeight = '';
+                }}>Group Tabs</button>
             </div>
             </Modal.Footer>
         </Modal>

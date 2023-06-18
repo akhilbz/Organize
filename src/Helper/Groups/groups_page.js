@@ -21,7 +21,7 @@ function GroupsPage() {
       </div>
       <button type="button" disabled={currGroups == 0} className="btn btn-outline-info manage-btn">
         MANAGE
-        <span className="tooltip manage-tip">No Groups to Manage</span>
+       {currGroups == 0 && ( <span className="tooltip manage-tip">No Groups to Manage</span>)}
       </button>
       </div>
       

@@ -30,7 +30,7 @@ function GroupOnlySome({ currHostTabs, currHostUrl}) {
     const truncatedTitle = truncateText(hostTitle, 25);
     const dispatch = useDispatch();
 
-    const handleCloseModal = () => {
+    const   handleCloseModal = () => {
         dispatch(setShowModal(false));
     };
 
@@ -105,7 +105,11 @@ function GroupOnlySome({ currHostTabs, currHostUrl}) {
 
     return (
         <div key={currHostUrlIndex}>
-        <Modal show={showModal} onHide={handleCloseModal}>
+        <Modal show={showModal} onHide={() => {
+            handleCloseModal();
+            const mainBody = document.getElementById('main-body');
+            mainBody.style.minHeight = '';
+        }}>
             <Modal.Header closeButton>
             <Modal.Title>Group Tabs</Modal.Title>
             </Modal.Header>

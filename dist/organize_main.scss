@@ -176,12 +176,32 @@
     background: none !important;
     border: none !important;
     margin: 0px !important;
-    padding: 0px !important;
+    padding: 0px !important;  
   }
 
   .ungroup-button:hover .tooltip {
     visibility: visible;
     opacity: 1;
+  }
+
+  .move-btn {
+    background: none !important;
+    border: none !important;
+    margin: 0px !important;
+    padding-right: 3px !important;
+  }
+
+  .move-btn:hover .tooltip {
+    visibility: visible;
+    opacity: 1;
+  }
+
+  .move-tooltip {
+    margin-left: -8px !important;
+  }
+
+  .move-icon {
+    padding-bottom: 2px !important;
   }
 
   // ----------------------------------------------------------------

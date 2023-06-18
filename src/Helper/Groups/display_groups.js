@@ -1,6 +1,6 @@
 import React from "react";
 import { useSelector, useDispatch } from "react-redux";
-import { setCurrTabs, setCurrGroups, setCurrGroupTabs, setIsGroupCollapsed, setGroupButtonDisabled, setShowModalArr } from "../../actions";
+import { setCurrTabs, setCurrGroups, setCurrGroupTabs, setIsGroupCollapsed, setGroupButtonDisabled, setShowModalArr, setCurrHostUrlIndex } from "../../actions";
 import GetTabListForDG from "./get_tablistG";
 import { Collapse, Dropdown } from "react-bootstrap";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
@@ -98,13 +98,13 @@ import { getHostUrls, getModdedColor } from "../helper_functions";
                       </button>  
                       
                     <Dropdown className="card-settings" onClick={async (e) => {
-                      e.preventDefault();
+                      e.preventDefault(); 
                       e.stopPropagation();}}>
                     <Dropdown.Toggle variant="success">
                       <FontAwesomeIcon icon={faEllipsisV} style={{ color: '#000000' }} className="fa-ellipsis-v fa-thin fa-lg" />    
                     </Dropdown.Toggle>
                     <Dropdown.Menu>
-                    <Dropdown.Item onClick={ async () => {}}>Ungroup</Dropdown.Item>
+                    <Dropdown.Item onClick={ async () => {}}>Edit</Dropdown.Item>
                     <Dropdown.Item onClick={""}>Close Group</Dropdown.Item>
                     </Dropdown.Menu>
                     <span className="tooltip settings-label">Settings</span>
