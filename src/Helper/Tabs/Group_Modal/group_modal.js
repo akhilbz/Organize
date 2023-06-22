@@ -149,6 +149,8 @@ function GroupOnlySome({ currHostTabs, currHostUrl}) {
                     <button className="btn btn-light" onClick={() => {
                     handleGroupRemTabs();
                     handleCloseModal();
+                    const mainBody = document.getElementById('main-body');
+                    mainBody.style.minHeight = '';
                     }}>Group Remaining</button>
 
                     <button className="btn btn-outline-danger" onClick={async () => {
@@ -156,6 +158,8 @@ function GroupOnlySome({ currHostTabs, currHostUrl}) {
                     currGroupTabs, setCurrGroupTabs, currTabs, setCurrTabs, hostUrls, currHostUrl, showModalArr, setShowModalArr, 
                     isGroupButtonDisabled, setGroupButtonDisabled, dispatch});    
                     handleCloseModal();
+                    const mainBody = document.getElementById('main-body');
+                    mainBody.style.minHeight = '';
                     }}>Group All</button>
                 </div>
             </Modal.Footer>

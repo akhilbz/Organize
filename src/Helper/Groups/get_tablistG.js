@@ -3,7 +3,7 @@ import { useSelector, useDispatch } from "react-redux";
 import { setCurrTabs, setCurrGroups, setHostUrls, setCurrGroupTabs, setIsGroupCollapsed, setGroupButtonDisabled, setShowModalArr } from "../../actions";
 import { truncateText, getHostUrls } from "../helper_functions";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faArrowTurnRight, faDiamondTurnRight } from '@fortawesome/free-solid-svg-icons';
+import { faDiamondTurnRight } from '@fortawesome/free-solid-svg-icons';
 
 // function GetTabListForDG({tabType, currActiveTab, currGroup, currGroupIndex, currGroups, setCurrGroups, currGroupTabs, 
 // setCurrGroupTabs, currTabs, setCurrTabs, hostUrls, setHostUrls, isGroupCollapsed, setIsGroupCollapsed,
@@ -122,7 +122,7 @@ import { faArrowTurnRight, faDiamondTurnRight } from '@fortawesome/free-solid-sv
                   dispatch(setCurrGroupTabs([...updatedGroupTabs]));
                   console.log(tabType);
                   if (tabType.length == 1) {
-                    const updatedGroups = currGroups.filter((group) => group !== currGroup);
+                    const updatedGroups = currGroups.filter((group) => group !== currGroups[currGroupIndex]);
                     console.log(updatedGroups);
                     const updatedCollapseStates = isGroupCollapsed.filter((state, i) => i !== currGroupIndex);
                     console.log(updatedCollapseStates);

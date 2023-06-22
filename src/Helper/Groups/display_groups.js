@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useCallback } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { setCurrTabs, setCurrGroups, setCurrGroupTabs, setIsGroupCollapsed, setGroupButtonDisabled, setShowModalArr, setCurrHostUrlIndex } from "../../actions";
 import GetTabListForDG from "./get_tablistG";
@@ -16,14 +16,13 @@ import { getHostUrls, getModdedColor } from "../helper_functions";
       const isGroupButtonDisabled = useSelector(state => state.isGroupButtonDisabled);
       const showModalArr = useSelector(state => state.showModalArr);
       const dispatch = useDispatch();
-
-
-    const handleCollapseGroup = async (currGroupId, index) => {
-      await chrome.tabGroups.update(currGroupId, { collapsed: !isGroupCollapsed[index] });
-      const updatedGroupCollapsedState = [...isGroupCollapsed];
-      updatedGroupCollapsedState[index] = !isGroupCollapsed[index];
-      dispatch(setIsGroupCollapsed(updatedGroupCollapsedState));
-    };
+      const handleCollapseGroup = useCallback(async (currGroupId, index) => {
+        await chrome.tabGroups.update(currGroupId, { collapsed: !isGroupCollapsed[index] });
+        const updatedGroupCollapsedState = [...isGroupCollapsed];
+        updatedGroupCollapsedState[index] = !isGroupCollapsed[index];
+        dispatch(setIsGroupCollapsed(updatedGroupCollapsedState));
+      }, [isGroupCollapsed, setIsGroupCollapsed, dispatch]);
+      console.log(currGroups);
     return (
         <> {
         currGroups.map((currGroup, index) => {
@@ -33,7 +32,8 @@ import { getHostUrls, getModdedColor } from "../helper_functions";
             return (
             <div key={index} className="col-md-4 mb-2 ">
               <div className="card">
-                <div onClick={() => handleCollapseGroup(currGroupId, index)} className="collapse-feature card-header d-flex justify-content-between" 
+                <div onClick={async () => {handleCollapseGroup(currGroupId, index); await chrome.tabGroups.update(currGroupId, { collapsed: !isGroupCollapsed[index] }, ()=>{});}} 
+                className="collapse-feature card-header d-flex justify-content-between" style={{ borderRadius: isGroupCollapsed[index] ? '0.375rem' : 'initial' }} 
                 aria-expanded={!isGroupCollapsed[index]} aria-controls="collapseGroup${index}">
                   <div className="left-side-items d-flex">
                     <div className="circle" style={{backgroundColor: getModdedColor(currGroup.color)}}></div>
@@ -94,7 +94,7 @@ import { getHostUrls, getModdedColor } from "../helper_functions";
                           dispatch(setCurrHostUrlIndex(-1));
                     }}>
                       <FontAwesomeIcon icon={faSquareMinus} style={{ color: '#000000' }} className="fa-square-minus fa-thin fa-lg" />
-                      <span className="tooltip">Ungroup</span>
+                      <span className="tooltip ungroup-label">Ungroup</span>
                       </button>  
                       
                     <Dropdown className="card-settings" onClick={async (e) => {
@@ -103,7 +103,7 @@ import { getHostUrls, getModdedColor } from "../helper_functions";
                     <Dropdown.Toggle variant="success">
                       <FontAwesomeIcon icon={faEllipsisV} style={{ color: '#000000' }} className="fa-ellipsis-v fa-thin fa-lg" />    
                     </Dropdown.Toggle>
-                    <Dropdown.Menu>
+                    <Dropdown.Menu className="group-dropdown-menu">
                     <Dropdown.Item onClick={ async () => {}}>Edit</Dropdown.Item>
                     <Dropdown.Item onClick={""}>Close Group</Dropdown.Item>
                     </Dropdown.Menu>
@@ -114,7 +114,7 @@ import { getHostUrls, getModdedColor } from "../helper_functions";
                 <Collapse className="collapse-container" in={!isGroupCollapsed[index]}>
                     <div id={'collapseGroup${index}'}>              
                     <ul className="list-group list-group-flush">
-                      <GetTabListForDG tabType={groupTabs[0]} currGroupIndex={index} />
+                      <GetTabListForDG tabType={groupTabs[0]} currGroupIndex={index} currGroup={currGroup}/>
                     </ul>
                     </div>
                 </Collapse>

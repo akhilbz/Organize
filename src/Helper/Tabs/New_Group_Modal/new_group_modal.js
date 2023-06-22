@@ -110,9 +110,10 @@ function NewGroupModal() {
                 <div className="scroller" id="scroller"></div>
                 </div>
                 </div>
-                <div className="d-flex border-bottom"><h6 className="group-data-text">{"Group Color: "}</h6> <h6 className="group-data-text" 
+                <div className={groupedTabs.length > 0 ? "d-flex border-bottom" : "d-flex"}><h6 className="group-data-text">{"Group Color: "}</h6> <h6 className="group-data-text" 
                 style={{color: getModdedColor(colorReceived)}}>{'\u00A0'}{colorReceived}</h6></div>
-                <div><h6 className="new-modal-subheading">Current Grouped Tabs Overview:</h6></div>
+               {groupedTabs.length > 0 && (<>
+               <div><h6 className="new-modal-subheading">Current Grouped Tabs Overview:</h6></div>
                 <div className="modal-body-container">
                     {
                 visibleGroupedTabs.map((tab, index) => {
@@ -140,6 +141,7 @@ function NewGroupModal() {
                 </div>)}
                 <div className="modal-message-container"><p className="modal-sub-statement">The following tabs are already organized into groups.
                 If you wish to group the selected tabs, the above tabs will be moved to thew new group.</p></div>
+                </>)}
             </Modal.Body>
             <Modal.Footer>
             <div className="d-flex new-group-mdl-btn">
