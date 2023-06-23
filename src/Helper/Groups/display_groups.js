@@ -21,8 +21,7 @@ import { getHostUrls, getModdedColor } from "../helper_functions";
         const updatedGroupCollapsedState = [...isGroupCollapsed];
         updatedGroupCollapsedState[index] = !isGroupCollapsed[index];
         dispatch(setIsGroupCollapsed(updatedGroupCollapsedState));
-      }, [isGroupCollapsed, setIsGroupCollapsed, dispatch]);
-      console.log(currGroups);
+      }, [isGroupCollapsed, setIsGroupCollapsed, dispatch]);      
     return (
         <> {
         currGroups.map((currGroup, index) => {
@@ -32,7 +31,8 @@ import { getHostUrls, getModdedColor } from "../helper_functions";
             return (
             <div key={index} className="col-md-4 mb-2 ">
               <div className="card">
-                <div onClick={async () => {handleCollapseGroup(currGroupId, index); await chrome.tabGroups.update(currGroupId, { collapsed: !isGroupCollapsed[index] }, ()=>{});}} 
+                <div onClick={async () => {console.log("first?"); handleCollapseGroup(currGroupId, index);}} 
+                onMouseDown={async () => {await chrome.tabGroups.update(currGroupId, { color: currGroup.color });}}
                 className="collapse-feature card-header d-flex justify-content-between" style={{ borderRadius: isGroupCollapsed[index] ? '0.375rem' : 'initial' }} 
                 aria-expanded={!isGroupCollapsed[index]} aria-controls="collapseGroup${index}">
                   <div className="left-side-items d-flex">

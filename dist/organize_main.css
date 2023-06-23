@@ -11385,10 +11385,15 @@ body {
   display: none;
 }
 
+.dropdown {
+  z-index: 9999 !important;
+}
+
 .dropdown-menu {
-  z-index: 8999 !important;
+  --bs-dropdown-zindex: 9999 !important;
   position: absolute;
   top: -15% !important;
+  right: 5% !important;
   --bs-dropdown-min-width: none;
   --bs-dropdown-padding-x: none;
   --bs-dropdown-padding-y: none;
@@ -11400,6 +11405,7 @@ body {
 
 .dropdown-item {
   border-radius: 0.375rem !important;
+  z-index: 9999 !important;
 }
 
 .sub-title {
