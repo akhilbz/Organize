@@ -7,6 +7,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faEllipsisV, faSquareMinus } from '@fortawesome/free-solid-svg-icons';
 import { getHostUrls, getModdedColor } from "../helper_functions";
 
+
   function DisplayGroups() {
       const currGroups = useSelector(state => state.currGroups);
       const currGroupTabs = useSelector(state => state.currGroupTabs);
@@ -16,23 +17,28 @@ import { getHostUrls, getModdedColor } from "../helper_functions";
       const isGroupButtonDisabled = useSelector(state => state.isGroupButtonDisabled);
       const showModalArr = useSelector(state => state.showModalArr);
       const dispatch = useDispatch();
-      const handleCollapseGroup = useCallback(async (currGroupId, index) => {
-        await chrome.tabGroups.update(currGroupId, { collapsed: !isGroupCollapsed[index] });
-        const updatedGroupCollapsedState = [...isGroupCollapsed];
-        updatedGroupCollapsedState[index] = !isGroupCollapsed[index];
-        dispatch(setIsGroupCollapsed(updatedGroupCollapsedState));
-      }, [isGroupCollapsed, setIsGroupCollapsed, dispatch]);      
+      // console.log(currGroups);
+      
     return (
         <> {
         currGroups.map((currGroup, index) => {
-            const currGroupId = currGroup.id;
-            const groupTabs = currGroupTabs.filter((grpTab) => grpTab[0].groupId == currGroupId);
+            // console.log(currGroup);
+            const groupTabs = currGroupTabs.filter((grpTab) => grpTab[0].groupId == currGroup.id);
             const tabIds = groupTabs[0].map(({ id }) => id);
+
             return (
             <div key={index} className="col-md-4 mb-2 ">
               <div className="card">
-                <div onClick={async () => {console.log("first?"); handleCollapseGroup(currGroupId, index);}} 
-                onMouseDown={async () => {await chrome.tabGroups.update(currGroupId, { color: currGroup.color });}}
+                <div 
+                onClick={ async () => { 
+                  console.log(currGroup.id);
+                  try { await chrome.tabGroups.update(currGroup.id, { collapsed: !isGroupCollapsed[index] }); }
+                  catch (e) { console.error(e); console.log("ignore error ^")}
+                  const updatedGroupCollapsedState = [...isGroupCollapsed];
+                  updatedGroupCollapsedState[index] = !isGroupCollapsed[index];
+                  dispatch(setIsGroupCollapsed(updatedGroupCollapsedState));
+                }} 
+                onMouseDown={async () => {await chrome.tabGroups.update(currGroup.id, { color: currGroup.color });}}
                 className="collapse-feature card-header d-flex justify-content-between" style={{ borderRadius: isGroupCollapsed[index] ? '0.375rem' : 'initial' }} 
                 aria-expanded={!isGroupCollapsed[index]} aria-controls="collapseGroup${index}">
                   <div className="left-side-items d-flex">
@@ -43,7 +49,6 @@ import { getHostUrls, getModdedColor } from "../helper_functions";
                     <button className="ungroup-button" onClick={ async () => {
                         var updatedTabs = [];
                         var tempTab = null;
-                        console.log(groupTabs[0]);
                         for (const tab of currTabs) {
                             if (groupTabs[0].some((groupedTab) => groupedTab.id === tab.id)) {
                                 tempTab = Object.assign({}, tab); // storing tab in a temporary object
@@ -59,6 +64,7 @@ import { getHostUrls, getModdedColor } from "../helper_functions";
 
                         const updatedCollapseStates = isGroupCollapsed.filter((state, i) => i !== index);
                         dispatch(setIsGroupCollapsed(updatedCollapseStates));
+                        console.log(currGroup);
                         const updatedGroups = currGroups.filter((group) => group !== currGroup);
                         dispatch(setCurrGroupTabs(updatedGroupTabs));
                         dispatch(setCurrGroups(updatedGroups));    
@@ -76,7 +82,7 @@ import { getHostUrls, getModdedColor } from "../helper_functions";
                             var notAllGrouped = false;
                             var nonGrouped = 0;
                             const hostTabs = updatedTabs.filter((tab) => tab.url.includes(`://${hostUrls[urlIndex]}/`));
-                            console.log("hostTabs:", hostTabs);
+                            // console.log("hostTabs:", hostTabs);
                             if (hostTabs.length > 1) {
                                 for (const tab of hostTabs) {
                                   if (tab.groupId === -1) {
@@ -89,7 +95,6 @@ import { getHostUrls, getModdedColor } from "../helper_functions";
                             }
                             updatedShowModalArrState[urlIndex] = notAllGrouped;
                           }
-                          // console.log(updatedShowModalArrState);
                           dispatch(setShowModalArr(updatedShowModalArrState));
                           dispatch(setCurrHostUrlIndex(-1));
                     }}>
@@ -97,15 +102,15 @@ import { getHostUrls, getModdedColor } from "../helper_functions";
                       <span className="tooltip ungroup-label">Ungroup</span>
                       </button>  
                       
-                    <Dropdown className="card-settings" onClick={async (e) => {
+                    <Dropdown className="card-settings" onClick={(e) => {
                       e.preventDefault(); 
                       e.stopPropagation();}}>
                     <Dropdown.Toggle variant="success">
                       <FontAwesomeIcon icon={faEllipsisV} style={{ color: '#000000' }} className="fa-ellipsis-v fa-thin fa-lg" />    
                     </Dropdown.Toggle>
                     <Dropdown.Menu className="group-dropdown-menu">
-                    <Dropdown.Item onClick={ async () => {}}>Edit</Dropdown.Item>
-                    <Dropdown.Item onClick={""}>Close Group</Dropdown.Item>
+                    <Dropdown.Item>Edit</Dropdown.Item>
+                    <Dropdown.Item>Close Group</Dropdown.Item>
                     </Dropdown.Menu>
                     <span className="tooltip settings-label">Settings</span>
                     </Dropdown>

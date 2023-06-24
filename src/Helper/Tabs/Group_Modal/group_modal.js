@@ -146,14 +146,14 @@ function GroupOnlySome({ currHostTabs, currHostUrl}) {
             </Modal.Body>
             <Modal.Footer>
                 <div className="d-flex justify-content-between">
-                    <button className="btn btn-light" onClick={() => {
+                    <button id="rem-group-btn" className="btn btn-light" onClick={() => {
                     handleGroupRemTabs();
                     handleCloseModal();
                     const mainBody = document.getElementById('main-body');
                     mainBody.style.minHeight = '';
                     }}>Group Remaining</button>
 
-                    <button className="btn btn-outline-danger" onClick={async () => {
+                    <button id="all-group-btn" className="btn btn-outline-danger" onClick={async () => {
                     handleGroupAllTabs({ allCurrTabIds, currHostUrlIndex, truncatedTitle, currGroups, setCurrGroups, isGroupCollapsed, setIsGroupCollapsed,
                     currGroupTabs, setCurrGroupTabs, currTabs, setCurrTabs, hostUrls, currHostUrl, showModalArr, setShowModalArr, 
                     isGroupButtonDisabled, setGroupButtonDisabled, dispatch});    

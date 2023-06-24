@@ -1,6 +1,6 @@
 
 export async function GroupAllTabs({ tabIds, index, truncatedTitle, isGroupButtonDisabled, setGroupButtonDisabled, currTabs, 
-    setCurrTabs, currGroupTabs, setCurrGroupTabs, currGroups, setCurrGroups, isGroupCollapsed, setIsGroupCollapsed, dispatch }) {
+    setCurrTabs, currGroupTabs, setCurrGroupTabs, currGroups, setCurrGroups, isGroupCollapsed, setIsGroupCollapsed, showModalArr, dispatch }) {
     console.log(currGroups);
     var groupID = await chrome.tabs.group({ tabIds });  
     await chrome.tabGroups.update( groupID, { collapsed: true, title: truncatedTitle });
@@ -38,4 +38,24 @@ export async function GroupAllTabs({ tabIds, index, truncatedTitle, isGroupButto
         dispatch(setIsGroupCollapsed(updatedCollapsedStates));
     }
     dispatch(setCurrTabs([...updatedTabs]));
+
+    // if (showModalArr[index]) {
+    //     const remGroupButton = document.getElementById('rem-group-btn');
+    //     const allGroupButton = document.getElementById('all-group-btn');
+
+    //     remGroupButton.addEventListener('mousedown', async () => {
+    //         await chrome.tabGroups.update(groupID, { collapsed: true });
+    //     });
+
+    //     allGroupButton.addEventListener('mousedown', async () => {
+    //         await chrome.tabGroups.update(groupID, { collapsed: true });
+    //     });
+
+    // } else {
+    //     console.log("here");
+    //     const groupButton = document.getElementById('group-btn');
+    //     groupButton.addEventListener('mousedown', async () => {
+    //         await chrome.tabGroups.update(groupID, { collapsed: true });
+    //     });
+    // }
 }

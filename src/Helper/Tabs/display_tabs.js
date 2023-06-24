@@ -67,14 +67,15 @@ import extension_logo from '/Users/akhileshbitla/Work/products/Organize/src/imag
           <h4 className="header-text">{truncatedTitle}</h4>
           </div>
           <div className="right-side-items d-flex">
-            <button className="group" disabled={isGroupButtonDisabled[index]} onClick= { () => {
-              if (showModalArr[index]) { dispatch(setShowModal(true)); 
+            <button id="group-btn" className="group" disabled={isGroupButtonDisabled[index]} onClick= { () => {
+              if (showModalArr[index]) { 
+                dispatch(setShowModal(true)); 
                 dispatch(setCurrHostUrlIndex(index)); 
                 setCurrHostTabs(hostTabs); setCurrHostUrl(hostUrl); 
                 const mainBody = document.getElementById('main-body');
                 mainBody.style.minHeight = '100vh';
               } else { GroupAllTabs({tabIds, index, truncatedTitle, isGroupButtonDisabled, setGroupButtonDisabled, currTabs, setCurrTabs, currGroupTabs, 
-              setCurrGroupTabs, currGroups, setCurrGroups, isGroupCollapsed, setIsGroupCollapsed, dispatch});} }}>
+              setCurrGroupTabs, currGroups, setCurrGroups, isGroupCollapsed, setIsGroupCollapsed, showModalArr, dispatch});} }}>
               <FontAwesomeIcon icon={faLayerGroup} className="fa-layer-group group-icon fa-thin fa-lg ${isGroupButtonDisabled[index] ? 'disabled' : 'enabled'}" />
               <span className="tooltip group-label">{isGroupButtonDisabled[index] ? 'All Grouped' : 'Quick Group'}</span>
             </button>
