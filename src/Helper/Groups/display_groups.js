@@ -31,7 +31,7 @@ import { getHostUrls, getModdedColor } from "../helper_functions";
               <div className="card">
                 <div 
                 onClick={ async () => { 
-                  console.log(currGroup.id);
+                  // console.log(currGroup.id);
                   try { await chrome.tabGroups.update(currGroup.id, { collapsed: !isGroupCollapsed[index] }); }
                   catch (e) { console.error(e); console.log("ignore error ^")}
                   const updatedGroupCollapsedState = [...isGroupCollapsed];
@@ -64,7 +64,7 @@ import { getHostUrls, getModdedColor } from "../helper_functions";
 
                         const updatedCollapseStates = isGroupCollapsed.filter((state, i) => i !== index);
                         dispatch(setIsGroupCollapsed(updatedCollapseStates));
-                        console.log(currGroup);
+                        // console.log(currGroup);
                         const updatedGroups = currGroups.filter((group) => group !== currGroup);
                         dispatch(setCurrGroupTabs(updatedGroupTabs));
                         dispatch(setCurrGroups(updatedGroups));    

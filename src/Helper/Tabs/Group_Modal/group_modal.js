@@ -63,7 +63,7 @@ function GroupOnlySome({ currHostTabs, currHostUrl}) {
                 nonGrouped++;
                 }
             }
-            if (nonGrouped != 0 && nonGrouped < hostTabs.length) {
+            if (nonGrouped !== 0 && nonGrouped < hostTabs.length) {
                 updatedShowModalArr[currHostUrlIndex] = true;
             } else {
                 updatedShowModalArr[currHostUrlIndex]
@@ -100,7 +100,11 @@ function GroupOnlySome({ currHostTabs, currHostUrl}) {
 
         GroupAllTabs({tabIds: remCurrTabIds, currHostUrlIndex, truncatedTitle, isGroupButtonDisabled: updatedGroupButtonDisabled, 
             setGroupButtonDisabled, currTabs, setCurrTabs, currGroupTabs, setCurrGroupTabs, 
-            currGroups, setCurrGroups, isGroupCollapsed, setIsGroupCollapsed, dispatch });
+            currGroups, setCurrGroups, isGroupCollapsed, setIsGroupCollapsed, dispatch }).then((grpID) => {
+                const groupButton = document.getElementById(currHostUrlIndex);
+                groupButton.addEventListener('mouseover', async () => { await chrome.tabGroups.update(grpID, { collapsed: true }); console.log(grpID); });
+  
+            });
     };
 
     return (

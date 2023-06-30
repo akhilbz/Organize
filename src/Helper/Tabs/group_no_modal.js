@@ -1,16 +1,18 @@
 
 export async function GroupAllTabs({ tabIds, index, truncatedTitle, isGroupButtonDisabled, setGroupButtonDisabled, currTabs, 
     setCurrTabs, currGroupTabs, setCurrGroupTabs, currGroups, setCurrGroups, isGroupCollapsed, setIsGroupCollapsed, showModalArr, dispatch }) {
-    console.log(currGroups);
-    var groupID = await chrome.tabs.group({ tabIds });  
-    await chrome.tabGroups.update( groupID, { collapsed: true, title: truncatedTitle });
-    const group = await chrome.tabGroups.get(groupID);
-    console.log(isGroupButtonDisabled);
+    // console.log(currGroups);
+    var grpID = await chrome.tabs.group({ tabIds });  
+    await chrome.tabGroups.update( grpID, { collapsed: true, title: truncatedTitle });
+    const group = await chrome.tabGroups.get(grpID);
+    // setGroupID(grpID);
+    // console.log(groupID.current);
+    // console.log(isGroupButtonDisabled);
     const updatedGroupButtonDisabled = [...isGroupButtonDisabled];
     updatedGroupButtonDisabled[index] = true;
     dispatch(setGroupButtonDisabled(updatedGroupButtonDisabled));
 
-    const tabs_in_group = await chrome.tabs.query({groupId: groupID});
+    const tabs_in_group = await chrome.tabs.query({groupId: grpID});
     var tabs_are_included = false;      
 
     var updatedTabs = [];
@@ -38,7 +40,7 @@ export async function GroupAllTabs({ tabIds, index, truncatedTitle, isGroupButto
         dispatch(setIsGroupCollapsed(updatedCollapsedStates));
     }
     dispatch(setCurrTabs([...updatedTabs]));
-
+    // return groupID;
     // if (showModalArr[index]) {
     //     const remGroupButton = document.getElementById('rem-group-btn');
     //     const allGroupButton = document.getElementById('all-group-btn');
@@ -52,10 +54,7 @@ export async function GroupAllTabs({ tabIds, index, truncatedTitle, isGroupButto
     //     });
 
     // } else {
-    //     console.log("here");
-    //     const groupButton = document.getElementById('group-btn');
-    //     groupButton.addEventListener('mousedown', async () => {
-    //         await chrome.tabGroups.update(groupID, { collapsed: true });
-    //     });
+        // handleMouseDown(grpID);
+        return grpID;
     // }
 }

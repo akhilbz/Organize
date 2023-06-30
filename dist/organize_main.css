@@ -11187,8 +11187,12 @@ body {
   background: none;
   border: none;
   font-size: 1rem;
-  padding-right: 0.2rem;
+  padding-right: 0.1px !important;
   align-self: flex-end;
+}
+
+.group-btn-div {
+  margin-top: 7px !important;
 }
 
 .group-icon {
@@ -11349,8 +11353,9 @@ body {
   background: none;
   border: none;
   font-size: 1rem;
-  margin-right: -1.25rem;
+  margin-right: -1rem;
   padding-right: 0.5rem;
+  padding-left: 0.1rem !important;
   cursor: pointer;
 }
 

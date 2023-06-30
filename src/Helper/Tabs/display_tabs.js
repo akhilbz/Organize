@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useRef, useMemo } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { setCurrGroups,  setCurrGroupTabs, setCurrTabs, setHostUrls, setIsGroupCollapsed, setGroupButtonDisabled,
   setShowModalArr, setShowModal, setCurrHostUrlIndex } from "../../actions";
@@ -30,10 +30,6 @@ import extension_logo from '/Users/akhileshbitla/Work/products/Organize/src/imag
   const [currHostUrl, setCurrHostUrl] = useState("");
   const dispatch = useDispatch();
   const collator = new Intl.Collator();
-
-  // console.log(addTabIds);
-  // console.log(groupedTabIds);
-  // console.log(currTabs);
   return (
   <> { 
   hostUrls.map((hostUrl, index) => {
@@ -52,34 +48,41 @@ import extension_logo from '/Users/akhileshbitla/Work/products/Organize/src/imag
     } else if (!hostTabs[0].favIconUrl) {
       favIcon_img = require('/Users/akhileshbitla/Work/products/Organize/src/images/favicon_url_not_found_icon.png').default
     }
-
   // Group Title Logic:
   var hostTitle = groupTitle(hostUrl);
   const tabIds = hostTabs.map(({ id }) => id);
   const truncatedTitle = truncateText(hostTitle, 25);
   return (
-    <div key={index} className="col-md-4 mb-2">
-      <div className="card card-tabs">
+    <div key={index} className=" col-md-4 mb-2">
+      <div id={index} className="card card-tabs">
         <div className="card-header tab-header d-flex justify-content-between">
           <div className="left-side-items d-flex">
           <img className="favicon" src={favIcon_img} alt="" />
 
           <h4 className="header-text">{truncatedTitle}</h4>
           </div>
-          <div className="right-side-items d-flex">
-            <button id="group-btn" className="group" disabled={isGroupButtonDisabled[index]} onClick= { () => {
+          <div id="right-side" className="right-side-items d-flex">
+            <div id="grp-btn-div" className="group-btn-div">
+            <button id="group-btn" className="group" 
+            disabled={isGroupButtonDisabled[index]} 
+            onClick= { async () => {
               if (showModalArr[index]) { 
                 dispatch(setShowModal(true)); 
                 dispatch(setCurrHostUrlIndex(index)); 
                 setCurrHostTabs(hostTabs); setCurrHostUrl(hostUrl); 
                 const mainBody = document.getElementById('main-body');
                 mainBody.style.minHeight = '100vh';
-              } else { GroupAllTabs({tabIds, index, truncatedTitle, isGroupButtonDisabled, setGroupButtonDisabled, currTabs, setCurrTabs, currGroupTabs, 
-              setCurrGroupTabs, currGroups, setCurrGroups, isGroupCollapsed, setIsGroupCollapsed, showModalArr, dispatch});} }}>
+              } else { 
+              GroupAllTabs({tabIds, index, truncatedTitle, isGroupButtonDisabled, setGroupButtonDisabled, currTabs, setCurrTabs, currGroupTabs, 
+              setCurrGroupTabs, currGroups, setCurrGroups, isGroupCollapsed, setIsGroupCollapsed, showModalArr, dispatch}).then((grpID) => {
+              const groupButton = document.getElementById(index);
+              groupButton.addEventListener('mouseover', async () => { await chrome.tabGroups.update(grpID, { collapsed: true });});
+              });
+              }}}>
               <FontAwesomeIcon icon={faLayerGroup} className="fa-layer-group group-icon fa-thin fa-lg ${isGroupButtonDisabled[index] ? 'disabled' : 'enabled'}" />
               <span className="tooltip group-label">{isGroupButtonDisabled[index] ? 'All Grouped' : 'Quick Group'}</span>
             </button>
-            
+            </div>
             {showModalArr[index] && (<GroupOnlySome currHostTabs={currHostTabs} setCurrHostTabs={setCurrHostTabs} 
             hostTabs={hostTabs} currHostUrl={currHostUrl} />)}
 
@@ -106,9 +109,7 @@ import extension_logo from '/Users/akhileshbitla/Work/products/Organize/src/imag
                 if (updatedTabs.length > 0) {
                 updatedCurrGroupTabs.push(updatedTabs);
                 }
-              }
-              // console.log(updatedCurrGroupTabs);
-              // console.log(isGroupCollapsed);
+              } 
 
               // updating current groups
               const groupIds = updatedCurrGroupTabs.map((updatedGroupTabs) => updatedGroupTabs[0].groupId);

@@ -227,7 +227,10 @@ export async function handleGroupAllTabs({ allCurrTabIds, currHostUrlIndex, trun
         // GroupAllTabs({ tabIds, index, truncatedTitle, isGroupButtonDisabled, setGroupButtonDisabled, currTabs, 
         //     setCurrTabs, currGroupTabs, setCurrGroupTabs, currGroups, setCurrGroups, isGroupCollapsed, setIsGroupCollapsed, dispatch }) {
         //     console.log(currGroups);
-        GroupAllTabs({ tabIds: allCurrTabIds, currHostUrlIndex, truncatedTitle, isGroupButtonDisabled: updatedGroupButtonDisabled, setGroupButtonDisabled, 
+        GroupAllTabs({ tabIds: allCurrTabIds, index: currHostUrlIndex, truncatedTitle, isGroupButtonDisabled: updatedGroupButtonDisabled, setGroupButtonDisabled, 
             currTabs: updatedTabs, setCurrTabs, currGroupTabs: updatedCurrGroupTabs, setCurrGroupTabs, currGroups: updatedCurrGroups, setCurrGroups, 
-            isGroupCollapsed: updatedCollapsedStates, setIsGroupCollapsed, dispatch });     
+            isGroupCollapsed: updatedCollapsedStates, setIsGroupCollapsed, dispatch }).then((grpID) => {
+            const groupButton = document.getElementById(currHostUrlIndex);
+              groupButton.addEventListener('mouseover', async () => { await chrome.tabGroups.update(grpID, { collapsed: true });});
+            });     
 }
