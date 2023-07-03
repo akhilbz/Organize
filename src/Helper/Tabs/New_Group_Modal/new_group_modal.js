@@ -90,14 +90,15 @@ function NewGroupModal() {
     }, []); 
     const colorReceived = getColorFromPosition(positionPercent);
     return (
-        <Modal show={showGroupModal && addTabIds.length > 0} onHide={() => {
+        <Modal id="new-grp-modal" show={showGroupModal && addTabIds.length > 0} onHide={() => {
             handleCloseGroupModal();
             dispatch(setShowCheckboxesAndBtns(false));
             dispatch(setAddTabIds([]));
             dispatch(setGroupedTabIds([]));
             const mainBody = document.getElementById('main-body');
             mainBody.style.minHeight = '';
-            }}>
+            // mainBody.removeEventListener('mouseover', () => {});
+            }} >
             <Modal.Header closeButton>
                 <Modal.Title>New Group</Modal.Title>
             </Modal.Header>
@@ -144,7 +145,7 @@ function NewGroupModal() {
                 </>)}
             </Modal.Body>
             <Modal.Footer>
-            <div className="d-flex new-group-mdl-btn">
+            <div id="footer-btn" className="d-flex new-group-mdl-btn">
                 <button className="btn btn-danger" style={{marginRight: 8}} onClick={() => {
                     handleCloseGroupModal();
                     const mainBody = document.getElementById('main-body');
@@ -153,7 +154,7 @@ function NewGroupModal() {
                     dispatch(setAddTabIds([]));
                     dispatch(setGroupedTabIds([]));
                     }}>Close</button>
-                <button className="btn btn-outline-success" onClick={ async () => {
+                <button id="new-grp-tabs" className="btn btn-outline-success" onClick={ async () => {
                     var groupID = await chrome.tabs.group({ tabIds: addTabIds });  
                     await chrome.tabGroups.update( groupID, { collapsed: true, title: inputValue, color: colorReceived });
                     const group = await chrome.tabGroups.get(groupID);
@@ -191,11 +192,11 @@ function NewGroupModal() {
                     }
                     var newlyGroupedTabs = updatedTabs.filter((tab) => addTabIdsSet.has(tab.id));
                     updatedGroupTabs.push(newlyGroupedTabs);
-                    console.log(updatedGroupTabs);
+                    // console.log(updatedGroupTabs);
                     dispatch(setCurrGroupTabs(updatedGroupTabs));
 
                     // update groups: 
-                    console.log(currGroups);
+                    // console.log(currGroups);
                     var index = 0;
                     var updatedGroups = [];
                     if (currGroups.length > 0) {
@@ -204,7 +205,7 @@ function NewGroupModal() {
                         });
                     }
                     updatedGroups.push(group);
-                    console.log(updatedGroups);
+                    // console.log(updatedGroups);
                     dispatch(setCurrGroups(updatedGroups));
 
 
@@ -249,6 +250,8 @@ function NewGroupModal() {
                     dispatch(setGroupedTabIds([]));
                     const mainBody = document.getElementById('main-body');
                     mainBody.style.minHeight = '';
+                    // console.log("hero");
+                    await chrome.tabGroups.update(groupID, { collapsed: true }); console.log(groupID);
                 }}>Group Tabs</button>
             </div>
             </Modal.Footer>

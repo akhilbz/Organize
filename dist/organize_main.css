@@ -10935,6 +10935,8 @@ body {
 
 .collapse-feature {
   cursor: pointer;
+  position: relative;
+  z-index: 15 !important;
   border-bottom: none !important;
   flex-grow: 1;
   height: 100%; /* Extend the height to match other components */
@@ -10947,15 +10949,24 @@ body {
 }
 
 .collapse-container {
+  position: relative;
+  z-index: 15 !important;
   border-bottom-left-radius: 0.375rem !important;
   border-bottom-right-radius: 0.375rem !important;
 }
 
 .group-right-side-items {
-  height: 20%;
+  width: auto !important;
+  margin-right: -9px !important;
+}
+
+.card-div {
+  position: relative;
+  z-index: 100 !important;
 }
 
 .card {
+  position: relative;
   z-index: 200 !important;
   border-bottom-left-radius: 0.375rem !important;
   border-bottom-right-radius: 0.375rem !important;
@@ -10985,7 +10996,34 @@ body {
 }
 
 .ungroup-label {
-  left: 85%;
+  left: 84%;
+}
+
+.close-group-button {
+  background: none !important;
+  border: none !important;
+  margin: 0px !important;
+  padding: 0px !important;
+  cursor: pointer;
+}
+
+.close-group-button:hover .tooltip {
+  visibility: visible;
+  opacity: 1;
+}
+
+.close-group-label {
+  left: 86%;
+}
+
+.fa-square-minus {
+  height: 25px;
+  width: 25px;
+}
+
+.fa-square-xmark {
+  height: 25px;
+  width: 25px;
 }
 
 .move-btn {
@@ -11104,9 +11142,11 @@ body {
 }
 
 .card-header {
+  position: relative !important;
   z-index: 5000 !important;
   border-bottom: none !important;
   background-color: #e0e0e0 !important;
+  width: 100% !important;
 }
 
 .tab-head {
@@ -11354,9 +11394,12 @@ body {
   border: none;
   font-size: 1rem;
   margin-right: -1rem;
-  padding-right: 0.5rem;
   padding-left: 0.1rem !important;
   cursor: pointer;
+}
+
+.menu-dropdown {
+  top: -18% !important;
 }
 
 .settings-label {
@@ -11366,7 +11409,7 @@ body {
 
 .card-settings:hover .tooltip {
   visibility: visible;
-  opacity: 1;
+  opacity: 0.9;
 }
 
 .btn-success {
@@ -11391,25 +11434,34 @@ body {
 }
 
 .dropdown {
+  position: relative !important;
   z-index: 9999 !important;
 }
 
 .dropdown-menu {
-  --bs-dropdown-zindex: 9999 !important;
-  position: absolute;
-  top: -15% !important;
-  right: 5% !important;
+  right: -22% !important;
   --bs-dropdown-min-width: none;
   --bs-dropdown-padding-x: none;
   --bs-dropdown-padding-y: none;
 }
 
+.dropdown-menu.show {
+  position: absolute !important;
+  z-index: 9999 !important;
+  display: block !important;
+}
+
 .group-dropdown-menu {
+  position: absolute !important;
+  z-index: 9999 !important;
+  top: -18% !important;
   min-height: 66px !important;
+  min-width: 80px !important;
 }
 
 .dropdown-item {
   border-radius: 0.375rem !important;
+  position: relative;
   z-index: 9999 !important;
 }
 

@@ -9,9 +9,7 @@ import { Modal } from 'react-bootstrap';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faEllipsisH } from '@fortawesome/free-solid-svg-icons';
 
-// function GroupOnlySome({currHostUrlIndex, showModal, setShowModal, currHostTabs, hostTabs, currHostUrl, hostUrls, currGroups, setCurrGroups, currGroupTabs, 
-//     setCurrGroupTabs, isGroupButtonDisabled, setGroupButtonDisabled, currTabs, setCurrTabs, isGroupCollapsed, setIsGroupCollapsed, showModalArr,
-//     setShowModalArr }) {
+
 function GroupOnlySome({ currHostTabs, currHostUrl}) {
     const currGroups = useSelector(state => state.currGroups);
     const currGroupTabs = useSelector(state => state.currGroupTabs);
@@ -70,33 +68,10 @@ function GroupOnlySome({ currHostTabs, currHostUrl}) {
             }
         }
         dispatch(setShowModalArr(updatedShowModalArr));
-        // dispatch(setShowModalArr(currShowModalState => {
-        //     const updatedShowModalArr = [...currShowModalState];
-        //     const hostTabs = currTabs.filter((tab) => tab.url.includes(`://${hostUrls[currHostUrlIndex]}/`));
-        //     var nonGrouped = 0;
-        //     if (hostTabs.length > 1) {
-        //         for (const tab of hostTabs) {
-        //           if (tab.groupId === -1) {
-        //             nonGrouped++;
-        //           }
-        //         }
-            
-        //         if (nonGrouped != 0 && nonGrouped < hostTabs.length) {
-        //             updatedShowModalArr[currHostUrlIndex] = true;
-        //         } else {
-        //             updatedShowModalArr[currHostUrlIndex]
-        //         }
-        //     }
-        //     return updatedShowModalArr;
-        // }));
+
         const updatedGroupButtonDisabled = [...isGroupButtonDisabled];
         updatedGroupButtonDisabled[currHostUrlIndex] = true;
-        // dispatch(setGroupButtonDisabled(updatedGroupButtonDisabled));
-        // dispatch(setGroupButtonDisabled(currGroupButtonDisabledState => {
-        //     const updatedGroupButtonDisabled = [...currGroupButtonDisabledState];
-        //     updatedGroupButtonDisabled[currHostUrlIndex] = true;
-        //     return updatedGroupButtonDisabled;
-        // }));
+        dispatch(setGroupButtonDisabled(updatedGroupButtonDisabled));
 
         GroupAllTabs({tabIds: remCurrTabIds, currHostUrlIndex, truncatedTitle, isGroupButtonDisabled: updatedGroupButtonDisabled, 
             setGroupButtonDisabled, currTabs, setCurrTabs, currGroupTabs, setCurrGroupTabs, 

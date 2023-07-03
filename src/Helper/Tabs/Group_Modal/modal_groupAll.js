@@ -162,20 +162,6 @@ export async function handleGroupAllTabs({ allCurrTabIds, currHostUrlIndex, trun
             }
         }
         dispatch(setCurrTabs(updatedTabs));
-        // dispatch(setCurrTabs(tabs => {
-        //     const updatedTabs = [];
-        //     for (const tab of tabs) {
-        //         if (allCurrTabIdsSet.has(tab.id) && tab.groupId !== -1) {
-        //             const tempTab = Object.assign({}, tab); // storing tab in a temorary object
-        //             tempTab.groupId = -1;
-        //             updatedTabs.push(tempTab);
-        //         } else {
-        //             updatedTabs.push(tab);
-        //         }
-        //     }
-        //     console.log(updatedTabs);
-        //     return updatedTabs;
-        // }));
         const groupsIdSet = new Set(currGroups.map(({id}) => id));
         // const updatedCurrGroups = [];
         console.log(updatedCurrGroupTabs);
@@ -197,40 +183,19 @@ export async function handleGroupAllTabs({ allCurrTabIds, currHostUrlIndex, trun
         dispatch(setCurrGroups(updatedCurrGroups));
         // console.log(isGroupCollapsed);
         dispatch(setIsGroupCollapsed(updatedCollapsedStates));
-        // dispatch(setShowModalArr((currShowModalArr) => {
-        //     const updatedShowModalArr = [...currShowModalArr];
-        //     updatedShowModalArr[currHostUrlIndex] = false;
-        //     console.log(updatedShowModalArr);
-        //     return updatedShowModalArr;
-        // }));
+
         const updatedShowModalArr = [...showModalArr];
         updatedShowModalArr[currHostUrlIndex] = false;
         dispatch(setShowModalArr(updatedShowModalArr));
         updatedGroupButtonDisabled = [...isGroupButtonDisabled];
         updatedGroupButtonDisabled[currHostUrlIndex] = true;
         dispatch(setGroupButtonDisabled(updatedGroupButtonDisabled));
-        // dispatch(setGroupButtonDisabled((currDisabledState) => {
-        //     const updatedGroupButtonDisabled = [...currDisabledState];
-        //     updatedGroupButtonDisabled[currHostUrlIndex] = true;
-        //     console.log(updatedGroupButtonDisabled);
-        //     return updatedGroupButtonDisabled;
-        // }));
     } 
-        // } else {
-        //     console.log("why are you here?");
-        //     // Must ungroup the tabs from different groups and set them to -1
-        //     // Must update the currGroupTabs so it doesn't store those groups
-        //     // 
-        //     // TODO: Work on this and set it all up
 
-        // }   
-        // GroupAllTabs({ tabIds, index, truncatedTitle, isGroupButtonDisabled, setGroupButtonDisabled, currTabs, 
-        //     setCurrTabs, currGroupTabs, setCurrGroupTabs, currGroups, setCurrGroups, isGroupCollapsed, setIsGroupCollapsed, dispatch }) {
-        //     console.log(currGroups);
-        GroupAllTabs({ tabIds: allCurrTabIds, index: currHostUrlIndex, truncatedTitle, isGroupButtonDisabled: updatedGroupButtonDisabled, setGroupButtonDisabled, 
-            currTabs: updatedTabs, setCurrTabs, currGroupTabs: updatedCurrGroupTabs, setCurrGroupTabs, currGroups: updatedCurrGroups, setCurrGroups, 
-            isGroupCollapsed: updatedCollapsedStates, setIsGroupCollapsed, dispatch }).then((grpID) => {
-            const groupButton = document.getElementById(currHostUrlIndex);
-              groupButton.addEventListener('mouseover', async () => { await chrome.tabGroups.update(grpID, { collapsed: true });});
-            });     
+    GroupAllTabs({ tabIds: allCurrTabIds, index: currHostUrlIndex, truncatedTitle, isGroupButtonDisabled: updatedGroupButtonDisabled, setGroupButtonDisabled, 
+        currTabs: updatedTabs, setCurrTabs, currGroupTabs: updatedCurrGroupTabs, setCurrGroupTabs, currGroups: updatedCurrGroups, setCurrGroups, 
+        isGroupCollapsed: updatedCollapsedStates, setIsGroupCollapsed, dispatch }).then((grpID) => {
+        const groupButton = document.getElementById(currHostUrlIndex);
+            groupButton.addEventListener('mouseover', async () => { await chrome.tabGroups.update(grpID, { collapsed: true });});
+    });     
 }

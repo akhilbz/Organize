@@ -4,7 +4,7 @@ import { setCurrTabs, setCurrGroups, setCurrGroupTabs, setIsGroupCollapsed, setG
 import GetTabListForDG from "./get_tablistG";
 import { Collapse, Dropdown } from "react-bootstrap";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faEllipsisV, faSquareMinus } from '@fortawesome/free-solid-svg-icons';
+import { faEllipsisV, faSquareMinus, faSquareXmark } from '@fortawesome/free-solid-svg-icons';
 import { getHostUrls, getModdedColor } from "../helper_functions";
 
 
@@ -27,7 +27,7 @@ import { getHostUrls, getModdedColor } from "../helper_functions";
             const tabIds = groupTabs[0].map(({ id }) => id);
 
             return (
-            <div key={index} className="col-md-4 mb-2 ">
+            <div key={index} className="col-md-4 mb-2 card-div">
               <div className="card">
                 <div 
                 onClick={ async () => { 
@@ -98,26 +98,30 @@ import { getHostUrls, getModdedColor } from "../helper_functions";
                           dispatch(setShowModalArr(updatedShowModalArrState));
                           dispatch(setCurrHostUrlIndex(-1));
                     }}>
-                      <FontAwesomeIcon icon={faSquareMinus} style={{ color: '#000000' }} className="fa-square-minus fa-thin fa-lg" />
+                      <FontAwesomeIcon icon={faSquareMinus} style={{ color: '#000000'}} className="fa-square-minus fa-thin fa-lg" />
                       <span className="tooltip ungroup-label">Ungroup</span>
                       </button>  
-                      
-                    <Dropdown className="card-settings" onClick={(e) => {
+                      <div style={{width: 2}}></div>
+                      <button className="close-group-button">
+                      <FontAwesomeIcon icon={faSquareXmark} style={{ color: '#000000'}} className="fa-square-xmark fa-thin fa-lg" />
+                      <span className="tooltip close-group-label">Close Group</span>
+                      </button>
+                    {/* <Dropdown className="card-settings" onClick={(e) => {
                       e.preventDefault(); 
                       e.stopPropagation();}}>
-                    <Dropdown.Toggle variant="success">
+                    <Dropdown.Toggle variant="success" disabled={isGroupCollapsed[index]}>
                       <FontAwesomeIcon icon={faEllipsisV} style={{ color: '#000000' }} className="fa-ellipsis-v fa-thin fa-lg" />    
                     </Dropdown.Toggle>
                     <Dropdown.Menu className="group-dropdown-menu">
                     <Dropdown.Item>Edit</Dropdown.Item>
                     <Dropdown.Item>Close Group</Dropdown.Item>
                     </Dropdown.Menu>
-                    <span className="tooltip settings-label">Settings</span>
-                    </Dropdown>
+                    <span className="tooltip settings-label" disabled={isGroupCollapsed[index]}>Settings</span>
+                    </Dropdown> */}
                   </div>
                 </div>
-                <Collapse className="collapse-container" in={!isGroupCollapsed[index]}>
-                    <div id={'collapseGroup${index}'}>              
+                <Collapse in={!isGroupCollapsed[index]}>
+                    <div id={'collapseGroup${index}'} className="collapse-container">              
                     <ul className="list-group list-group-flush">
                       <GetTabListForDG tabType={groupTabs[0]} currGroupIndex={index} currGroup={currGroup}/>
                     </ul>

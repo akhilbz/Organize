@@ -12,12 +12,6 @@ import { Dropdown } from "react-bootstrap";
 import chrome_logo from '/Users/akhileshbitla/Work/products/Organize/src/images/chrome_icon.png';
 import extension_logo from '/Users/akhileshbitla/Work/products/Organize/src/images/extension_icon.png';
 
-
-// function DisplayTabs({ currActiveTab, currGroups, setCurrGroups, currGroupTabs, setCurrGroupTabs,
-// hostUrls, setHostUrls, currTabs, setCurrTabs, isGroupButtonDisabled, setGroupButtonDisabled, 
-// showModal, setShowModal, showModalArr, setShowModalArr, currHostUrlIndex, setCurrHostUrlIndex,
-// isGroupCollapsed, setIsGroupCollapsed, showCheckboxesAndBtns, setShowCheckboxesAndBtns, 
-// addTabIds, setAddTabIds, groupedTabIds, setGroupedTabIds, collator}) {
   function DisplayTabs() {
   const currGroups = useSelector(state => state.currGroups);
   const currGroupTabs = useSelector(state => state.currGroupTabs);
@@ -33,10 +27,12 @@ import extension_logo from '/Users/akhileshbitla/Work/products/Organize/src/imag
   return (
   <> { 
   hostUrls.map((hostUrl, index) => {
-    const hostTabs = currTabs.filter((tab) => tab.url.includes(`://${hostUrl}/`)); // tab refers to the tab of each currTabs
-    hostTabs.sort((a, b) => collator.compare(a.title, b.title)); // sorts by title for all hostTabs
+  const hostTabs = currTabs.filter((tab) => tab.url.includes(`://${hostUrl}/`)); // tab refers to the tab of each currTabs
+  hostTabs.sort((a, b) => collator.compare(a.title, b.title)); // sorts by title for all hostTabs
     // TODO: clean this code:
-    let favIcon_img = hostTabs[0].favIconUrl;
+  let favIcon_img = null;
+  if (hostTabs[0] !== undefined) { // for localhost
+    favIcon_img = hostTabs[0].favIconUrl;
     if (hostTabs[0].url.includes("chrome://newtab/")) { 
       favIcon_img = require('/Users/akhileshbitla/Work/products/Organize/src/images/chrome_icon.png').default;
     } else if (hostTabs[0].url.includes("chrome://extensions/")) {
@@ -48,6 +44,7 @@ import extension_logo from '/Users/akhileshbitla/Work/products/Organize/src/imag
     } else if (!hostTabs[0].favIconUrl) {
       favIcon_img = require('/Users/akhileshbitla/Work/products/Organize/src/images/favicon_url_not_found_icon.png').default
     }
+  }
   // Group Title Logic:
   var hostTitle = groupTitle(hostUrl);
   const tabIds = hostTabs.map(({ id }) => id);
@@ -90,7 +87,7 @@ import extension_logo from '/Users/akhileshbitla/Work/products/Organize/src/imag
             <Dropdown.Toggle variant="success">
               <FontAwesomeIcon icon={faEllipsisV} style={{ color: '#000000' }} className="fa-ellipsis-v fa-thin fa-lg" />    
             </Dropdown.Toggle>
-            <Dropdown.Menu>
+            <Dropdown.Menu className="menu-dropdown">
             <Dropdown.Item onClick={async ()=> {
               await chrome.tabs.remove(tabIds, ()=>{});
               // updating tabs and corresponding host urls for tabs section
